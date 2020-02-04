@@ -31,12 +31,50 @@ const ServerPong = () => {
   if (error) return <Text>ERROR</Text>;
   if (!data) return <Text>Not found</Text>;
 
+  // eslint-disable-next-line no-console
   console.log(data);
 
   return (
     <Text>
       {`Server has resonded: ${data.ping}`}
     </Text>
+  );
+};
+
+const PEOPLE_QUERY = gql`
+    query peopleQuery {
+        People {
+            name
+            age
+        }
+    }
+`;
+
+const People = () => {
+  const { data, loading, error } = useQuery(PEOPLE_QUERY);
+
+  if (loading) return <Text> LOADING... </Text>;
+  if (error) return <Text>ERROR</Text>;
+  if (!data) return <Text>Not found</Text>;
+
+  // eslint-disable-next-line no-console
+  console.log(data);
+
+  return (
+    <>
+      {data.People.map((person, index) => (
+        // eslint-disable-next-line react/no-array-index-key
+        <Text key={index}>
+          {person.name}
+          {' '}
+          is
+          {' '}
+          {person.age}
+          {' '}
+          years old!
+        </Text>
+      ))}
+    </>
   );
 };
 
@@ -53,9 +91,8 @@ export default function App() {
   return (
     <ApolloProvider client={client}>
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Yo does this even update?</Text>
         <ServerPong />
+        <People />
       </View>
     </ApolloProvider>
   );
