@@ -7,6 +7,7 @@ import { HttpLink } from 'apollo-link-http';
 import { ApolloProvider } from '@apollo/react-hooks';
 
 const URL = 'https://light-the-fuse.herokuapp.com/';
+// eslint-disable-next-line no-console
 console.log(`URL: ${URL}`);
 
 const cache = new InMemoryCache();

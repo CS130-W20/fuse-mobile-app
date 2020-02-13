@@ -14,6 +14,7 @@ const ServerPong = () => {
   const { data, loading, error } = useQuery(PING_QUERY);
 
   if (loading) return <Text> LOADING... </Text>;
+  // eslint-disable-next-line no-console
   console.log(error);
   if (error) return <Text>ERROR</Text>;
   if (!data) return <Text>Not found</Text>;
