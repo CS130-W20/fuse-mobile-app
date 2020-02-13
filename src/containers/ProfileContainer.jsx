@@ -26,7 +26,7 @@ export default class ProfileContainer extends PureComponent {
     return (
       <View style={styles.scrollViewWrapper}>
         <ScrollView style={styles.scrollView}>
-          <ProfileHeader name="Ryan Tsang" />
+          <ProfileHeader name="Peter" />
           <Text>Profile contents</Text>
         </ScrollView>
       </View>
