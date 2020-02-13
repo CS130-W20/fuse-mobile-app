@@ -6,6 +6,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import { ApolloProvider, useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+import ProfileContainer from './src/containers/ProfileContainer';
 
 
 const cache = new InMemoryCache();
@@ -82,8 +83,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
 });
 
@@ -91,6 +92,7 @@ export default function App() {
   return (
     <ApolloProvider client={client}>
       <View style={styles.container}>
+        <ProfileContainer />
         <ServerPong />
         <People />
       </View>
