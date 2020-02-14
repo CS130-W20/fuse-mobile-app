@@ -6,7 +6,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "eslint *.js *.jsx",
+    "lint": "eslint --ext .jsx --ext .js App.jsx src",
     "eject": "expo eject"
   },
   "dependencies": {
