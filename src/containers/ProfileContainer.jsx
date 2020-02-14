@@ -4,7 +4,7 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
-import ProfileHeader from './ProfileHeader';
+import ProfileHeader from '../components/ProfileHeader';
 
 const styles = StyleSheet.create({
   scrollView: {

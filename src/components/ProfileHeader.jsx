@@ -81,7 +81,7 @@ export default class ProfileHeader extends PureComponent {
       friendCount,
       completedEventCount,
     } = this.props;
-    const friendAndEventsText = `${completedEventCount} Sizzles\t${friendCount} Friends`;
+    const friendAndEventsText = `${completedEventCount} Completed Events\t${friendCount} Friends`;
 
     return (
       <View style={styles.wrapper}>
