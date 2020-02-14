@@ -1,14 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import { ApolloProvider } from '@apollo/react-hooks';
 
-const URL = 'https://light-the-fuse.herokuapp.com/';
-// eslint-disable-next-line no-console
-console.log(`URL: ${URL}`);
+import styles from './src/styles/Styles';
+import { URL } from './src/constants';
 
 const cache = new InMemoryCache();
 const link = new HttpLink({
@@ -20,20 +19,14 @@ const client = new ApolloClient({
   link,
 });
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
 export default function App() {
   return (
     <ApolloProvider client={client}>
       <View style={styles.container}>
-        <Text>Hello</Text>
+        <Text>
+          {'\n\n\n'}
+          Replace this with the component you are testing
+        </Text>
       </View>
     </ApolloProvider>
   );
