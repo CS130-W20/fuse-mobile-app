@@ -6,27 +6,39 @@ import {
   StyleSheet,
 } from 'react-native';
 import { PropTypes } from 'prop-types';
+import Spacer from '../helpers/Spacer';
 
 const styles = StyleSheet.create({
   bio: {
-    textAlign: 'center',
+    textAlign: 'right',
   },
-  headerTextWrapper: {
-    // backgroundColor: 'powderblue',
-    flex: 3,
-    padding: 5,
-    paddingTop: 20,
+  bioWrapper: {
+    // backgroundColor: 'lightcoral',
+  },
+  friendsAndEvents: {
+    textAlign: 'right',
+    fontWeight: '700',
+  },
+  friendsAndEventsWrapper: {
+    // backgroundColor: 'lightpink',
+  },
+  lowerHeader: {
+    height: 25,
+    justifyContent: 'center',
   },
   name: {
     fontSize: 30,
+    fontWeight: '700',
     textAlign: 'center',
-    paddingBottom: 20,
+  },
+  nameWrapper: {
+    // backgroundColor: 'lightsalmon',
   },
   profilePicColumn: {
     // backgroundColor: 'skyblue',
     flex: 2,
     padding: 5,
-    paddingTop: 20,
+    paddingTop: 30,
   },
   profileImage: {
     // backgroundColor: 'grey',
@@ -40,11 +52,22 @@ const styles = StyleSheet.create({
     width: '100%',
     aspectRatio: 1,
   },
+  textColumn: {
+    // backgroundColor: 'powderblue',
+    flex: 3,
+    padding: 5,
+    paddingTop: 30,
+  },
+  upperHeader: {
+    // backgroundColor: 'lightgrey',
+    display: 'flex',
+    height: 175,
+    flexDirection: 'row',
+  },
   wrapper: {
-    backgroundColor: 'lightgrey',
+    // backgroundColor: 'honeydew',
     display: 'flex',
     height: 200,
-    flexDirection: 'row',
   },
 });
 
@@ -52,20 +75,36 @@ const sampleImage = require('../assets/peter.png');
 
 export default class ProfileHeader extends PureComponent {
   render() {
-    const { name } = this.props;
+    const {
+      name,
+      bio,
+      friendCount,
+      completedEventCount,
+    } = this.props;
+    const friendAndEventsText = `${completedEventCount} Sizzles\t${friendCount} Friends`;
+
     return (
       <View style={styles.wrapper}>
-        <View style={styles.profilePicColumn}>
-          <View style={styles.profilePicWrapper}>
-            <Image source={sampleImage} style={styles.profileImage} />
+        <View style={styles.upperHeader}>
+          <View style={styles.profilePicColumn}>
+            <View style={styles.profilePicWrapper}>
+              <Image source={sampleImage} style={styles.profileImage} />
+            </View>
+          </View>
+          <View style={styles.textColumn}>
+            <View style={styles.nameWrapper}>
+              <Text numberOfLines={1} adjustsFontSizeToFit style={styles.name}>{name}</Text>
+            </View>
+            <Spacer padding={10} />
+            <View style={styles.bioWrapper}>
+              <Text style={styles.bio}>{bio}</Text>
+            </View>
           </View>
         </View>
-        <View style={styles.headerTextWrapper}>
-          <Text style={styles.name}>{name}</Text>
-          <Text style={styles.bio}>
-            This is a sample bio. Look at me I am so
-            awesome. Please wrap this text
-          </Text>
+        <View style={styles.lowerHeader}>
+          <View style={styles.friendsAndEventsWrapper}>
+            <Text style={styles.friendsAndEvents}>{friendAndEventsText}</Text>
+          </View>
         </View>
       </View>
     );
@@ -75,4 +114,7 @@ export default class ProfileHeader extends PureComponent {
 
 ProfileHeader.propTypes = {
   name: PropTypes.string.isRequired,
+  bio: PropTypes.string.isRequired,
+  friendCount: PropTypes.number.isRequired,
+  completedEventCount: PropTypes.number.isRequired,
 };
