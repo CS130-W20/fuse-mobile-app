@@ -25,6 +25,8 @@ const styles = StyleSheet.create({
   lowerHeader: {
     height: 25,
     justifyContent: 'center',
+    paddingRight: 5,
+    paddingLeft: 5,
   },
   name: {
     fontSize: 30,

@@ -20,17 +20,18 @@ const styles = StyleSheet.create({
   },
 });
 
+const bio = 'Searching for my wife.\nI am accepting snakes and champagne stealers only.\nWill you accept this rose?';
+
 export default class ProfileContainer extends PureComponent {
   render() {
     return (
       <View style={styles.scrollViewWrapper}>
         <ScrollView style={styles.scrollView}>
           <ProfileHeader
-            name="Chiara Mooney"
-            // bio="UCLA Engineering '20 || ck . . Campus Tours ."
-            bio="Hello I am a really long biography because I want to test out how this looks if I continue to type and type and type and"
-            friendCount={833}
-            completedEventCount={13}
+            name="Peter Weber"
+            bio={bio}
+            friendCount={31}
+            completedEventCount={69}
           />
         </ScrollView>
       </View>
