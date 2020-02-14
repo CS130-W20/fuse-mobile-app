@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 
 import { ApolloClient } from 'apollo-client';
@@ -19,10 +19,19 @@ const client = new ApolloClient({
   link,
 });
 
+class SetFuse extends Component{
+  render(){
+    return(
+      <Text>Set Fuse Event Component</Text>
+    );
+  }
+}
+
 export default function App() {
   return (
     <ApolloProvider client={client}>
       <View style={styles.container}>
+        <SetFuse></SetFuse>
         <Text>Hello</Text>
       </View>
     </ApolloProvider>
