@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'skyblue',
     flex: 2,
     padding: 5,
-    paddingTop: 30,
+    paddingTop: 20,
   },
   profileImage: {
     // backgroundColor: 'grey',
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'powderblue',
     flex: 3,
     padding: 5,
-    paddingTop: 30,
+    paddingTop: 20,
   },
   upperHeader: {
     // backgroundColor: 'lightgrey',
