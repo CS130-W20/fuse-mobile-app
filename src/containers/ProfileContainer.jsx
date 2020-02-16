@@ -8,15 +8,13 @@ import ProfileHeader from '../components/ProfileHeader';
 
 const styles = StyleSheet.create({
   scrollView: {
-    paddingTop: 20,
+    paddingTop: 10,
     paddingLeft: 10,
     paddingRight: 10,
     flex: 1,
   },
   scrollViewWrapper: {
     flex: 1,
-    marginTop: 50,
-    padding: 0,
   },
 });
 
