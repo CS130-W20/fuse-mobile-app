@@ -1,10 +1,9 @@
 import React from 'react';
 
-// Import the functions we need from react-navigator
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
-// Import the screens we need from the screen directory
+// Import screens or containers you need from the screen/container directory
 import HelloWorld from '../screens/HelloWorld';
 import ProfileContainer from '../containers/ProfileContainer';
 
@@ -37,7 +36,7 @@ export const NavigationScreenIds = {
   newsFeed: 'NewsFeed',
   explore: 'Explore',
   notifications: 'Notifications',
-  profile: 'MyProfile',
+  profile: 'Profile',
 };
 
 /**
@@ -72,7 +71,6 @@ const Screens = {
     stack: NavigationStackIds.profile,
   },
 };
-
 
 /** /////////////////////////////////////////////////////////////////////
  *  No need to edit below this! Add your screens above!
