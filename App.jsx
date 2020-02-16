@@ -65,7 +65,8 @@ class SetFuse extends Component{
         </View>
         <View style={styles.button}>
           <Button
-          title="Submit"/>
+          title="Submit"
+          color="#ed5c45"/>
         </View>
         <Image
           source={require("./assets/icon.png")}
@@ -82,33 +83,31 @@ const styles = StyleSheet.create({
     flex: 8
   },
   loremIpsum: {
-    top: 46,
-    left: 30,
+    left: 35,
+    top: 40,
     width: 34,
     height: 50,
     color: "rgba(218,209,209,1)",
-    position: "absolute",
-    fontSize: 50,
-    fontFamily: "courier-regular"
+    position: "relative",
+    fontSize: 40,
+    //fontFamily: "courier-regular"
+  },
+  set: {
+    color: "rgba(218,209,209,1)",
+    fontSize: 30,
+    height: 50,
+    alignSelf: "center"
+    //fontFamily: "alata-regular"
   },
   nameInput: {
-    height: 60,
-    top: 142,
+    height: 80,
+    top: 40,
     left: 35,
     position: "relative"
   },
-  set: {
-    top: 55,
-    left: 165,
-    alignSelf: "center",
-    color: "rgba(218,209,209,1)",
-    position: "absolute",
-    fontSize: 30,
-    fontFamily: "alata-regular"
-  },
   image: {
-    top: 661,
-    left: 255,
+    top: 621,
+    left: 305,
     width: 88,
     height: 78,
     position: "absolute",
@@ -119,23 +118,26 @@ const styles = StyleSheet.create({
     ]
   },
   switch: {
-    flex: 1, 
     flexDirection: 'row', 
-    width: 300,
+    width: 340,
     justifyContent: 'space-between', 
-    top: 200,
-    left: 35
+    top: 80,
+    left: 35,
+    height: 30,
+    position: "relative"
   },
   deadline: {
-    flex: 1, 
     flexDirection: 'row', 
     width: 300,
-    top: 80,
-    left: 35
+    top: 130,
+    left: 35,
+    position: "relative"
   },
   button:{
     left: 43, 
-    width: 300
+    width: 320,
+    top: 280,
+    position: "relative"
   }
   
 });
