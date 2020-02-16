@@ -23,7 +23,10 @@ export default function App() {
   return (
     <ApolloProvider client={client}>
       <View style={styles.container}>
-        <Text>Hello</Text>
+        <Text>
+          {'\n\n\n'}
+          Replace this with the component you are testing
+        </Text>
       </View>
     </ApolloProvider>
   );
