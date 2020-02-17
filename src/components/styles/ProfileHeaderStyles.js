@@ -8,10 +8,14 @@ const styles = StyleSheet.create({
   bioWrapper: {
     // backgroundColor: 'lightcoral',
   },
-  friendsAndEvents: {
+  friendsAndEventsBold: {
+    fontWeight: '700',
+    color: colors.black,
+  },
+  friendsAndEventsLabels: {
     textAlign: 'right',
     fontSize: 15,
-    fontWeight: '700',
+    color: colors.grey,
   },
   friendsAndEventsWrapper: {
     // backgroundColor: 'lightpink',
