@@ -28,6 +28,7 @@ export default class ProfileContainer extends PureComponent {
           <ProfileHeader
             name="Peter Weber"
             bio={bio}
+            score={6969}
             friendCount={31}
             completedEventCount={69}
           />
