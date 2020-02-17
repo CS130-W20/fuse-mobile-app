@@ -32,6 +32,7 @@ export const NavigationScreenIds = {
  *  name: string identifier for your screen. Registered in NavigationScreenIds
  *  component: reference to the component that renders this screen
  *  stack: indicate which of the NavigationTabStackIds this screen falls under
+ *
  * }
  */
 const Screens = {
@@ -82,11 +83,18 @@ const createNavigationStacks = () => {
     const targetStackId = screen.stack;
     const TargetStack = stackToScreenRef[targetStackId].stackNavigator;
 
+    // TODO we need a better way for people to customize their headers if they need to
+    const screenOptions = {};
+    screenOptions.headerTitle = screen.customHeaderTitle != null
+      ? screen.customHeaderTitle
+      : 'fuse';
+
     const screenComponent = (
       <TargetStack.Screen
         name={screen.name}
         component={screen.component}
         key={screen.name}
+        options={screenOptions}
       />
     );
 
@@ -110,9 +118,6 @@ const createNavigationStacks = () => {
 
   return navigationStacks;
 };
-
-// Create the tab navigator using react navigation
-const Tab = createBottomTabNavigator();
 
 // Options to configure how the tabs look
 const focusedTabColor = 'lightcoral';
@@ -155,6 +160,9 @@ const tabScreenOptions = {
 const tabBarOptions = {
   showLabel: false, // hides text labels for navigation bar
 };
+
+// Create the tab navigator using react navigation
+const Tab = createBottomTabNavigator();
 
 // Build the react component for the tab navigator
 export default function TabNavigator() {
