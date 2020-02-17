@@ -1,4 +1,5 @@
 import React from 'react';
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -13,22 +14,6 @@ export const NavigationStackIds = {
   explore: 'Explore',
   notifications: 'Notifications',
   profile: 'Profile',
-};
-
-// Options to configure how the tabs look
-const tabScreenOptions = {
-  feed: {
-    tabBarLabel: 'FEED',
-  },
-  explore: {
-    tabBarLabel: 'EXPLORE',
-  },
-  notifications: {
-    tabBarLabel: 'NOTIFICATIONS',
-  },
-  profile: {
-    tabBarLabel: 'PROFILE',
-  },
 };
 
 // Names we will use for screens throughout the app. Add your new screen names
@@ -129,12 +114,56 @@ const createNavigationStacks = () => {
 // Create the tab navigator using react navigation
 const Tab = createBottomTabNavigator();
 
+// Options to configure how the tabs look
+const focusedTabColor = 'lightcoral';
+const unfocusedTabColor = 'grey';
+const tabScreenOptions = {
+  feed: {
+    // eslint-disable-next-line react/prop-types
+    tabBarIcon: ({ focused }) => (
+      focused
+        ? <MaterialCommunityIcons name="home-outline" size={30} color={focusedTabColor} />
+        : <MaterialCommunityIcons name="home-outline" size={30} color={unfocusedTabColor} />
+    ),
+  },
+  explore: {
+    // eslint-disable-next-line react/prop-types
+    tabBarIcon: ({ focused }) => (
+      focused
+        ? <MaterialIcons name="search" size={30} color={focusedTabColor} />
+        : <MaterialIcons name="search" size={30} color={unfocusedTabColor} />
+    ),
+  },
+  notifications: {
+    // eslint-disable-next-line react/prop-types
+    tabBarIcon: ({ focused }) => (
+      focused
+        ? <MaterialIcons name="notifications-none" size={30} color={focusedTabColor} />
+        : <MaterialIcons name="notifications-none" size={30} color={unfocusedTabColor} />
+    ),
+  },
+  profile: {
+    // eslint-disable-next-line react/prop-types
+    tabBarIcon: ({ focused }) => (
+      focused
+        ? <MaterialCommunityIcons name="account-outline" size={30} color={focusedTabColor} />
+        : <MaterialCommunityIcons name="account-outline" size={30} color={unfocusedTabColor} />
+    ),
+  },
+};
+
+const tabBarOptions = {
+  showLabel: false, // hides text labels for navigation bar
+};
+
 // Build the react component for the tab navigator
 export default function TabNavigator() {
   const navigationStacks = createNavigationStacks();
 
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      tabBarOptions={tabBarOptions}
+    >
       <Tab.Screen
         name={NavigationStackIds.feed}
         component={navigationStacks[NavigationStackIds.feed]}
