@@ -20,9 +20,10 @@ export default class ProfileHeader extends PureComponent {
       completedEventCount,
     } = this.props;
 
-    const friendAndEventsText = `${completedEventCount} Completed Events\t${friendCount} Friends`;
-    // TODO: write a helper function to convert scores to a renderable version
+    // TODO: write a helper function to convert scores/counts to a renderable version
     // e.g. 1,100,000 -> 1.1m
+    const friendCountText = friendCount;
+    const completedEventCountText = completedEventCount;
     const scoreText = score;
 
     return (
@@ -50,7 +51,13 @@ export default class ProfileHeader extends PureComponent {
         </View>
         <View style={styles.lowerHeader}>
           <View style={styles.friendsAndEventsWrapper}>
-            <Text style={styles.friendsAndEvents}>{friendAndEventsText}</Text>
+            <Text style={styles.friendsAndEventsLabels}>
+              <Text style={styles.friendsAndEventsBold}>{completedEventCountText}</Text>
+              {' Completed Events\t'}
+              <Text style={styles.friendsAndEventsBold}>{friendCountText}</Text>
+              {' Friends'}
+            </Text>
+            {/* <Text style={styles.friendsAndEvents}>{friendAndEventsText}</Text> */}
           </View>
         </View>
       </View>
