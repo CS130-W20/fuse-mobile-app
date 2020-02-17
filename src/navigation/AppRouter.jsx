@@ -82,11 +82,18 @@ const createNavigationStacks = () => {
     const targetStackId = screen.stack;
     const TargetStack = stackToScreenRef[targetStackId].stackNavigator;
 
+    // TODO we need a better way for people to customize their headers if they need to
+    const screenOptions = {};
+    screenOptions.headerTitle = screen.customHeaderTitle != null
+      ? screen.customHeaderTitle
+      : 'fuse';
+
     const screenComponent = (
       <TargetStack.Screen
         name={screen.name}
         component={screen.component}
         key={screen.name}
+        options={screenOptions}
       />
     );
 
