@@ -1,12 +1,11 @@
 import React, { PureComponent } from 'react';
 import {
-  TouchableOpacity,
   View,
   ScrollView,
 } from 'react-native';
-import { Feather } from '@expo/vector-icons';
 
 import ProfileHeader from '../components/ProfileHeader';
+import NewFuseButton from '../components/NewFuseButton';
 
 import styles from './styles/ProfileContainerStyles';
 
@@ -26,9 +25,7 @@ export default class ProfileContainer extends PureComponent {
             completedEventCount={69}
           />
         </ScrollView>
-        <TouchableOpacity style={styles.newFuseWrapper}>
-          <Feather name="plus" style={styles.newFuseIcon} />
-        </TouchableOpacity>
+        <NewFuseButton />
       </View>
     );
   }
