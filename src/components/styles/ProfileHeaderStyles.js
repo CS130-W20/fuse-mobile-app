@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import colors from '../../styles/colors';
 
 const styles = StyleSheet.create({
   bio: {
@@ -9,6 +10,7 @@ const styles = StyleSheet.create({
   },
   friendsAndEvents: {
     textAlign: 'right',
+    fontSize: 15,
     fontWeight: '700',
   },
   friendsAndEventsWrapper: {
@@ -45,6 +47,34 @@ const styles = StyleSheet.create({
     // backgroundColor: 'orange',
     width: '100%',
     aspectRatio: 1,
+  },
+  scoreEllipse: {
+    flex: 1,
+    width: 60,
+    height: 30,
+    borderRadius: 25,
+    shadowColor: 'black',
+    shadowOpacity: 0.41,
+    shadowOffset: {
+      height: 1,
+      width: 1,
+    },
+    shadowRadius: 6,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+  },
+  scoreText: {
+    // backgroundColor: 'lightcoral',
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: '600',
+    color: colors.redorange,
+  },
+  scoreWrapper: {
+    // backgroundColor: 'lightgrey',
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
   },
   textColumn: {
     // backgroundColor: 'powderblue',
