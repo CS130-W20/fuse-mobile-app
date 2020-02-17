@@ -3,75 +3,10 @@ import {
   View,
   Text,
   Image,
-  StyleSheet,
 } from 'react-native';
 import { PropTypes } from 'prop-types';
 import Spacer from '../helpers/Spacer';
-
-const styles = StyleSheet.create({
-  bio: {
-    textAlign: 'right',
-  },
-  bioWrapper: {
-    // backgroundColor: 'lightcoral',
-  },
-  friendsAndEvents: {
-    textAlign: 'right',
-    fontWeight: '700',
-  },
-  friendsAndEventsWrapper: {
-    // backgroundColor: 'lightpink',
-  },
-  lowerHeader: {
-    height: 25,
-    justifyContent: 'center',
-    paddingRight: 5,
-    paddingLeft: 5,
-  },
-  name: {
-    fontSize: 30,
-    fontWeight: '700',
-    textAlign: 'center',
-  },
-  nameWrapper: {
-    // backgroundColor: 'lightsalmon',
-  },
-  profilePicColumn: {
-    // backgroundColor: 'skyblue',
-    flex: 2,
-    padding: 5,
-    paddingTop: 20,
-  },
-  profileImage: {
-    // backgroundColor: 'grey',
-    flex: 1,
-    width: '100%',
-    resizeMode: 'contain',
-  },
-  // container for where the image will go
-  profilePicWrapper: {
-    // backgroundColor: 'orange',
-    width: '100%',
-    aspectRatio: 1,
-  },
-  textColumn: {
-    // backgroundColor: 'powderblue',
-    flex: 3,
-    padding: 5,
-    paddingTop: 20,
-  },
-  upperHeader: {
-    // backgroundColor: 'lightgrey',
-    display: 'flex',
-    height: 175,
-    flexDirection: 'row',
-  },
-  wrapper: {
-    // backgroundColor: 'honeydew',
-    display: 'flex',
-    height: 200,
-  },
-});
+import styles from './styles/ProfileHeaderStyles';
 
 const sampleImage = require('../assets/peter.png');
 
@@ -80,10 +15,16 @@ export default class ProfileHeader extends PureComponent {
     const {
       name,
       bio,
+      score,
       friendCount,
       completedEventCount,
     } = this.props;
-    const friendAndEventsText = `${completedEventCount} Completed Events\t${friendCount} Friends`;
+
+    // TODO: write a helper function to convert scores/counts to a renderable version
+    // e.g. 1,100,000 -> 1.1m
+    const friendCountText = friendCount;
+    const completedEventCountText = completedEventCount;
+    const scoreText = score;
 
     return (
       <View style={styles.wrapper}>
@@ -91,6 +32,11 @@ export default class ProfileHeader extends PureComponent {
           <View style={styles.profilePicColumn}>
             <View style={styles.profilePicWrapper}>
               <Image source={sampleImage} style={styles.profileImage} />
+              <View style={styles.scoreWrapper}>
+                <View style={styles.scoreEllipse}>
+                  <Text style={styles.scoreText}>{scoreText}</Text>
+                </View>
+              </View>
             </View>
           </View>
           <View style={styles.textColumn}>
@@ -105,7 +51,13 @@ export default class ProfileHeader extends PureComponent {
         </View>
         <View style={styles.lowerHeader}>
           <View style={styles.friendsAndEventsWrapper}>
-            <Text style={styles.friendsAndEvents}>{friendAndEventsText}</Text>
+            <Text style={styles.friendsAndEventsLabels}>
+              <Text style={styles.friendsAndEventsBold}>{completedEventCountText}</Text>
+              {' Completed Events\t'}
+              <Text style={styles.friendsAndEventsBold}>{friendCountText}</Text>
+              {' Friends'}
+            </Text>
+            {/* <Text style={styles.friendsAndEvents}>{friendAndEventsText}</Text> */}
           </View>
         </View>
       </View>
@@ -117,6 +69,7 @@ export default class ProfileHeader extends PureComponent {
 ProfileHeader.propTypes = {
   name: PropTypes.string.isRequired,
   bio: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
   friendCount: PropTypes.number.isRequired,
   completedEventCount: PropTypes.number.isRequired,
 };

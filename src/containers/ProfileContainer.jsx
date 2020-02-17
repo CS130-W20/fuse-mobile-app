@@ -28,7 +28,8 @@ export default class ProfileContainer extends PureComponent {
           <ProfileHeader
             name="Peter Weber"
             bio={bio}
-            friendCount={31}
+            score={6969}
+            friendCount={30}
             completedEventCount={69}
           />
         </ScrollView>
