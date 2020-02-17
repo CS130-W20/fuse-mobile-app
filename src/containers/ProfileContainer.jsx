@@ -29,7 +29,7 @@ export default class ProfileContainer extends PureComponent {
             name="Peter Weber"
             bio={bio}
             score={6969}
-            friendCount={31}
+            friendCount={30}
             completedEventCount={69}
           />
         </ScrollView>
