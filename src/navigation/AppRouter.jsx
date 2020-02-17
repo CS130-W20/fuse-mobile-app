@@ -32,6 +32,7 @@ export const NavigationScreenIds = {
  *  name: string identifier for your screen. Registered in NavigationScreenIds
  *  component: reference to the component that renders this screen
  *  stack: indicate which of the NavigationTabStackIds this screen falls under
+ *
  * }
  */
 const Screens = {
@@ -118,9 +119,6 @@ const createNavigationStacks = () => {
   return navigationStacks;
 };
 
-// Create the tab navigator using react navigation
-const Tab = createBottomTabNavigator();
-
 // Options to configure how the tabs look
 const focusedTabColor = 'lightcoral';
 const unfocusedTabColor = 'grey';
@@ -162,6 +160,9 @@ const tabScreenOptions = {
 const tabBarOptions = {
   showLabel: false, // hides text labels for navigation bar
 };
+
+// Create the tab navigator using react navigation
+const Tab = createBottomTabNavigator();
 
 // Build the react component for the tab navigator
 export default function TabNavigator() {
