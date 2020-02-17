@@ -1,22 +1,15 @@
 import React, { PureComponent } from 'react';
 import {
+  TouchableOpacity,
   View,
   ScrollView,
-  StyleSheet,
 } from 'react-native';
+import { Feather } from '@expo/vector-icons';
+
 import ProfileHeader from '../components/ProfileHeader';
 
-const styles = StyleSheet.create({
-  scrollView: {
-    paddingTop: 10,
-    paddingLeft: 10,
-    paddingRight: 10,
-    flex: 1,
-  },
-  scrollViewWrapper: {
-    flex: 1,
-  },
-});
+import styles from './styles/ProfileContainerStyles';
+
 
 const bio = 'Searching for my wife.\nI am accepting snakes and champagne stealers only.\nWill you accept this rose?';
 
@@ -33,6 +26,9 @@ export default class ProfileContainer extends PureComponent {
             completedEventCount={69}
           />
         </ScrollView>
+        <TouchableOpacity style={styles.newFuseWrapper}>
+          <Feather name="plus" style={styles.newFuseIcon} />
+        </TouchableOpacity>
       </View>
     );
   }
