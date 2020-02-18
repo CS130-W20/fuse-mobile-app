@@ -4,6 +4,8 @@ import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import screenIds from './ScreenIds';
+
 // Import screens or containers you need from the screen/container directory
 import HelloWorld from '../screens/HelloWorld';
 import ProfileContainer from '../containers/ProfileContainer';
@@ -11,14 +13,6 @@ import ProfileContainer from '../containers/ProfileContainer';
 // Stack ids. Each tab in our tab navigation has a stack
 export const NavigationStackIds = {
   feed: 'Feed',
-  explore: 'Explore',
-  notifications: 'Notifications',
-  profile: 'Profile',
-};
-
-// Names we will use for screens throughout the app. Add your new screen names
-export const NavigationScreenIds = {
-  newsFeed: 'NewsFeed',
   explore: 'Explore',
   notifications: 'Notifications',
   profile: 'Profile',
@@ -37,22 +31,22 @@ export const NavigationScreenIds = {
  */
 const Screens = {
   newsFeed: {
-    name: NavigationScreenIds.newsFeed,
+    name: screenIds.newsFeed,
     component: HelloWorld,
     stack: NavigationStackIds.feed,
   },
   explore: {
-    name: NavigationScreenIds.explore,
+    name: screenIds.explore,
     component: HelloWorld,
     stack: NavigationStackIds.explore,
   },
   notifications: {
-    name: NavigationScreenIds.notifications,
+    name: screenIds.notifications,
     component: HelloWorld,
     stack: NavigationStackIds.notifications,
   },
   profile: {
-    name: NavigationScreenIds.profile,
+    name: screenIds.profile,
     component: ProfileContainer,
     stack: NavigationStackIds.profile,
   },
