@@ -12,7 +12,6 @@ import Spacer from '../helpers/Spacer';
 
 import styles from './styles/ProfileContainerStyles';
 
-
 const bio = 'Searching for my wife.\nI am accepting snakes and champagne stealers only.\nWill you accept this rose?';
 
 export default class ProfileContainer extends PureComponent {
