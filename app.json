@@ -28,7 +28,7 @@
       "supportsTablet": true
     },
     "packagerOpts": {
-      "sourceExts": ["js", "jsx", "svg", "ts", "tsx"]
+      "sourceExts": ["js", "json", "jsx", "ts", "tsx"]
     }
   }
 }
