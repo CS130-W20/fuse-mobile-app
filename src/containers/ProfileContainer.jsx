@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
+  Text,
   View,
   ScrollView,
 } from 'react-native';
@@ -33,16 +34,16 @@ export default class ProfileContainer extends PureComponent {
 
     switch (focusedView) {
       case 0: {
-        break;
+        return (<Text>Set Fuses List</Text>);
       }
       case 1: {
-        break;
+        return (<Text>Lit Fuses List</Text>);
       }
       case 2: {
-        break;
+        return (<Text>Completed Fuses List</Text>);
       }
       default: {
-        break;
+        return (<View />);
       }
     }
   }
@@ -62,6 +63,7 @@ export default class ProfileContainer extends PureComponent {
           <ViewToggle
             viewToggler={(viewFocused) => this.viewToggler(viewFocused)}
           />
+          {this.showToggledView()}
         </ScrollView>
         <NewFuseButton />
       </View>
