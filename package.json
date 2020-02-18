@@ -15,13 +15,17 @@
     "apollo-client": "latest",
     "apollo-link-http": "latest",
     "expo": "~36.0.0",
+    "expo-facebook": "~8.0.0",
     "graphql": "14.6.0",
     "graphql-tag": "latest",
+    "mem": ">=4.0.0",
+    "prop-types": "^15.7.2",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
-    "react-native-web": "~0.11.7",
-    "mem": ">=4.0.0"
+    "react-native-fbsdk": "^1.1.2",
+    "react-native-svg": "^11.0.1",
+    "react-native-web": "~0.11.7"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
