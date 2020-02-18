@@ -1,8 +1,8 @@
-import React from 'react';
+/* eslint-disable react/prop-types */
+import React, { PureComponent } from 'react';
 import {
   StyleSheet, View, Image, Text,
 } from 'react-native';
-import { PropTypes } from 'prop-types';
 
 const styles = StyleSheet.create({
   container: {},
@@ -30,29 +30,23 @@ const styles = StyleSheet.create({
 
 const sampleImage = require('../../assets/images/logo-fuse1.png');
 
-function Logo(props) {
-  const { style } = props;
+export default class Logo extends PureComponent {
+  render() {
+    const {
+      style,
+    } = this.props;
 
-  return (
-    <View style={[styles.container, style]}>
-      <View style={styles.image1Stack}>
-        <Image
-          source={sampleImage}
-          resizeMode="contain"
-          style={styles.image1}
-        />
-        <Text style={styles.fuse1}>FUSE</Text>
+    return (
+      <View style={[styles.container, style]}>
+        <View style={styles.image1Stack}>
+          <Image
+            source={sampleImage}
+            resizeMode="contain"
+            style={styles.image1}
+          />
+          <Text style={styles.fuse1}>FUSE</Text>
+        </View>
       </View>
-    </View>
-  );
+    );
+  }
 }
-
-Logo.propTypes = {
-  style: PropTypes.objectOf(PropTypes.object()),
-};
-
-Logo.defaultProps = {
-  style: {},
-};
-
-export default Logo;

@@ -24,14 +24,7 @@ function CupertinoButtonGrey(props) {
 
   return (
     <TouchableOpacity style={[styles.container, style]}>
-      <Text
-        style={styles.caption}
-        // eslint-disable-next-line no-console
-        onPress={() => console.log('LOGIN BUTTON PRESSED')}
-      >
-        {text1 || 'Button'}
-
-      </Text>
+      <Text style={styles.caption}>{text1 || 'Button'}</Text>
     </TouchableOpacity>
   );
 }

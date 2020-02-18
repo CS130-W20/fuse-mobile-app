@@ -1,9 +1,9 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import {
   StyleSheet, TouchableOpacity, Text, Alert,
 } from 'react-native';
 import * as Facebook from 'expo-facebook';
-import { PropTypes } from 'prop-types';
 
 async function loginFB() {
   try {
@@ -62,14 +62,5 @@ function CupertinoButtonInfo(props) {
     </TouchableOpacity>
   );
 }
-
-CupertinoButtonInfo.propTypes = {
-  style: PropTypes.objectOf(PropTypes.object()),
-  text1: PropTypes.string.isRequired,
-};
-
-CupertinoButtonInfo.defaultProps = {
-  style: {},
-};
 
 export default CupertinoButtonInfo;
