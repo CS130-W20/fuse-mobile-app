@@ -3,13 +3,13 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   scrollView: {
+    flex: 1,
     paddingTop: 10,
     paddingLeft: 10,
     paddingRight: 10,
-    flex: 1,
   },
-  scrollViewWrapper: {
-    // backgroundColor: 'grey',
+  wrapper: {
+    // backgroundColor: 'lightgrey',
     flex: 1,
   },
 });
