@@ -4,6 +4,7 @@ import colors from '../../styles/colors';
 const styles = StyleSheet.create({
   bio: {
     textAlign: 'right',
+    fontSize: 14,
   },
   bioWrapper: {
     // backgroundColor: 'lightcoral',
@@ -14,7 +15,7 @@ const styles = StyleSheet.create({
   },
   friendsAndEventsLabels: {
     textAlign: 'right',
-    fontSize: 15,
+    fontSize: 16,
     color: colors.grey,
   },
   friendsAndEventsWrapper: {
