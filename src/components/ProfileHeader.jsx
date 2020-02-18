@@ -65,7 +65,6 @@ export default class ProfileHeader extends PureComponent {
   }
 }
 
-
 ProfileHeader.propTypes = {
   name: PropTypes.string.isRequired,
   bio: PropTypes.string.isRequired,
