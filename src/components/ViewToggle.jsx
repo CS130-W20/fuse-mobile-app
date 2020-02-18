@@ -4,6 +4,7 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
+import { PropTypes } from 'prop-types';
 
 import styles from './styles/ViewToggleStyles';
 
@@ -18,6 +19,8 @@ export default class ViewToggle extends PureComponent {
 
   onPressSelector(viewSelected) {
     this.setState({ focusedView: viewSelected });
+    const { viewToggler } = this.props;
+    viewToggler(viewSelected);
   }
 
   render() {
@@ -61,3 +64,7 @@ export default class ViewToggle extends PureComponent {
     );
   }
 }
+
+ViewToggle.propTypes = {
+  viewToggler: PropTypes.func.isRequired,
+};

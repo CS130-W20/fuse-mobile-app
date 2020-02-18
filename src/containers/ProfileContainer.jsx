@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import {
-  Text,
   View,
   ScrollView,
 } from 'react-native';
@@ -17,6 +16,37 @@ import styles from './styles/ProfileContainerStyles';
 const bio = 'Searching for my wife.\nI am accepting snakes and champagne stealers only.\nWill you accept this rose?';
 
 export default class ProfileContainer extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      focusedView: 0,
+    };
+  }
+
+  viewToggler(selectedViewNum) {
+    this.setState({ focusedView: selectedViewNum });
+  }
+
+  showToggledView() {
+    const { focusedView } = this.state;
+
+    switch (focusedView) {
+      case 0: {
+        break;
+      }
+      case 1: {
+        break;
+      }
+      case 2: {
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  }
+
   render() {
     return (
       <View style={styles.wrapper}>
@@ -30,9 +60,7 @@ export default class ProfileContainer extends PureComponent {
           />
           <Spacer padding={20} />
           <ViewToggle
-            view1={<Text>View1</Text>}
-            view2={<Text>View2</Text>}
-            view3={<Text>View3</Text>}
+            viewToggler={(viewFocused) => this.viewToggler(viewFocused)}
           />
         </ScrollView>
         <NewFuseButton />
