@@ -10,7 +10,6 @@ import NewFuseButton from '../components/NewFuseButton';
 import ViewToggle from '../components/ViewToggle';
 import Spacer from '../helpers/Spacer';
 
-
 import styles from './styles/ProfileContainerStyles';
 
 
