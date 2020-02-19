@@ -1,21 +1,23 @@
 import React, { PureComponent } from 'react';
 //  import { Text, View } from 'react-native';
 import {
-  StyleSheet, View, Text, Image, Switch, TextInput, Button,
+  StyleSheet, View, Text, Image, Switch, ImageBackground,
 } from 'react-native';
+import CupertinoButtonGrey from '../components/login/CupertinoButtonGrey';
+import MaterialUnderlineTextbox from '../components/login/MaterialUnderlineTextbox';
 /*  import Light from "../components/Light";
 import WhitePanel from "../components/WhitePanel";
-import CupertinoButtonGrey from "../components/CupertinoButtonGrey";
-import MaterialUnderlineTextbox from "../components/MaterialUnderlineTextbox";
 import MaterialFixedLabelTextbox3 from "../components/MaterialFixedLabelTextbox3";
 import MaterialIconTextbox from "../components/MaterialIconTextbox";
 */
 
+const gradient = require('../../src/assets/images/Gradient_LIswryi.png');
+
+
 const styles = StyleSheet.create({
   trim: {
-    backgroundColor: '#ed5c45',
-    flex: 1,
-    margin: 0,
+    width: '100%',
+    height: '100%',
   },
   container: {
     flex: 1,
@@ -47,7 +49,7 @@ const styles = StyleSheet.create({
   },
   image: {
     top: 601,
-    left: 260,
+    left: 275,
     width: 88,
     height: 78,
     position: 'absolute',
@@ -74,32 +76,37 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '75%',
+    height: 50,
     top: 280,
     position: 'relative',
     alignSelf: 'center',
+    backgroundColor: '#ed5c45',
   },
 });
+
+const fuseLogo = require('../../src/assets/images/logo-fuse1.png');
+const calendarIcon = require('../../src/assets/images/calendar.png');
 
 
 export default class NewFuse extends PureComponent {
   render() {
     return (
-      <View style={styles.trim}>
+      <ImageBackground source={gradient} style={styles.trim}>
         <View style={styles.container}>
           <View style={styles.container}>
             <Text style={styles.loremIpsum}>&lt;</Text>
             <Text style={styles.set}>SET</Text>
-            <TextInput
+            <MaterialUnderlineTextbox
               style={styles.nameInput}
-              placeholder="Event Name"
+              textInput1="Event Name"
             />
-            <TextInput
+            <MaterialUnderlineTextbox
               style={styles.nameInput}
-              placeholder="Event Description"
+              textInput1="Event Description"
             />
-            <TextInput
+            <MaterialUnderlineTextbox
               style={styles.nameInput}
-              placeholder="Event Invite Group"
+              textInput1="Event Invite Group"
             />
             <View style={styles.switch}>
               <Text>Send Notifications?</Text>
@@ -110,29 +117,27 @@ export default class NewFuse extends PureComponent {
             </View>
             <View style={styles.deadline}>
               <Image
-                source="../../assets/icon.png"
+                source={calendarIcon}
                 resizeMode="contain"
                 style={{ width: 40, height: 40 }}
               />
-              <TextInput
-                placeholder="Event Deadline"
-                style={{ height: 40, left: 40 }}
+              <MaterialUnderlineTextbox
+                textInput1="Event Deadline"
+                style={{ left: 30, width: 250 }}
               />
             </View>
-            <View style={styles.button}>
-              <Button
-                title="Submit"
-                color="#ed5c45"
-              />
-            </View>
+            <CupertinoButtonGrey
+              text1="Submit"
+              style={styles.button}
+            />
             <Image
-              source="../../assets/icon.png"
+              source={fuseLogo}
               resizeMode="contain"
               style={styles.image}
             />
           </View>
         </View>
-      </View>
+      </ImageBackground>
     );
   }
 }
