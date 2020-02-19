@@ -1,4 +1,5 @@
 export default {
+  redorange: 'rgba(237,92,69,1)',
   accentred: 'rgba(237,92,69,1)',
   background: 'rgba(247, 243, 243, 100)',
   litfusered: 'rgba(240, 78, 53,100)',
