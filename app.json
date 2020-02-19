@@ -9,6 +9,7 @@
       "android",
       "web"
     ],
+    "facebookScheme": "fb589405221608354",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,7 +28,7 @@
       "supportsTablet": true
     },
     "packagerOpts": {
-      "sourceExts": ["js", "json", "jsx"]
+      "sourceExts": ["js", "json", "jsx", "ts", "tsx"]
     }
   }
 }
