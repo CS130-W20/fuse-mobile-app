@@ -4,10 +4,12 @@ import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import { ApolloProvider } from '@apollo/react-hooks';
+import { Provider } from 'react-redux';
 
 import { URL } from './src/constants';
 import LoggedIn from './src/screens/LoggedIn';
-// import styles from './src/styles/Styles';
+
+import store from './src/redux/store';
 
 const cache = new InMemoryCache();
 const link = new HttpLink({
@@ -21,8 +23,11 @@ const client = new ApolloClient({
 
 export default function App() {
   return (
-    <ApolloProvider client={client}>
-      <LoggedIn />
-    </ApolloProvider>
+    <Provider store={store}>
+      <ApolloProvider client={client}>
+        {/* App entry point */}
+        <LoggedIn />
+      </ApolloProvider>
+    </Provider>
   );
 }
