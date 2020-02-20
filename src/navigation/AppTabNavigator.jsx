@@ -161,7 +161,7 @@ const tabBarOptions = {
 const Tab = createBottomTabNavigator();
 
 // Build the react component for the tab navigator
-export default function TabNavigator() {
+export function AppTabNavigator() {
   const navigationStacks = createNavigationStacks();
 
   return (

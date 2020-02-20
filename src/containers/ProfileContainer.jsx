@@ -23,6 +23,60 @@ export default class ProfileContainer extends PureComponent {
     };
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  getSetFusesView() {
+    const mockEventTiles = [];
+    const numMockEventTiles = 10;
+    for (let i = 0; i < numMockEventTiles; i += 1) {
+      mockEventTiles.push(
+        <View style={styles.dummyView}>
+          <Text>
+            Set fuse
+            {i}
+          </Text>
+        </View>,
+      );
+    }
+
+    return mockEventTiles;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  getLitFusesView() {
+    const mockEventTiles = [];
+    const numMockEventTiles = 10;
+    for (let i = 0; i < numMockEventTiles; i += 1) {
+      mockEventTiles.push(
+        <View style={styles.dummyView}>
+          <Text>
+            Lit fuse
+            {i}
+          </Text>
+        </View>,
+      );
+    }
+
+    return mockEventTiles;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  getCompletedFusesView() {
+    const mockEventTiles = [];
+    const numMockEventTiles = 10;
+    for (let i = 0; i < numMockEventTiles; i += 1) {
+      mockEventTiles.push(
+        <View style={styles.dummyView}>
+          <Text>
+            Completed fuse
+            {i}
+          </Text>
+        </View>,
+      );
+    }
+
+    return mockEventTiles;
+  }
+
   viewToggler(selectedViewNum) {
     this.setState({ focusedView: selectedViewNum });
   }
@@ -32,13 +86,13 @@ export default class ProfileContainer extends PureComponent {
 
     switch (focusedView) {
       case 0: {
-        return (<Text>Set Fuses List</Text>);
+        return this.getSetFusesView();
       }
       case 1: {
-        return (<Text>Lit Fuses List</Text>);
+        return this.getLitFusesView();
       }
       case 2: {
-        return (<Text>Completed Fuses List</Text>);
+        return this.getCompletedFusesView();
       }
       default: {
         return (<View />);
@@ -61,6 +115,7 @@ export default class ProfileContainer extends PureComponent {
           <ViewToggle
             viewToggler={(viewFocused) => this.viewToggler(viewFocused)}
           />
+          <Spacer padding={5} />
           {this.showToggledView()}
         </ScrollView>
         <NewFuseButton />

@@ -1,34 +1,24 @@
 import React from 'react';
 import {
-  Text,
   View,
   ScrollView,
 } from 'react-native';
 
-import { useApolloClient } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 import NewFuseButton from '../components/NewFuseButton';
+import EventTile from '../components/EventTile';
 import styles from './styles/NewsFeedContainerStyles';
 import Spacer from '../helpers/Spacer';
 
-const USER_QUERY = gql`
-    query userQuery {
-        user {
-            id
-            email
-            name
-        }
-    }
-`;
-
 export default function ProfileContainer() {
-  const client = useApolloClient();
-  const { user } = client.readQuery({ query: USER_QUERY });
-
   return (
     <View style={styles.wrapper}>
       <ScrollView style={styles.scrollView}>
-        <Text>{`Newsfeed for ${user.name}`}</Text>
+        <EventTile
+          eventName="Event Name"
+          eventCreator="Chiara Mooney"
+          description="Here is my event description. Wow this is so interesting. I am so excited about this. Let me try to make this longer."
+          eventStage={0}
+        />
         <Spacer padding={20} />
       </ScrollView>
       <NewFuseButton />

@@ -45,9 +45,10 @@ function MaterialUnderlineTextbox({
 MaterialUnderlineTextbox.defaultProps = {
   style: styles,
   placeholder: 'Placeholder',
+  // eslint-disable-next-line no-console
   onChangeText: () => { console.log('text changed'); },
   secureTextEntry: false,
-  textContentType: 'off',
+  textContentType: 'none',
 };
 
 MaterialUnderlineTextbox.propTypes = {
