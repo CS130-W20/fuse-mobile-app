@@ -24,7 +24,7 @@ function CupertinoButtonGrey(props) {
 
   return (
     <TouchableOpacity style={[styles.container, style]}>
-      <Text style={styles.caption}>{text1 || 'Button'}</Text>
+      <Text style={styles.caption} onPress={() => console.log('fuck')}>{text1 || 'Button'}</Text>
     </TouchableOpacity>
   );
 }

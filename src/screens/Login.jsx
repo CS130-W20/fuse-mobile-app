@@ -1,12 +1,17 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  View, StyleSheet, Text, Dimensions,
+  View, StyleSheet, Text, Dimensions, AsyncStorage,
 } from 'react-native';
 
+import { useMutation, useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+// import { NavigationContainer } from '@react-navigation/native';
 import Logo from '../components/login/Logo';
-import MaterialUnderlineTextbox from '../components/login/MaterialUnderlineTextbox';
+import MaterialUnderlineTextbox from '../components/fields/MaterialUnderlineTextbox';
 import CupertinoButtonInfo from '../components/login/CupertinoButtonInfo';
-import CupertinoButtonGrey from '../components/login/CupertinoButtonGrey';
+import CupertinoButtonGrey from '../components/buttons/CupertinoButtonGrey';
+import { AUTH_TOKEN, EMAIL, NAME } from '../constants';
+import LoggedIn from './LoggedIn';
 
 const styles = StyleSheet.create({
   container: {
@@ -62,57 +67,129 @@ const styles = StyleSheet.create({
   },
 });
 
+const LOGIN_MUTATION = gql`
+    mutation login($email: String!, $password: String!) {
+        login(email: $email, password: $password) {
+            token
+            user {
+                id
+                email
+                name
+            }
+        }
+    }
+`;
 
-export default class Login extends Component {
-  constructor(props) {
-    super(props);
+const USER_QUERY = gql`
+    query userQuery {
+        user {
+            id
+            email
+            name
+        }
+    }
+`;
 
-    this.state = {
-      // username: '',
-      // password: '',
+const saveUserData = async ({ token, name, email }) => {
+  console.log(token, name, email);
+  await AsyncStorage.setItem(AUTH_TOKEN, token);
+  await AsyncStorage.setItem(NAME, name);
+  await AsyncStorage.setItem(EMAIL, email);
+};
+
+
+const confirm = async ({ login }) => {
+  const { token, user } = login;
+  const { name, email } = user;
+  await saveUserData({ token, name, email });
+};
+
+const updateCache = (cache, { data: { login } }) => {
+  const { token, user } = login;
+  // const oldUserData = cache.readQuery({ query: USER_QUERY });
+  cache.writeQuery({
+    query: USER_QUERY,
+    data: { user, token },
+  });
+};
+
+export default function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [loginMutation, loginResult] = useMutation(LOGIN_MUTATION);
+  const { data } = useQuery(USER_QUERY);
+
+  // const client = useApolloClient();
+  //
+  // // assuming won't have cookies when logging in (for testing)
+  // useEffect(() => {
+  //   const clearCache = async () => {
+  //     AsyncStorage.clear();
+  //   };
+  //   clearCache();
+  //   client.clearStore();
+  // }, []);
+
+  useEffect(() => {
+    const confirmLogin = async () => {
+      const loginData = loginResult.data;
+      if (loginData) await confirm(loginData);
     };
-  }
+    confirmLogin();
+    if (data) console.log(`data: ${data.user.name}`);
+  }, [loginResult]);
 
-  // onLogin() {
-  //   const { username, password } = this.state;
-  //   console.log('username:', this.state.username, 'password:', this.state.password);
-  // }
+  console.log(data);
+  if (data) return <LoggedIn />;
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <MaterialUnderlineTextbox
-          textInput1="Username"
-          style={styles.materialUnderlineTextbox1}
+  return (
+    <View style={styles.container}>
+      <MaterialUnderlineTextbox
+        placeholder="Email"
+        textContentType="emailAddress"
+        style={styles.materialUnderlineTextbox1}
+        onChangeText={(text) => setEmail(text)}
+      />
+
+      <MaterialUnderlineTextbox
+        placeholder="Password"
+        textContentType="password"
+        style={styles.materialUnderlineTextbox2}
+        secureTextEntry
+        onChangeText={(text) => setPassword(text)}
+      />
+
+      <View style={styles.cupertinoButtonInfoStack}>
+        <CupertinoButtonInfo
+          text1="login with facebook"
+          style={styles.cupertinoButtonInfo}
         />
-
-        <MaterialUnderlineTextbox
-          textInput1="Password"
-          style={styles.materialUnderlineTextbox2}
-        />
-
-        <View style={styles.cupertinoButtonInfoStack}>
-          <CupertinoButtonInfo
-            text1="login with facebook"
-            style={styles.cupertinoButtonInfo}
-          />
-          <Text
-            style={styles.materialUnderlineTextbox3}
+        <Text
+          style={styles.materialUnderlineTextbox3}
             // eslint-disable-next-line no-console
-            onPress={() => console.log('CLICKED DONT HAVE AN ACCOUNT')}
-          >
-            dont have an account?
+          onPress={() => console.log('CLICKED DONT HAVE AN ACCOUNT')}
+        >
+          dont have an account?
 
-          </Text>
-        </View>
+        </Text>
+      </View>
 
-        <Logo style={styles.logo} />
+      <Logo style={styles.logo} />
 
-        <CupertinoButtonGrey
-          text1="login"
-          style={styles.cupertinoButtonGrey1}
-        />
-        {/*
+      <CupertinoButtonGrey
+        text="login"
+        style={styles.cupertinoButtonGrey1}
+        onPress={() => {
+          console.log(email, password);
+          loginMutation({
+            variables: { email, password },
+            // refetchQueries: [{ query: USER_QUERY }],
+            update: updateCache,
+          });
+        }}
+      />
+      {/*
         <TextInput
             value={this.state.username}
             onChangeText={(username) => this.setState({ username })}
@@ -133,7 +210,6 @@ export default class Login extends Component {
             onPress={this.onLogin.bind(this)
         }
         /> */}
-      </View>
-    );
-  }
+    </View>
+  );
 }
