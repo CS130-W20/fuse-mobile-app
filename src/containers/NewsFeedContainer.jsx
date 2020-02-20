@@ -1,15 +1,16 @@
 import React, { PureComponent } from 'react';
 import {
-  Text,
+  // Text,
   View,
   ScrollView,
 } from 'react-native';
 
 import NewFuseButton from '../components/NewFuseButton';
+import EventTile from '../components/EventTile';
 import styles from './styles/NewsFeedContainerStyles';
 import Spacer from '../helpers/Spacer';
 
-export default class ProfileContainer extends PureComponent {
+export default class NewsFeedContainer extends PureComponent {
   // constructor(props) {
   //   super(props);
   // }
@@ -18,7 +19,12 @@ export default class ProfileContainer extends PureComponent {
     return (
       <View style={styles.wrapper}>
         <ScrollView style={styles.scrollView}>
-          <Text>NewsFeedPage?</Text>
+          <EventTile
+            eventName="Event Name"
+            eventCreator="Chiara Mooney"
+            description="Here is my event description. Wow this is so interesting. I am so excited about this. Let me try to make this longer."
+            eventStage={0}
+          />
           <Spacer padding={20} />
         </ScrollView>
         <NewFuseButton />
