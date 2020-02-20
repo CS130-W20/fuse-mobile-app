@@ -1,0 +1,87 @@
+import { StyleSheet } from 'react-native';
+import colors from '../../styles/colors';
+
+const styles = StyleSheet.create({
+  eventName: {
+    textAlign: 'center',
+    fontSize: 30,
+    color: colors.titlegrey,
+    fontWeight: '500',
+  },
+  eventCreator: {
+    textAlign: 'center',
+    fontSize: 20,
+    color: colors.textgrey,
+  },
+  description: {
+    textAlign: 'center',
+    fontSize: 14,
+    color: colors.textgrey,
+  },
+  upperHeader: {
+    // backgroundColor: 'lightgrey',
+    display: 'flex',
+    height: 50,
+    flexDirection: 'row',
+    flex: 3,
+  },
+  profileColumn: {
+    // backgroundColor: 'blue',
+    display: 'flex',
+    flex: 1,
+    justifyContent: 'center',
+  },
+  profileImage: {
+    // backgroundColor: 'grey',
+    flex: 1,
+    width: '100%',
+    resizeMode: 'contain',
+  },
+  titleColumn: {
+    // backgroundColor: 'green',
+    display: 'flex',
+    flex: 2,
+    justifyContent: 'center',
+  },
+  middleHeader: {
+    // backgroundColor: 'grey',
+    display: 'flex',
+    height: 50,
+    flexDirection: 'column',
+    flex: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  bottomHeader: {
+    // backgroundColor: 'red',
+    display: 'flex',
+    height: 50,
+    flexDirection: 'row',
+    flex: 2,
+  },
+  innterTile: {
+    display: 'flex',
+    height: 190,
+    width: 330,
+    borderRadius: 18,
+    backgroundColor: colors.background,
+
+  },
+  outerTile: {
+    display: 'flex',
+    height: 200,
+    width: 350,
+    borderRadius: 18,
+    // backgroundColor: 'blue',
+    alignItems: 'center',
+  },
+  backgroundOmbre: {
+    display: 'flex',
+    flex: 1,
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+  },
+});
+
+export default styles;
