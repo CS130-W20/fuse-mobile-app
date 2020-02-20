@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   View, StyleSheet, Text, Dimensions, Image,
 } from 'react-native';
-
-import MaterialUnderlineTextbox from '../components/signup/MaterialUnderlineTextbox';
-import CupertinoButtonGrey from '../components/signup/CupertinoButtonGrey';
+import MaterialUnderlineTextbox from '../components/fields/MaterialUnderlineTextbox';
+import CupertinoButtonGrey from '../components/buttons/CupertinoButtonGrey';
 
 const styles = StyleSheet.create({
   container: {
@@ -69,76 +68,40 @@ const styles = StyleSheet.create({
 
 const sampleImage = require('../../src/assets/images/logo-fuse1.png');
 
-export default class App extends Component {
-  constructor(props) {
-    super(props);
+// TODO: add a "back" button to go back to login
 
-    this.state = {
-      // username: '',
-      // email: '',
-      // password: '',
-    };
-  }
-
-  // onSignup() {
-  //   const { username, password } = this.state;
-  //   console.log('username:', this.state.username, 'email:', this.state.email,
-  //     'password:', this.state.password);
-  // }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.image1Stack}>
-          <Image
-            source={sampleImage}
-            resizeMode="contain"
-            style={styles.image1}
-          />
-          <Text style={styles.fuse1}>FUSE</Text>
-        </View>
-        <MaterialUnderlineTextbox
-          textInput1="Username"
-          style={styles.materialUnderlineTextbox1}
+export default function SignUp() {
+  return (
+    <View style={styles.container}>
+      <View style={styles.image1Stack}>
+        <Image
+          source={sampleImage}
+          resizeMode="contain"
+          style={styles.image1}
         />
-        <MaterialUnderlineTextbox
-          textInput1="Password"
-          style={styles.materialUnderlineTextbox2}
-        />
-        <MaterialUnderlineTextbox
-          textInput1="Email"
-          style={styles.materialUnderlineTextbox3}
-        />
-        <MaterialUnderlineTextbox
-          textInput1="Confirm Password"
-          style={styles.materialUnderlineTextbox4}
-        />
-        <CupertinoButtonGrey
-          text1="create"
-          style={styles.cupertinoButtonGrey1}
-        />
-        {/*
-        <TextInput
-            value={this.state.username}
-            onChangeText={(username) => this.setState({ username })}
-            placeholder={'Username'}
-            style={styles.input}
-        />
-        <TextInput
-            value={this.state.password}
-            onChangeText={(password) => this.setState({ password })}
-            placeholder={'Password'}
-            secureTextEntry={true}
-            style={styles.input}
-        />
-
-        <Button
-            title={'Login'}
-            style={styles.input}
-            onPress={this.onLogin.bind(this)
-        }
-        /> */}
+        <Text style={styles.fuse1}>FUSE</Text>
       </View>
-    );
-  }
+      <MaterialUnderlineTextbox
+        placeholder="Username"
+        style={styles.materialUnderlineTextbox1}
+      />
+      <MaterialUnderlineTextbox
+        placeholder="Password"
+        style={styles.materialUnderlineTextbox2}
+      />
+      <MaterialUnderlineTextbox
+        placeholder="Email"
+        style={styles.materialUnderlineTextbox3}
+      />
+      <MaterialUnderlineTextbox
+        placeholder="Confirm Password"
+        style={styles.materialUnderlineTextbox4}
+      />
+      <CupertinoButtonGrey
+        text="create"
+        style={styles.cupertinoButtonGrey1}
+      />
+
+    </View>
+  );
 }
