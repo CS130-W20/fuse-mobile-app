@@ -8,6 +8,7 @@ export default {
   grey: 'rgba(158,158,158,100)',
   titlegrey: 'rgba(158,158,158,100)',
   textgrey: 'rgba(98,98,98,100)',
+  buttongrey: 'rgba(204,204,204,100)',
   black: 'black',
   white: 'white',
 };
