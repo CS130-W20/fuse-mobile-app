@@ -92,7 +92,6 @@ export default function Login({ navigation }) {
   const [password, setPassword] = useState('');
 
   const [loginMutation, loginResult] = useMutation(LOGIN_MUTATION);
-  const { data } = useQuery(USER_QUERY);
 
   useEffect(() => {
     const confirmLogin = async () => {
@@ -100,7 +99,6 @@ export default function Login({ navigation }) {
       if (loginData) await confirm(loginData);
     };
     confirmLogin();
-    if (data) navigation.navigate(screenIds.appTabNavigator);
   }, [loginResult]);
 
   return (
