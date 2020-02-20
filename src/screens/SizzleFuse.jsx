@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 //  import { Text, View } from 'react-native';
 import {
-  StyleSheet, View, Text, Image, Switch, ImageBackground,
+  StyleSheet, View, Text, Image, ImageBackground,
 } from 'react-native';
 import CupertinoButtonGrey from '../components/login/CupertinoButtonGrey';
 import MaterialUnderlineTextbox from '../components/login/MaterialUnderlineTextbox';
@@ -11,7 +11,7 @@ import MaterialFixedLabelTextbox3 from "../components/MaterialFixedLabelTextbox3
 import MaterialIconTextbox from "../components/MaterialIconTextbox";
 */
 
-const gradient = require('../../src/assets/images/Gradient_LIswryi.png');
+const gradient = require('../../src/assets/images/completeombre.png');
 
 
 const styles = StyleSheet.create({
@@ -32,13 +32,29 @@ const styles = StyleSheet.create({
     fontSize: 40,
     //  fontFamily: "courier-regular"
   },
-  set: {
+  sizzle: {
     color: 'rgba(218,209,209,1)',
     fontSize: 30,
     height: 50,
     alignSelf: 'center',
     position: 'absolute',
     // fontFamily: "alata-regular"
+  },
+  title: {
+    fontSize: 40,
+    alignSelf: 'center',
+    top: 20,
+    position: 'relative',
+    color: 'rgba(129,129,129,1)',
+  },
+  description: {
+    textAlign: 'center',
+    position: 'relative',
+    top: 40,
+    width: '90%',
+    alignSelf: 'center',
+    maxHeight: 80,
+    color: 'rgba(129,129,129,1)',
   },
   nameInput: {
     height: 80,
@@ -60,18 +76,10 @@ const styles = StyleSheet.create({
       },
     ],
   },
-  switch: {
-    flexDirection: 'row',
-    width: '95%',
-    justifyContent: 'space-between',
-    top: 80,
-    height: 30,
-    position: 'relative',
-  },
   deadline: {
     flexDirection: 'row',
     width: '95%',
-    top: 130,
+    top: 100,
     height: 50,
     position: 'relative',
   },
@@ -81,54 +89,39 @@ const styles = StyleSheet.create({
     bottom: 0,
     position: 'absolute',
     alignSelf: 'center',
-    backgroundColor: '#ed5c45',
+    backgroundColor: 'rgba(247,177,33,1)',
   },
 });
 
 const fuseLogo = require('../../src/assets/images/logo-fuse1.png');
-const calendarIcon = require('../../src/assets/images/calendar.png');
 
 
-export default class NewFuse extends PureComponent {
+export default class LightFuse extends PureComponent {
   render() {
     return (
       <ImageBackground source={gradient} style={styles.trim}>
         <View style={styles.container}>
           <View style={styles.container}>
             <Text style={styles.loremIpsum}>&lt;</Text>
-            <Text style={styles.set}>SET</Text>
+            <Text style={styles.sizzle}>SIZZLE</Text>
+            <Text style={styles.title}>Event Name</Text>
+            <Text style={styles.description}>
+              Insert random text about event right here.
+              This is super fun!
+              Blah blah blah blah blah blah blah,
+              I want to test the text wrap.
+              What happens when this block of text gets to its max height?
+            </Text>
             <MaterialUnderlineTextbox
               style={styles.nameInput}
-              textInput1="Event Name"
+              textInput1="Event Photos"
             />
             <MaterialUnderlineTextbox
               style={styles.nameInput}
-              textInput1="Event Description"
+              textInput1="Event Memories"
             />
-            <MaterialUnderlineTextbox
-              style={styles.nameInput}
-              textInput1="Event Invite Group"
-            />
-            <View style={styles.switch}>
-              <Text style={{ color: 'rgba(129,129,129,1)' }}>Send Notifications?</Text>
-              <Switch
-                disabled={false}
-                trackColor={{ true: 'rgba(230, 230, 230,1)' }}
-              />
-            </View>
-            <View style={styles.deadline}>
-              <Image
-                source={calendarIcon}
-                resizeMode="contain"
-                style={{ width: 40, height: 40 }}
-              />
-              <MaterialUnderlineTextbox
-                textInput1="Event Deadline"
-                style={{ left: 30, width: 250 }}
-              />
-            </View>
             <CupertinoButtonGrey
-              text1="Submit"
+              text1="Complete"
               style={styles.button}
             />
             <Image
