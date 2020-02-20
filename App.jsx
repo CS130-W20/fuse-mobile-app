@@ -7,8 +7,7 @@ import { HttpLink } from 'apollo-link-http';
 import { ApolloProvider } from '@apollo/react-hooks';
 
 import { URL } from './src/constants';
-import LoggedIn from './src/screens/LoggedIn';
-// import styles from './src/styles/Styles';
+import RootAppRouter from './src/navigation/RootAppRouter';
 
 const cache = new InMemoryCache();
 const link = new HttpLink({
@@ -23,7 +22,8 @@ const client = new ApolloClient({
 export default function App() {
   return (
     <ApolloProvider client={client}>
-      <LoggedIn />
+      {/* App entry point */}
+      <RootAppRouter />
     </ApolloProvider>
   );
 }
