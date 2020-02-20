@@ -3,7 +3,7 @@ import {
   View, StyleSheet, Text, Dimensions, AsyncStorage,
 } from 'react-native';
 
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
 import Logo from '../components/login/Logo';
 import MaterialUnderlineTextbox from '../components/fields/MaterialUnderlineTextbox';
