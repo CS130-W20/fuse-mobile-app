@@ -24,16 +24,16 @@
     "graphql": "14.6.0",
     "graphql-tag": "latest",
     "mem": ">=4.0.0",
-    "react-native-fbsdk": "1.1.2",
-    "react-native-svg": "11.0.1",
     "prop-types": "15.7.2",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
+    "react-native-fbsdk": "1.1.2",
     "react-native-gesture-handler": "1.5.6",
     "react-native-reanimated": "1.4.0",
     "react-native-safe-area-context": "0.6.0",
     "react-native-screens": "2.0.0-alpha.12",
+    "react-native-svg": "11.0.1",
     "react-native-web": "~0.11.7"
   },
   "devDependencies": {
@@ -44,7 +44,8 @@
     "eslint-plugin-import": "2.20.1",
     "eslint-plugin-jsx-a11y": "6.2.3",
     "eslint-plugin-react": "7.18.3",
-    "eslint-plugin-react-hooks": "1.7.0"
+    "eslint-plugin-react-hooks": "1.7.0",
+    "redux-devtools": "3.5.0"
   },
   "private": true
 }
