@@ -4,14 +4,14 @@ import {
 } from 'react-native';
 
 import { useMutation, useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
-// import { NavigationContainer } from '@react-navigation/native';
+import PropTypes from 'prop-types';
 import Logo from '../components/login/Logo';
 import MaterialUnderlineTextbox from '../components/fields/MaterialUnderlineTextbox';
 import CupertinoButtonInfo from '../components/login/CupertinoButtonInfo';
 import CupertinoButtonGrey from '../components/buttons/CupertinoButtonGrey';
 import { AUTH_TOKEN, EMAIL, NAME } from '../constants';
-import LoggedIn from './LoggedIn';
+import screenIds from '../navigation/ScreenIds';
+import { LOGIN_MUTATION, USER_QUERY } from '../graphql/GeneralQueries';
 
 const styles = StyleSheet.create({
   container: {
@@ -67,36 +67,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const LOGIN_MUTATION = gql`
-    mutation login($email: String!, $password: String!) {
-        login(email: $email, password: $password) {
-            token
-            user {
-                id
-                email
-                name
-            }
-        }
-    }
-`;
-
-const USER_QUERY = gql`
-    query userQuery {
-        user {
-            id
-            email
-            name
-        }
-    }
-`;
-
 const saveUserData = async ({ token, name, email }) => {
-  console.log(token, name, email);
   await AsyncStorage.setItem(AUTH_TOKEN, token);
   await AsyncStorage.setItem(NAME, name);
   await AsyncStorage.setItem(EMAIL, email);
 };
-
 
 const confirm = async ({ login }) => {
   const { token, user } = login;
@@ -106,30 +81,18 @@ const confirm = async ({ login }) => {
 
 const updateCache = (cache, { data: { login } }) => {
   const { token, user } = login;
-  // const oldUserData = cache.readQuery({ query: USER_QUERY });
   cache.writeQuery({
     query: USER_QUERY,
     data: { user, token },
   });
 };
 
-export default function Login() {
+export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const [loginMutation, loginResult] = useMutation(LOGIN_MUTATION);
   const { data } = useQuery(USER_QUERY);
-
-  // const client = useApolloClient();
-  //
-  // // assuming won't have cookies when logging in (for testing)
-  // useEffect(() => {
-  //   const clearCache = async () => {
-  //     AsyncStorage.clear();
-  //   };
-  //   clearCache();
-  //   client.clearStore();
-  // }, []);
 
   useEffect(() => {
     const confirmLogin = async () => {
@@ -137,11 +100,8 @@ export default function Login() {
       if (loginData) await confirm(loginData);
     };
     confirmLogin();
-    if (data) console.log(`data: ${data.user.name}`);
+    if (data) navigation.navigate(screenIds.appTabNavigator);
   }, [loginResult]);
-
-  console.log(data);
-  if (data) return <LoggedIn />;
 
   return (
     <View style={styles.container}>
@@ -168,7 +128,7 @@ export default function Login() {
         <Text
           style={styles.materialUnderlineTextbox3}
             // eslint-disable-next-line no-console
-          onPress={() => console.log('CLICKED DONT HAVE AN ACCOUNT')}
+          onPress={() => navigation.navigate(screenIds.signUp)}
         >
           dont have an account?
 
@@ -181,35 +141,18 @@ export default function Login() {
         text="login"
         style={styles.cupertinoButtonGrey1}
         onPress={() => {
-          console.log(email, password);
           loginMutation({
             variables: { email, password },
-            // refetchQueries: [{ query: USER_QUERY }],
             update: updateCache,
           });
         }}
       />
-      {/*
-        <TextInput
-            value={this.state.username}
-            onChangeText={(username) => this.setState({ username })}
-            placeholder={'Username'}
-            style={styles.input}
-        />
-        <TextInput
-            value={this.state.password}
-            onChangeText={(password) => this.setState({ password })}
-            placeholder={'Password'}
-            secureTextEntry={true}
-            style={styles.input}
-        />
-
-        <Button
-            title={'Login'}
-            style={styles.input}
-            onPress={this.onLogin.bind(this)
-        }
-        /> */}
     </View>
   );
 }
+
+Login.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};

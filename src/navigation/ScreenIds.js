@@ -4,6 +4,9 @@ const screenIds = {
   explore: 'Explore',
   notifications: 'Notifications',
   profile: 'Profile',
+  login: 'Login',
+  appTabNavigator: 'AppTabNavigator',
+  signUp: 'SignUp',
 };
 
 export default screenIds;
