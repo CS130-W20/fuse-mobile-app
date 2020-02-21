@@ -80,9 +80,10 @@ const createNavigationStacks = () => {
 
     // TODO we need a better way for people to customize their headers if they need to
     const screenOptions = {};
-    screenOptions.headerTitle = screen.customHeaderTitle != null
-      ? screen.customHeaderTitle
-      : 'fuse';
+    screenOptions.headerTitle = screen.customHeaderTitle || 'fuse';
+    // screenOptions.headerTitle = screen.customHeaderTitle != null
+    //   ? screen.customHeaderTitle
+    //   : 'fuse';
 
     const screenComponent = (
       <TargetStack.Screen
@@ -160,7 +161,7 @@ const tabBarOptions = {
 const Tab = createBottomTabNavigator();
 
 // Build the react component for the tab navigator
-export default function TabNavigator() {
+export function AppTabNavigator() {
   const navigationStacks = createNavigationStacks();
 
   return (
