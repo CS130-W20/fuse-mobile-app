@@ -3,13 +3,14 @@ import {
   View,
   ScrollView,
 } from 'react-native';
+import PropTypes from 'prop-types';
 
 import NewFuseButton from '../components/NewFuseButton';
 import EventTile from '../components/EventTile';
 import styles from './styles/NewsFeedContainerStyles';
 import Spacer from '../helpers/Spacer';
 
-export default function ProfileContainer() {
+export default function ProfileContainer({ navigation }) {
   return (
     <View style={styles.wrapper}>
       <ScrollView style={styles.scrollView}>
@@ -21,7 +22,13 @@ export default function ProfileContainer() {
         />
         <Spacer padding={20} />
       </ScrollView>
-      <NewFuseButton />
+      <NewFuseButton navigation={navigation} />
     </View>
   );
 }
+
+ProfileContainer.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};

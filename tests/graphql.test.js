@@ -40,7 +40,7 @@ test('wrong password fails login', async () => {
   });
 });
 
-test('Invalid email fails login', async () => {
+test('invalid email fails login', async () => {
   await client.mutate({
     mutation: LOGIN_MUTATION,
     variables: { email: 'fake@fakemail.com', password: 'password' },
