@@ -122,6 +122,7 @@ export default function SignUp({ navigation }) {
   useEffect(() => {
     const confirmSignup = async () => {
       if (error) {
+        // eslint-disable-next-line no-console
         console.log(error);
       }
       if (data) await confirm(data);
