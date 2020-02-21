@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
   },
   buttonWrapper: {
     height: 30,
-    width: 120,
+    width: 40,
     borderRadius: 30,
     flex: 1,
     alignItems: 'center',
