@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 //  import { Text, View } from 'react-native';
 import {
   StyleSheet, View, Text, Image, Switch, ImageBackground,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import CupertinoButtonGrey from '../components/login/CupertinoButtonGrey';
-import MaterialUnderlineTextbox from '../components/login/MaterialUnderlineTextbox';
+import { useMutation } from '@apollo/react-hooks';
+import CupertinoButtonGrey from '../components/buttons/CupertinoButtonGrey';
+import MaterialUnderlineTextbox from '../components/fields/MaterialUnderlineTextbox';
+import { CREATE_EVENT_MUTATION } from '../graphql/GeneralQueries';
 /*  import Light from "../components/Light";
 import WhitePanel from "../components/WhitePanel";
 import MaterialFixedLabelTextbox3 from "../components/MaterialFixedLabelTextbox3";
@@ -91,6 +93,22 @@ const calendarIcon = require('../../src/assets/images/calendar.png');
 
 
 export default function NewFuse({ navigation }) {
+  const [eventName, setEventName] = useState('');
+
+  const [createEventMutation] = useMutation(CREATE_EVENT_MUTATION);
+
+  const createEvent = () => {
+    createEventMutation({
+      variables: {
+        title: eventName,
+      },
+    }).then(navigation.goBack())
+      .catch((err) => {
+      // eslint-disable-next-line no-console
+        console.log(err);
+      });
+  };
+
   return (
     <ImageBackground source={gradient} style={styles.trim}>
       <View style={styles.container}>
@@ -99,15 +117,16 @@ export default function NewFuse({ navigation }) {
           <Text style={styles.set}>SET</Text>
           <MaterialUnderlineTextbox
             style={styles.nameInput}
-            textInput1="Event Name"
+            placeholder="Event Name"
+            onChangeText={setEventName}
           />
           <MaterialUnderlineTextbox
             style={styles.nameInput}
-            textInput1="Event Description"
+            placeholder="Event Description"
           />
           <MaterialUnderlineTextbox
             style={styles.nameInput}
-            textInput1="Event Invite Group"
+            placeholder="Event Invite Group"
           />
           <View style={styles.switch}>
             <Text style={{ color: 'rgba(129,129,129,1)' }}>Send Notifications?</Text>
@@ -128,8 +147,9 @@ export default function NewFuse({ navigation }) {
             />
           </View>
           <CupertinoButtonGrey
-            text1="Submit"
+            text="Submit"
             style={styles.button}
+            onPress={createEvent}
           />
           <Image
             source={fuseLogo}

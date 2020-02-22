@@ -41,3 +41,11 @@ export const SIGNUP_MUTATION = gql`
         }
     }
 `;
+
+export const CREATE_EVENT_MUTATION = gql`
+    mutation createEvent($title: String!) {
+        createEvent(title: $title) {
+            id
+        }
+    }
+`;
