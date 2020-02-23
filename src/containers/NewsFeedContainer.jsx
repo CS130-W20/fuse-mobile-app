@@ -19,6 +19,7 @@ export default function ProfileContainer({ navigation }) {
           eventCreator="Chiara Mooney"
           description="Here is my event description. Wow this is so interesting. I am so excited about this. Let me try to make this longer."
           eventStage={0}
+          eventRelation={2}
         />
         <Spacer padding={20} />
       </ScrollView>
