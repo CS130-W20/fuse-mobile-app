@@ -8,9 +8,8 @@ const styles = StyleSheet.create({
   },
   buttonWrapper: {
     height: 30,
-    width: 40,
+    width: 130,
     borderRadius: 30,
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.buttongrey,
