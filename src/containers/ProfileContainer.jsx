@@ -10,6 +10,7 @@ import ProfileHeader from '../components/ProfileHeader';
 import NewFuseButton from '../components/NewFuseButton';
 import ViewToggle from '../components/ViewToggle';
 import Spacer from '../helpers/Spacer';
+import { mockAsyncWithData } from '../helpers/mock';
 
 import styles from './styles/ProfileContainerStyles';
 
@@ -17,6 +18,43 @@ const bio = 'Searching for my wife.\nI am accepting snakes and champagne stealer
 
 export default function ProfileContainer({ navigation }) {
   const [focusedView, setFocusedView] = useState(0);
+
+  // TODO prop type should be user ID so that we can load the user here. An
+  // argument is to be made to just pass the container all the information it
+  // needs? And have the parent fetch the information? Probably not... I think
+  // this is self contained enough
+  const [profileData, setProfileData] = useState({
+    name: '',
+    bio: '',
+    score: 0,
+    friendCount: 0,
+    completedEventCount: 0,
+  });
+
+  const profileDataQueryParser = (queryResponse) => (
+    {
+      name: queryResponse.name,
+      bio: queryResponse.bio,
+      score: queryResponse.score,
+      friendCount: queryResponse.friendCount,
+      completedEventCount: queryResponse.completedEventCount,
+    }
+  );
+
+  // eslint-disable-next-line no-unused-vars
+  const getProfileData = async (profileId) => {
+    // make mock async call to get data associated with profile
+    const mockedProfileData = {
+      name: 'Peter Weber',
+      bio,
+      score: 420,
+      friendCount: 3,
+      completedEventCount: 69,
+    };
+    const data = await mockAsyncWithData(mockedProfileData, 3000);
+
+    setProfileData(profileDataQueryParser(data));
+  };
 
   // eslint-disable-next-line class-methods-use-this
   const getSetFusesView = () => {
@@ -89,15 +127,17 @@ export default function ProfileContainer({ navigation }) {
     }
   };
 
+  getProfileData('');
+
   return (
     <View style={styles.wrapper}>
       <ScrollView style={styles.scrollView}>
         <ProfileHeader
-          name="Peter Weber"
-          bio={bio}
-          score={6969}
-          friendCount={30}
-          completedEventCount={69}
+          name={profileData.name}
+          bio={profileData.bio}
+          score={profileData.score}
+          friendCount={profileData.friendCount}
+          completedEventCount={profileData.completedEventCount}
         />
         <Spacer padding={20} />
         <ViewToggle
