@@ -1,9 +1,10 @@
-import React, { PureComponent } from 'react';
+import React, { useState } from 'react';
 import {
   Text,
   View,
   ScrollView,
 } from 'react-native';
+import PropTypes from 'prop-types';
 
 import ProfileHeader from '../components/ProfileHeader';
 import NewFuseButton from '../components/NewFuseButton';
@@ -14,17 +15,11 @@ import styles from './styles/ProfileContainerStyles';
 
 const bio = 'Searching for my wife.\nI am accepting snakes and champagne stealers only.\nWill you accept this rose?';
 
-export default class ProfileContainer extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      focusedView: 0,
-    };
-  }
+export default function ProfileContainer({ navigation }) {
+  const [focusedView, setFocusedView] = useState(0);
 
   // eslint-disable-next-line class-methods-use-this
-  getSetFusesView() {
+  const getSetFusesView = () => {
     const mockEventTiles = [];
     const numMockEventTiles = 10;
     for (let i = 0; i < numMockEventTiles; i += 1) {
@@ -39,10 +34,10 @@ export default class ProfileContainer extends PureComponent {
     }
 
     return mockEventTiles;
-  }
+  };
 
   // eslint-disable-next-line class-methods-use-this
-  getLitFusesView() {
+  const getLitFusesView = () => {
     const mockEventTiles = [];
     const numMockEventTiles = 10;
     for (let i = 0; i < numMockEventTiles; i += 1) {
@@ -57,10 +52,10 @@ export default class ProfileContainer extends PureComponent {
     }
 
     return mockEventTiles;
-  }
+  };
 
   // eslint-disable-next-line class-methods-use-this
-  getCompletedFusesView() {
+  const getCompletedFusesView = () => {
     const mockEventTiles = [];
     const numMockEventTiles = 10;
     for (let i = 0; i < numMockEventTiles; i += 1) {
@@ -75,51 +70,50 @@ export default class ProfileContainer extends PureComponent {
     }
 
     return mockEventTiles;
-  }
+  };
 
-  viewToggler(selectedViewNum) {
-    this.setState({ focusedView: selectedViewNum });
-  }
-
-  showToggledView() {
-    const { focusedView } = this.state;
-
+  const showToggledView = () => {
     switch (focusedView) {
       case 0: {
-        return this.getSetFusesView();
+        return getSetFusesView();
       }
       case 1: {
-        return this.getLitFusesView();
+        return getLitFusesView();
       }
       case 2: {
-        return this.getCompletedFusesView();
+        return getCompletedFusesView();
       }
       default: {
         return (<View />);
       }
     }
-  }
+  };
 
-  render() {
-    return (
-      <View style={styles.wrapper}>
-        <ScrollView style={styles.scrollView}>
-          <ProfileHeader
-            name="Peter Weber"
-            bio={bio}
-            score={6969}
-            friendCount={30}
-            completedEventCount={69}
-          />
-          <Spacer padding={20} />
-          <ViewToggle
-            viewToggler={(viewFocused) => this.viewToggler(viewFocused)}
-          />
-          <Spacer padding={5} />
-          {this.showToggledView()}
-        </ScrollView>
-        <NewFuseButton />
-      </View>
-    );
-  }
+  return (
+    <View style={styles.wrapper}>
+      <ScrollView style={styles.scrollView}>
+        <ProfileHeader
+          name="Peter Weber"
+          bio={bio}
+          score={6969}
+          friendCount={30}
+          completedEventCount={69}
+        />
+        <Spacer padding={20} />
+        <ViewToggle
+          viewToggler={setFocusedView}
+        />
+        <Spacer padding={5} />
+        {showToggledView()}
+      </ScrollView>
+      <NewFuseButton navigation={navigation} />
+    </View>
+  );
 }
+
+ProfileContainer.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired,
+  }).isRequired,
+};
