@@ -1,10 +1,13 @@
-import React, { PureComponent } from 'react';
+import React, { useState } from 'react';
 //  import { Text, View } from 'react-native';
 import {
   StyleSheet, View, Text, Image, Switch, ImageBackground,
 } from 'react-native';
-import CupertinoButtonGrey from '../components/login/CupertinoButtonGrey';
-import MaterialUnderlineTextbox from '../components/login/MaterialUnderlineTextbox';
+import PropTypes from 'prop-types';
+import { useMutation } from '@apollo/react-hooks';
+import CupertinoButtonGrey from '../components/buttons/CupertinoButtonGrey';
+import MaterialUnderlineTextbox from '../components/fields/MaterialUnderlineTextbox';
+import { CREATE_EVENT_MUTATION } from '../graphql/GeneralQueries';
 /*  import Light from "../components/Light";
 import WhitePanel from "../components/WhitePanel";
 import MaterialFixedLabelTextbox3 from "../components/MaterialFixedLabelTextbox3";
@@ -89,56 +92,80 @@ const fuseLogo = require('../../src/assets/images/logo-fuse1.png');
 const calendarIcon = require('../../src/assets/images/calendar.png');
 
 
-export default class NewFuse extends PureComponent {
-  render() {
-    return (
-      <ImageBackground source={gradient} style={styles.trim}>
+export default function NewFuse({ navigation }) {
+  const [eventName, setEventName] = useState('');
+
+  const [createEventMutation] = useMutation(CREATE_EVENT_MUTATION);
+
+  const createEvent = () => {
+    createEventMutation({
+      variables: {
+        title: eventName,
+      },
+    }).then(navigation.goBack())
+      .catch((err) => {
+      // eslint-disable-next-line no-console
+        console.log(err);
+      });
+  };
+
+  return (
+    <ImageBackground source={gradient} style={styles.trim}>
+      <View style={styles.container}>
         <View style={styles.container}>
-          <View style={styles.container}>
-            <Text style={styles.loremIpsum}>&lt;</Text>
-            <Text style={styles.set}>SET</Text>
-            <MaterialUnderlineTextbox
-              style={styles.nameInput}
-              textInput1="Event Name"
-            />
-            <MaterialUnderlineTextbox
-              style={styles.nameInput}
-              textInput1="Event Description"
-            />
-            <MaterialUnderlineTextbox
-              style={styles.nameInput}
-              textInput1="Event Invite Group"
-            />
-            <View style={styles.switch}>
-              <Text style={{ color: 'rgba(129,129,129,1)' }}>Send Notifications?</Text>
-              <Switch
-                disabled={false}
-                trackColor={{ true: 'rgba(230, 230, 230,1)' }}
-              />
-            </View>
-            <View style={styles.deadline}>
-              <Image
-                source={calendarIcon}
-                resizeMode="contain"
-                style={{ width: 40, height: 40 }}
-              />
-              <MaterialUnderlineTextbox
-                textInput1="Event Deadline"
-                style={{ left: 30, width: 250 }}
-              />
-            </View>
-            <CupertinoButtonGrey
-              text1="Submit"
-              style={styles.button}
-            />
-            <Image
-              source={fuseLogo}
-              resizeMode="contain"
-              style={styles.image}
+          <Text style={styles.loremIpsum} onPress={navigation.goBack}>&lt;</Text>
+          <Text style={styles.set}>SET</Text>
+          <MaterialUnderlineTextbox
+            style={styles.nameInput}
+            placeholder="Event Name"
+            onChangeText={setEventName}
+          />
+          <MaterialUnderlineTextbox
+            style={styles.nameInput}
+            placeholder="Event Description"
+          />
+          <MaterialUnderlineTextbox
+            style={styles.nameInput}
+            placeholder="Event Invite Group"
+          />
+          <View style={styles.switch}>
+            <Text style={{ color: 'rgba(129,129,129,1)' }}>Send Notifications?</Text>
+            <Switch
+              disabled={false}
+              trackColor={{ true: 'rgba(230, 230, 230,1)' }}
             />
           </View>
+          <View style={styles.deadline}>
+            <Image
+              source={calendarIcon}
+              resizeMode="contain"
+              style={{ width: 40, height: 40 }}
+            />
+            <MaterialUnderlineTextbox
+              textInput1="Event Deadline"
+              style={{ left: 30, width: 250 }}
+            />
+          </View>
+          <CupertinoButtonGrey
+            text="Submit"
+            style={styles.button}
+            onPress={createEvent}
+          />
+          <Image
+            source={fuseLogo}
+            resizeMode="contain"
+            style={styles.image}
+          />
+
         </View>
-      </ImageBackground>
-    );
-  }
+      </View>
+    </ImageBackground>
+  );
 }
+
+NewFuse.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired,
+  }).isRequired,
+};

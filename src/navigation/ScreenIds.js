@@ -7,6 +7,7 @@ const screenIds = {
   login: 'Login',
   appTabNavigator: 'AppTabNavigator',
   signUp: 'SignUp',
+  newFuse: 'NewFuse',
 };
 
 export default screenIds;
