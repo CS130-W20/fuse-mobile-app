@@ -41,7 +41,6 @@ export default function ProfileContainer({ navigation }) {
       completedEventCount: queryResponse.completedEventCount,
     }
   );
-
   const fuseQueryParser = (queryResponse) => (
     queryResponse.map((fuse) => (
       {
