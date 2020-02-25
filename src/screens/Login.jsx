@@ -7,7 +7,7 @@ import { useMutation } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
 import Logo from '../components/login/Logo';
 import MaterialUnderlineTextbox from '../components/fields/MaterialUnderlineTextbox';
-import CupertinoButtonInfo from '../components/login/CupertinoButtonInfo';
+import loginFB from '../components/login/FbLogin';
 import CupertinoButtonGrey from '../components/buttons/CupertinoButtonGrey';
 import { AUTH_TOKEN, EMAIL, NAME } from '../constants';
 import screenIds from '../navigation/ScreenIds';
@@ -96,6 +96,11 @@ const updateCache = (cache, { data: { login } }) => {
   });
 };
 
+const loginFBAndSaveToken = async () => {
+  loginFB()
+    .then((token) => AsyncStorage.setItem(AUTH_TOKEN, token));
+};
+
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -144,9 +149,10 @@ export default function Login({ navigation }) {
       />
 
       <View style={styles.cupertinoButtonInfoStack}>
-        <CupertinoButtonInfo
-          text1="login with facebook"
+        <CupertinoButtonGrey
+          text="login with facebook"
           style={styles.cupertinoButtonInfo}
+          onPress={loginFBAndSaveToken}
         />
         <Text
           style={styles.materialUnderlineTextbox3}

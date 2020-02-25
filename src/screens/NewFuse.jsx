@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-//  import { Text, View } from 'react-native';
 import {
   StyleSheet, View, Text, Image, Switch, ImageBackground,
 } from 'react-native';
@@ -8,11 +7,6 @@ import { useMutation } from '@apollo/react-hooks';
 import CupertinoButtonGrey from '../components/buttons/CupertinoButtonGrey';
 import MaterialUnderlineTextbox from '../components/fields/MaterialUnderlineTextbox';
 import { CREATE_EVENT_MUTATION } from '../graphql/GeneralQueries';
-/*  import Light from "../components/Light";
-import WhitePanel from "../components/WhitePanel";
-import MaterialFixedLabelTextbox3 from "../components/MaterialFixedLabelTextbox3";
-import MaterialIconTextbox from "../components/MaterialIconTextbox";
-*/
 
 const gradient = require('../../src/assets/images/Gradient_LIswryi.png');
 

@@ -46,7 +46,7 @@ export default function App() {
   useEffect(() => {
     const setup = async () => {
       // uncomment the line below to simulate entering the app from a logged out state
-      // await AsyncStorage.clear();
+      await AsyncStorage.clear();
     };
     setup();
   }, []);
