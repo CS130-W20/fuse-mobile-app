@@ -16,7 +16,6 @@ const completedOmbre = require('../assets/images/completeombre.png');
 const sampleImage = require('../assets/peter.png');
 
 
-
 export default class EventTile extends PureComponent {
   showButtons() {
     let button1 = '';
