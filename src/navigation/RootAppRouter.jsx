@@ -10,6 +10,7 @@ import { AppTabNavigator } from './AppTabNavigator';
 import screenIds from './ScreenIds';
 import { USER_QUERY } from '../graphql/GeneralQueries';
 import SignUp from '../screens/Signup';
+import NewFuse from '../screens/NewFuse';
 
 const rootStackOptions = {
   headerShown: false,
@@ -40,6 +41,7 @@ export default function RootAppRouter() {
           <>
             {/* Screens only accessible when logged in */}
             <rootStack.Screen name={screenIds.appTabNavigator} component={AppTabNavigator} />
+            <rootStack.Screen name={screenIds.newFuse} component={NewFuse} />
           </>
         )}
       </rootStack.Navigator>
