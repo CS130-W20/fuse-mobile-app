@@ -46,15 +46,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     color: 'grey',
   },
-  materialUnderlineTextbox4: {
-    top: 70,
-    left: 0,
-    width: 280,
-    height: 45,
-    position: 'absolute',
-    textAlign: 'center',
-    color: 'grey',
-  },
   cupertinoButtonInfoStack: {
     width: 280,
     height: 80,
@@ -99,32 +90,16 @@ const updateCache = (cache, { data: { login } }) => {
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [invalidEmailPasswordCombo, setInvalidEmailPasswordCombo] = useState(false);
 
-  const [loginMutation, { data, error }] = useMutation(LOGIN_MUTATION);
+  const [loginMutation, loginResult] = useMutation(LOGIN_MUTATION);
 
   useEffect(() => {
     const confirmLogin = async () => {
-      if (error) {
-        if (error.message.startsWith('GraphQL error: Email is not associated with a user')
-            || error.message.startsWith('GraphQL error: Invalid password')) {
-          setInvalidEmailPasswordCombo(true);
-        }
-      }
-      if (data) await confirm(data);
+      const loginData = loginResult.data;
+      if (loginData) await confirm(loginData);
     };
     confirmLogin();
-  }, [data, error]);
-
-  const attemptLogin = () => {
-    loginMutation({
-      variables: { email, password },
-      update: updateCache,
-    }).catch((err) => {
-      // eslint-disable-next-line no-console
-      console.log(err);
-    });
-  };
+  }, [loginResult]);
 
   return (
     <View style={styles.container}>
@@ -132,7 +107,7 @@ export default function Login({ navigation }) {
         placeholder="Email"
         textContentType="emailAddress"
         style={styles.materialUnderlineTextbox1}
-        onChangeText={(text) => { setInvalidEmailPasswordCombo(false); setEmail(text); }}
+        onChangeText={(text) => setEmail(text)}
       />
 
       <MaterialUnderlineTextbox
@@ -140,7 +115,7 @@ export default function Login({ navigation }) {
         textContentType="password"
         style={styles.materialUnderlineTextbox2}
         secureTextEntry
-        onChangeText={(text) => { setInvalidEmailPasswordCombo(false); setPassword(text); }}
+        onChangeText={(text) => setPassword(text)}
       />
 
       <View style={styles.cupertinoButtonInfoStack}>
@@ -156,18 +131,6 @@ export default function Login({ navigation }) {
           dont have an account?
 
         </Text>
-        {
-          invalidEmailPasswordCombo
-          && (
-          <Text
-            style={styles.materialUnderlineTextbox4}
-            // eslint-disable-next-line no-console
-            onPress={() => navigation.navigate(screenIds.signUp)}
-          >
-            Invalid email/password combo
-          </Text>
-          )
-        }
       </View>
 
       <Logo style={styles.logo} />
@@ -175,7 +138,12 @@ export default function Login({ navigation }) {
       <CupertinoButtonGrey
         text="login"
         style={styles.cupertinoButtonGrey1}
-        onPress={attemptLogin}
+        onPress={() => {
+          loginMutation({
+            variables: { email, password },
+            update: updateCache,
+          });
+        }}
       />
     </View>
   );

@@ -2,10 +2,8 @@ import React from 'react';
 import {
   View, StyleSheet, Text, Dimensions, Image,
 } from 'react-native';
-import PropTypes from 'prop-types';
 import MaterialUnderlineTextbox from '../components/fields/MaterialUnderlineTextbox';
 import CupertinoButtonGrey from '../components/buttons/CupertinoButtonGrey';
-import screenIds from '../navigation/ScreenIds';
 
 const styles = StyleSheet.create({
   container: {
@@ -66,20 +64,13 @@ const styles = StyleSheet.create({
     marginTop: 24,
     alignSelf: 'center',
   },
-  cupertinoButtonInfo: {
-    width: 183,
-    height: 41,
-    backgroundColor: 'rgba(213,204,204,1)',
-    marginTop: 24,
-    alignSelf: 'center',
-  },
 });
 
 const sampleImage = require('../../src/assets/images/logo-fuse1.png');
 
-// TODO: make the "back" button to go back to login prettier
+// TODO: add a "back" button to go back to login
 
-export default function SignUp({ navigation }) {
+export default function SignUp() {
   return (
     <View style={styles.container}>
       <View style={styles.image1Stack}>
@@ -110,18 +101,7 @@ export default function SignUp({ navigation }) {
         text="create"
         style={styles.cupertinoButtonGrey1}
       />
-      <CupertinoButtonGrey
-        text="back"
-        style={styles.cupertinoButtonInfo}
-        onPress={() => navigation.navigate(screenIds.login)}
-      />
 
     </View>
   );
 }
-
-SignUp.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired,
-  }).isRequired,
-};
