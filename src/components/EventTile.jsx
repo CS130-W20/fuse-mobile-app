@@ -6,6 +6,7 @@ import {
   Image,
 } from 'react-native';
 import { PropTypes } from 'prop-types';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Spacer from '../helpers/Spacer';
 import styles from './styles/EventTileStyles';
 import FuseTileButton from './FuseTileButton';
@@ -14,8 +15,6 @@ const litOmbre = require('../assets/images/litombre.png');
 const setOmbre = require('../assets/images/setombre.png');
 const completedOmbre = require('../assets/images/completeombre.png');
 const sampleImage = require('../assets/peter.png');
-
-
 
 export default class EventTile extends PureComponent {
   showButtons() {
@@ -173,9 +172,9 @@ export default class EventTile extends PureComponent {
       eventRelation, // 0: creator, 1: joined, 2: invited, 3: unaffiliated
     } = this.props;
     return (
-      <View style={styles.outerTile}>
+      <TouchableOpacity style={styles.outerTile}>
         {this.showTile()}
-      </View>
+      </TouchableOpacity>
     );
   }
 }
