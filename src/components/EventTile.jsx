@@ -167,8 +167,6 @@ export default class EventTile extends PureComponent {
       // eslint-disable-next-line no-unused-vars
       eventStage, // 0: lit, 1: set, 2: complete
       // eslint-disable-next-line no-unused-vars
-      eventView, // 0: newsfeed, 1: explore, 2: notifications, 3: profile
-      // eslint-disable-next-line no-unused-vars
       eventRelation, // 0: creator, 1: joined, 2: invited, 3: unaffiliated
     } = this.props;
     return (
@@ -184,6 +182,5 @@ EventTile.propTypes = {
   eventCreator: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   eventStage: PropTypes.number.isRequired,
-  eventView: PropTypes.number.isRequired,
   eventRelation: PropTypes.number.isRequired,
 };
