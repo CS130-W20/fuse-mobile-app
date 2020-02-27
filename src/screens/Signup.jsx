@@ -1,10 +1,14 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  View, StyleSheet, Text, Dimensions, Image,
+  View, StyleSheet, Text, Dimensions, Image, AsyncStorage,
 } from 'react-native';
-
-import MaterialUnderlineTextbox from '../components/signup/MaterialUnderlineTextbox';
-import CupertinoButtonGrey from '../components/signup/CupertinoButtonGrey';
+import PropTypes from 'prop-types';
+import { useMutation } from '@apollo/react-hooks';
+import MaterialUnderlineTextbox from '../components/fields/MaterialUnderlineTextbox';
+import CupertinoButtonGrey from '../components/buttons/CupertinoButtonGrey';
+import screenIds from '../navigation/ScreenIds';
+import { SIGNUP_MUTATION, USER_QUERY } from '../graphql/GeneralQueries';
+import { AUTH_TOKEN, EMAIL, NAME } from '../constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -62,83 +66,116 @@ const styles = StyleSheet.create({
     width: 183,
     height: 41,
     backgroundColor: 'rgba(237,92,69,1)',
+    marginTop: 171 + 24,
+    alignSelf: 'center',
+  },
+  cupertinoButtonInfo: {
+    width: 183,
+    height: 41,
+    backgroundColor: 'rgba(213,204,204,1)',
     marginTop: 24,
     alignSelf: 'center',
   },
 });
 
+const saveUserData = async ({ token, name, email }) => {
+  await AsyncStorage.setItem(AUTH_TOKEN, token);
+  await AsyncStorage.setItem(NAME, name);
+  await AsyncStorage.setItem(EMAIL, email);
+};
+
+const confirm = async ({ signup }) => {
+  const { token, user } = signup;
+  const { name, email } = user;
+  await saveUserData({ token, name, email });
+};
+
+const updateCache = (cache, { data: { signup } }) => {
+  const { token, user } = signup;
+  cache.writeQuery({
+    query: USER_QUERY,
+    data: { user, token },
+  });
+};
+
 const sampleImage = require('../../src/assets/images/logo-fuse1.png');
 
-export default class App extends Component {
-  constructor(props) {
-    super(props);
+// TODO: make the "back" button to go back to login prettier
 
-    this.state = {
-      // username: '',
-      // email: '',
-      // password: '',
+export default function SignUp({ navigation }) {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [signupMutation, { data, error }] = useMutation(SIGNUP_MUTATION);
+
+  const attemptSignup = () => {
+    signupMutation({
+      variables: { email, password, name },
+      update: updateCache,
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+    });
+  };
+
+  useEffect(() => {
+    const confirmSignup = async () => {
+      if (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      }
+      if (data) await confirm(data);
     };
-  }
+    confirmSignup();
+  }, [data, error]);
 
-  // onSignup() {
-  //   const { username, password } = this.state;
-  //   console.log('username:', this.state.username, 'email:', this.state.email,
-  //     'password:', this.state.password);
-  // }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.image1Stack}>
-          <Image
-            source={sampleImage}
-            resizeMode="contain"
-            style={styles.image1}
-          />
-          <Text style={styles.fuse1}>FUSE</Text>
-        </View>
-        <MaterialUnderlineTextbox
-          textInput1="Username"
-          style={styles.materialUnderlineTextbox1}
+  return (
+    <View style={styles.container}>
+      <View style={styles.image1Stack}>
+        <Image
+          source={sampleImage}
+          resizeMode="contain"
+          style={styles.image1}
         />
-        <MaterialUnderlineTextbox
-          textInput1="Password"
-          style={styles.materialUnderlineTextbox2}
-        />
-        <MaterialUnderlineTextbox
-          textInput1="Email"
-          style={styles.materialUnderlineTextbox3}
-        />
-        <MaterialUnderlineTextbox
-          textInput1="Confirm Password"
-          style={styles.materialUnderlineTextbox4}
-        />
-        <CupertinoButtonGrey
-          text1="create"
-          style={styles.cupertinoButtonGrey1}
-        />
-        {/*
-        <TextInput
-            value={this.state.username}
-            onChangeText={(username) => this.setState({ username })}
-            placeholder={'Username'}
-            style={styles.input}
-        />
-        <TextInput
-            value={this.state.password}
-            onChangeText={(password) => this.setState({ password })}
-            placeholder={'Password'}
-            secureTextEntry={true}
-            style={styles.input}
-        />
-
-        <Button
-            title={'Login'}
-            style={styles.input}
-            onPress={this.onLogin.bind(this)
-        }
-        /> */}
+        <Text style={styles.fuse1}>FUSE</Text>
       </View>
-    );
-  }
+      <MaterialUnderlineTextbox
+        placeholder="Name"
+        style={styles.materialUnderlineTextbox1}
+        onChangeText={setName}
+        textContentType="name"
+      />
+      <MaterialUnderlineTextbox
+        placeholder="Password"
+        style={styles.materialUnderlineTextbox2}
+        secureTextEntry
+        textContentType="newPassword"
+        onChangeText={setPassword}
+      />
+      <MaterialUnderlineTextbox
+        placeholder="Email"
+        style={styles.materialUnderlineTextbox3}
+        textContentType="emailAddress"
+        onChangeText={setEmail}
+      />
+      <CupertinoButtonGrey
+        text="create"
+        style={styles.cupertinoButtonGrey1}
+        onPress={attemptSignup}
+      />
+      <CupertinoButtonGrey
+        text="back"
+        style={styles.cupertinoButtonInfo}
+        onPress={() => navigation.navigate(screenIds.login)}
+      />
+
+    </View>
+  );
 }
+
+SignUp.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};
