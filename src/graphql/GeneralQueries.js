@@ -17,8 +17,8 @@ export const USER_QUERY = gql`
 `;
 
 export const LOGIN_MUTATION = gql`
-    mutation login($email: String!, $password: String!) {
-        login(email: $email, password: $password) {
+    mutation login($email: String, $password: String, $fbToken: String) {
+        login(email: $email, password: $password, fbToken: $fbToken) {
             token
             user {
                 id

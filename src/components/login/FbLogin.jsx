@@ -11,17 +11,18 @@ export default async function loginFB() {
       // permissions,
       // declinedPermissions,
     } = await Facebook.logInWithReadPermissionsAsync({
-      permissions: ['public_profile'],
+      permissions: ['public_profile', 'email'],
     });
     if (type === 'success') {
       // Get the user's name using Facebook's Graph API
       const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+      // eslint-disable-next-line no-console
       console.log('Logged in!', `Hi ${(await response.json()).name}!`);
     } else {
       // type === 'cancel'
     }
   } catch ({ message }) {
-    // eslint-disable-next-line no-alert
+    // eslint-disable-next-line no-alert,no-console
     console.log(`Facebook Login Error: ${message}`);
   }
 }

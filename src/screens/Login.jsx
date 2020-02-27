@@ -96,14 +96,9 @@ const updateCache = (cache, { data: { login } }) => {
   });
 };
 
-const loginFBAndSaveToken = async () => {
-  loginFB()
-    .then((token) => AsyncStorage.setItem(AUTH_TOKEN, token));
-};
-
 export default function Login({ navigation }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
   const [invalidEmailPasswordCombo, setInvalidEmailPasswordCombo] = useState(false);
 
   const [loginMutation, { data, error }] = useMutation(LOGIN_MUTATION);
@@ -121,14 +116,19 @@ export default function Login({ navigation }) {
     confirmLogin();
   }, [data, error]);
 
-  const attemptLogin = () => {
+  const attemptLogin = (fbToken) => {
     loginMutation({
-      variables: { email, password },
+      variables: { email, password, fbToken },
       update: updateCache,
     }).catch((err) => {
       // eslint-disable-next-line no-console
       console.log(err);
     });
+  };
+
+  const loginFBAndSaveToken = async () => {
+    loginFB()
+      .then(async (token) => attemptLogin(token));
   };
 
   return (
