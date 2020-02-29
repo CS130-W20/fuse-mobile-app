@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
     height: 50,
     flexDirection: 'row',
     flex: 2,
+    justifyContent: 'space-evenly',
   },
   innterTile: {
     display: 'flex',

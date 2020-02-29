@@ -81,9 +81,10 @@ const createNavigationStacks = () => {
 
     // TODO we need a better way for people to customize their headers if they need to
     const screenOptions = {};
-    screenOptions.headerTitle = screen.customHeaderTitle != null
-      ? screen.customHeaderTitle
-      : 'fuse';
+    screenOptions.headerTitle = screen.customHeaderTitle || 'fuse';
+    // screenOptions.headerTitle = screen.customHeaderTitle != null
+    //   ? screen.customHeaderTitle
+    //   : 'fuse';
 
     const screenComponent = (
       <TargetStack.Screen
