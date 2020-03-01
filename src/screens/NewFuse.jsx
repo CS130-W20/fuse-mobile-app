@@ -78,12 +78,20 @@ const styles = StyleSheet.create({
     height: 50,
     position: 'relative',
   },
-  button: {
+  submit: {
     width: '75%',
     height: 50,
     bottom: 0,
     position: 'absolute',
     alignSelf: 'center',
+    backgroundColor: '#ed5c45',
+  },
+  edit: {
+    width: '25%',
+    height: 50,
+    top: 10,
+    position: 'absolute',
+    alignSelf: 'flex-end',
     backgroundColor: '#ed5c45',
   },
 });
@@ -93,6 +101,11 @@ const calendarIcon = require('../../src/assets/images/calendar.png');
 
 
 export default function NewFuse({ navigation }) {
+  // let isSet = false;
+  const [isSet, updateSet] = useState(false);
+
+  const [isEditing, updateEditing] = useState(true);
+
   const [eventName, setEventName] = useState('');
 
   const [createEventMutation] = useMutation(CREATE_EVENT_MUTATION);
@@ -102,11 +115,45 @@ export default function NewFuse({ navigation }) {
       variables: {
         title: eventName,
       },
-    }).then(navigation.goBack())
+    }).then(updateEditing(false)).then(updateSet(true));
+    /* .then(navigation.goBack())
       .catch((err) => {
       // eslint-disable-next-line no-console
         console.log(err);
-      });
+      }); */
+  };
+
+  const submissionButton = () => {
+    const b = (isSet
+      ? (
+        <View>
+          <CupertinoButtonGrey
+            text="Save"
+            style={styles.submit}
+            onPress={() => updateEditing(false)}
+          />
+          <Image
+            source={fuseLogo}
+            resizeMode="contain"
+            style={styles.image}
+          />
+        </View>
+      ) : (
+        <View>
+          <CupertinoButtonGrey
+            text="Submit"
+            style={styles.submit}
+            onPress={createEvent}
+          />
+          <Image
+            source={fuseLogo}
+            resizeMode="contain"
+            style={styles.image}
+          />
+        </View>
+      )
+    );
+    return b;
   };
 
   return (
@@ -119,14 +166,17 @@ export default function NewFuse({ navigation }) {
             style={styles.nameInput}
             placeholder="Event Name"
             onChangeText={setEventName}
+            editable={isEditing}
           />
           <MaterialUnderlineTextbox
             style={styles.nameInput}
             placeholder="Event Description"
+            editable={isEditing}
           />
           <MaterialUnderlineTextbox
             style={styles.nameInput}
             placeholder="Event Invite Group"
+            editable={isEditing}
           />
           <View style={styles.switch}>
             <Text style={{ color: 'rgba(129,129,129,1)' }}>Send Notifications?</Text>
@@ -142,21 +192,22 @@ export default function NewFuse({ navigation }) {
               style={{ width: 40, height: 40 }}
             />
             <MaterialUnderlineTextbox
-              textInput1="Event Deadline"
+              placeholder="Event Deadline"
               style={{ left: 30, width: 250 }}
+              editable={isEditing}
             />
           </View>
-          <CupertinoButtonGrey
-            text="Submit"
-            style={styles.button}
-            onPress={createEvent}
-          />
-          <Image
-            source={fuseLogo}
-            resizeMode="contain"
-            style={styles.image}
-          />
-
+          {
+            isEditing ? (
+              submissionButton()
+            ) : (
+              <CupertinoButtonGrey
+                text="Edit"
+                style={styles.edit}
+                onPress={() => updateEditing(true)}
+              />
+            )
+          }
         </View>
       </View>
     </ImageBackground>
