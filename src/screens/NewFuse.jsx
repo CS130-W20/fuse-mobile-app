@@ -133,10 +133,10 @@ export default function NewFuse({ navigation }) {
             onPress={() => updateEditing(false)}
           />
           <Image
-              source={fuseLogo}
-              resizeMode="contain"
-              style={styles.image}
-            />
+            source={fuseLogo}
+            resizeMode="contain"
+            style={styles.image}
+          />
         </View>
       ) : (
         <View>

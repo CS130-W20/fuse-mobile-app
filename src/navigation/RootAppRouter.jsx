@@ -20,11 +20,13 @@ const rootStackOptions = {
 export default function RootAppRouter() {
   const rootStack = createStackNavigator();
 
+  // eslint-disable-next-line no-unused-vars
   const { data, loading, error } = useQuery(USER_QUERY);
 
   // TODO: replace with our own loading screen?
   if (loading) return <AppLoading />;
-  const user = error ? null : data.user;
+  // const user = error ? null : data.user;
+  const user = '';
 
   return (
     <NavigationContainer>

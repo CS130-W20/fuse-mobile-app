@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 });
 
 function MaterialUnderlineTextbox({
-  style, placeholder, onChangeText, secureTextEntry, textContentType, editable
+  style, placeholder, onChangeText, secureTextEntry, textContentType, editable,
 }) {
   return (
     <View style={[styles.container, style]}>
