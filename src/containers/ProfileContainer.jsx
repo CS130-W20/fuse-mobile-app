@@ -65,21 +65,16 @@ export default function ProfileContainer({ navigation }) {
 
     parsedFuseData.forEach((fuse) => {
       // TODO eventually transition to using enum for fuse states
-      const newFuse = fuse;
-
       switch (fuse.status) {
         case 'SET':
-          newFuse.status = 0;
-          setFuses.push(newFuse);
+          setFuses.push(fuse);
           break;
         case 'LIT': {
-          newFuse.status = 1;
-          litFuses.push(newFuse);
+          litFuses.push(fuse);
           break;
         }
         case 'COMPLETED': {
-          newFuse.status = 2;
-          completedFuses.push(newFuse);
+          completedFuses.push(fuse);
           break;
         }
         default:
@@ -97,6 +92,7 @@ export default function ProfileContainer({ navigation }) {
   const showToggledView = () => {
     let fuseListToShow;
 
+
     switch (focusedView) {
       case 0:
         fuseListToShow = profileFuses.set;
@@ -111,7 +107,7 @@ export default function ProfileContainer({ navigation }) {
     }
 
     if (fuseListToShow.length === 0) {
-      // TODO replace with text
+      // TODO replace text
       return (
         <Text>No fuses</Text>
       );
@@ -131,13 +127,11 @@ export default function ProfileContainer({ navigation }) {
   };
 
   useEffect(() => {
-    if (eventQueryLoading) {
-      return;
+    if (eventQueryData && !eventQueryLoading) {
+      getProfileData('');
+      getProfileFuses('');
     }
-
-    getProfileData('');
-    getProfileFuses('');
-  }, [eventQueryData]);
+  }, [eventQueryData, eventQueryLoading]);
 
   return (
     <View style={styles.wrapper}>
