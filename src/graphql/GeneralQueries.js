@@ -49,3 +49,31 @@ export const CREATE_EVENT_MUTATION = gql`
         }
     }
 `;
+
+export const USER_EVENTS_QUERY = gql`
+  query userQuery {
+    user {
+      id
+      events(association: [], status: [SET, COMPLETED, LIT]) {
+        id
+        title
+        description
+        owner {
+          id
+          name
+        }
+        status
+        invited {
+          id
+          name
+        }
+        joined {
+          id
+          name
+        }
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
