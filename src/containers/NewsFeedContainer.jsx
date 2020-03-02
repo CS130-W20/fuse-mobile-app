@@ -20,19 +20,6 @@ export default function ProfileContainer({ navigation }) {
     data: newsFeedQueryData,
   } = useQuery(NEWS_FEED_QUERY);
 
-  const eventStatusToInt = (status) => {
-    switch (status) {
-      case 'SET':
-        return 0;
-      case 'LIT':
-        return 1;
-      case 'COMPLETED':
-        return 2;
-      default:
-        return -1;
-    }
-  };
-
   const eventTilesToRender = () => {
     if (newsFeedQueryLoading) {
       return <Text>Loading</Text>;
@@ -47,7 +34,7 @@ export default function ProfileContainer({ navigation }) {
         eventName={event.title}
         eventCreator={event.owner.name}
         description={event.description}
-        eventStage={eventStatusToInt(event.status)}
+        eventStage={event.status}
         // TODO add appropriate relation, profile pic etc
         eventRelation={2}
         eventView={0}

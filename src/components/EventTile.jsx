@@ -9,6 +9,7 @@ import { PropTypes } from 'prop-types';
 import Spacer from '../helpers/Spacer';
 import styles from './styles/EventTileStyles';
 import FuseTileButton from './FuseTileButton';
+import { EVENTSTATUS } from '../constants';
 
 const litOmbre = require('../assets/images/litombre.png');
 const setOmbre = require('../assets/images/setombre.png');
@@ -24,7 +25,7 @@ export default class EventTile extends PureComponent {
     const { eventStage } = this.props;
     const { eventRelation } = this.props;
     switch (eventStage) {
-      case 0: // lit tiles
+      case EVENTSTATUS.set: // lit tiles
         switch (eventRelation) {
           case 0: // creator
             button1 = 'LIGHT';
@@ -55,7 +56,7 @@ export default class EventTile extends PureComponent {
           default:
             return (<View />);
         }
-      case 1: // set tiles
+      case EVENTSTATUS.lit: // set tiles
         switch (eventRelation) {
           case 0: // owner
           case 1: // joined
@@ -73,7 +74,7 @@ export default class EventTile extends PureComponent {
           default:
             return (<View />);
         }
-      case 2: // completed tiles
+      case EVENTSTATUS.completed: // completed tiles
         switch (eventRelation) {
           case 0: // owner
           case 1: // joined
@@ -133,19 +134,19 @@ export default class EventTile extends PureComponent {
   showTile() {
     const { eventStage } = this.props;
     switch (eventStage) {
-      case 0:
+      case EVENTSTATUS.set:
         return (
           <ImageBackground source={litOmbre} style={styles.backgroundOmbre} resizeMode="cover" borderRadius={18}>
             {this.showTileContents()}
           </ImageBackground>
         );
-      case 1:
+      case EVENTSTATUS.lit:
         return (
           <ImageBackground source={setOmbre} style={styles.backgroundOmbre} resizeMode="cover" borderRadius={18}>
             {this.showTileContents()}
           </ImageBackground>
         );
-      case 2:
+      case EVENTSTATUS.completed:
         return (
           <ImageBackground source={completedOmbre} style={styles.backgroundOmbre} resizeMode="cover" borderRadius={18}>
             {this.showTileContents()}
@@ -183,7 +184,7 @@ EventTile.propTypes = {
   eventName: PropTypes.string.isRequired,
   eventCreator: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  eventStage: PropTypes.number.isRequired,
+  eventStage: PropTypes.string.isRequired,
   eventView: PropTypes.number.isRequired,
   eventRelation: PropTypes.number.isRequired,
 };
