@@ -5,12 +5,14 @@ import {
   ScrollView,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import { useQuery } from '@apollo/react-hooks';
 
 import ProfileHeader from '../components/ProfileHeader';
 import NewFuseButton from '../components/NewFuseButton';
 import ViewToggle from '../components/ViewToggle';
 import Spacer from '../helpers/Spacer';
 import { mockAsyncWithData } from '../helpers/mock';
+import { USER_EVENTS_QUERY } from '../graphql/GeneralQueries';
 
 import styles from './styles/ProfileContainerStyles';
 import EventTile from '../components/EventTile';
@@ -32,6 +34,12 @@ export default function ProfileContainer({ navigation }) {
     completed: [],
   });
 
+  // TODO handle error
+  const {
+    data: eventQueryData,
+    loading: eventQueryLoading,
+  } = useQuery(USER_EVENTS_QUERY);
+
   const profileDataQueryParser = (queryResponse) => (
     {
       name: queryResponse.name,
@@ -41,16 +49,18 @@ export default function ProfileContainer({ navigation }) {
       completedEventCount: queryResponse.completedEventCount,
     }
   );
-  const fuseQueryParser = (queryResponse) => (
-    queryResponse.map((fuse) => (
+  const fuseQueryParser = (queryResponse) => {
+    const { events } = queryResponse.user;
+
+    return events.map((fuse) => (
       {
-        name: fuse.name,
-        owner: fuse.owner,
+        name: fuse.title,
+        owner: fuse.owner.name,
         description: fuse.description,
-        state: fuse.state,
+        state: fuse.status,
       }
-    ))
-  );
+    ));
+  };
 
   // eslint-disable-next-line no-unused-vars
   const getProfileData = async (profileId) => {
@@ -62,52 +72,57 @@ export default function ProfileContainer({ navigation }) {
       friendCount: 3,
       completedEventCount: 69,
     };
-    const data = await mockAsyncWithData(mockedProfileData, 1000);
+    const mockData = await mockAsyncWithData(mockedProfileData, 1000);
 
-    setProfileData(profileDataQueryParser(data));
+    setProfileData(profileDataQueryParser(mockData));
   };
 
   // eslint-disable-next-line no-unused-vars
   const getProfileFuses = async (profileId) => {
-    // TODO replace mock call with real query
-    const mockedProfileFuses = [
-      {
-        name: 'Party with Peter',
-        owner: 'Peter',
-        description: 'A party!',
-        state: 1,
-      },
-      {
-        name: 'Lit Party with Peter',
-        owner: 'Peter',
-        description: 'A lit party!',
-        state: 0,
-      },
-      {
-        name: 'Plane flight',
-        owner: 'Peter',
-        description: 'Zoom zoom',
-        state: 2,
-      },
-    ];
-    const fuseData = await mockAsyncWithData(mockedProfileFuses, 1000);
-    const parsedFuseData = fuseQueryParser(fuseData);
+    // const mockedProfileFuses = [
+    //   {
+    //     name: 'Party with Peter',
+    //     owner: 'Peter',
+    //     description: 'A party!',
+    //     state: 1,
+    //   },
+    //   {
+    //     name: 'Lit Party with Peter',
+    //     owner: 'Peter',
+    //     description: 'A lit party!',
+    //     state: 0,
+    //   },
+    //   {
+    //     name: 'Plane flight',
+    //     owner: 'Peter',
+    //     description: 'Zoom zoom',
+    //     state: 2,
+    //   },
+    // ];
+    // const fuseData = await mockAsyncWithData(mockedProfileFuses, 1000);
+    const parsedFuseData = fuseQueryParser(eventQueryData);
 
     const setFuses = [];
     const litFuses = [];
     const completedFuses = [];
 
     parsedFuseData.forEach((fuse) => {
+      // TODO eventually transition to using enum for fuse states
+      const newFuse = fuse;
+
       switch (fuse.state) {
-        case 0:
-          litFuses.push(fuse);
+        case 'SET':
+          newFuse.state = 0;
+          setFuses.push(newFuse);
           break;
-        case 1: {
-          setFuses.push(fuse);
+        case 'LIT': {
+          newFuse.state = 1;
+          litFuses.push(newFuse);
           break;
         }
-        case 2: {
-          completedFuses.push(fuse);
+        case 'COMPLETED': {
+          newFuse.state = 2;
+          completedFuses.push(newFuse);
           break;
         }
         default:
@@ -159,9 +174,13 @@ export default function ProfileContainer({ navigation }) {
   };
 
   useEffect(() => {
+    if (eventQueryLoading) {
+      return;
+    }
+
     getProfileData('');
     getProfileFuses('');
-  }, []);
+  }, [eventQueryData]);
 
   return (
     <View style={styles.wrapper}>
