@@ -40,28 +40,6 @@ export default function ProfileContainer({ navigation }) {
     loading: eventQueryLoading,
   } = useQuery(USER_EVENTS_QUERY);
 
-  const profileDataQueryParser = (queryResponse) => (
-    {
-      name: queryResponse.name,
-      bio: queryResponse.bio,
-      score: queryResponse.score,
-      friendCount: queryResponse.friendCount,
-      completedEventCount: queryResponse.completedEventCount,
-    }
-  );
-  const fuseQueryParser = (queryResponse) => {
-    const { events } = queryResponse.user;
-
-    return events.map((fuse) => (
-      {
-        name: fuse.title,
-        owner: fuse.owner.name,
-        description: fuse.description,
-        state: fuse.status,
-      }
-    ));
-  };
-
   // eslint-disable-next-line no-unused-vars
   const getProfileData = async (profileId) => {
     // TODO replace mock call with real query
@@ -74,33 +52,12 @@ export default function ProfileContainer({ navigation }) {
     };
     const mockData = await mockAsyncWithData(mockedProfileData, 1000);
 
-    setProfileData(profileDataQueryParser(mockData));
+    setProfileData(mockData);
   };
 
   // eslint-disable-next-line no-unused-vars
   const getProfileFuses = async (profileId) => {
-    // const mockedProfileFuses = [
-    //   {
-    //     name: 'Party with Peter',
-    //     owner: 'Peter',
-    //     description: 'A party!',
-    //     state: 1,
-    //   },
-    //   {
-    //     name: 'Lit Party with Peter',
-    //     owner: 'Peter',
-    //     description: 'A lit party!',
-    //     state: 0,
-    //   },
-    //   {
-    //     name: 'Plane flight',
-    //     owner: 'Peter',
-    //     description: 'Zoom zoom',
-    //     state: 2,
-    //   },
-    // ];
-    // const fuseData = await mockAsyncWithData(mockedProfileFuses, 1000);
-    const parsedFuseData = fuseQueryParser(eventQueryData);
+    const parsedFuseData = eventQueryData.user.events;
 
     const setFuses = [];
     const litFuses = [];
@@ -110,18 +67,18 @@ export default function ProfileContainer({ navigation }) {
       // TODO eventually transition to using enum for fuse states
       const newFuse = fuse;
 
-      switch (fuse.state) {
+      switch (fuse.status) {
         case 'SET':
-          newFuse.state = 0;
+          newFuse.status = 0;
           setFuses.push(newFuse);
           break;
         case 'LIT': {
-          newFuse.state = 1;
+          newFuse.status = 1;
           litFuses.push(newFuse);
           break;
         }
         case 'COMPLETED': {
-          newFuse.state = 2;
+          newFuse.status = 2;
           completedFuses.push(newFuse);
           break;
         }
@@ -162,13 +119,13 @@ export default function ProfileContainer({ navigation }) {
 
     return fuseListToShow.map((fuse) => (
       <EventTile
-        eventName={fuse.name}
-        eventCreator={fuse.owner}
+        eventName={fuse.title}
+        eventCreator={fuse.owner.name}
         description={fuse.description}
-        eventStage={fuse.state}
+        eventStage={fuse.status}
         eventView={0}
         eventRelation={0}
-        key={fuse.name}
+        key={fuse.title}
       />
     ));
   };
