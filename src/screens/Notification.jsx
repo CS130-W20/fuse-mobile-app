@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet, ScrollView, Text,
 } from 'react-native';
@@ -28,17 +28,6 @@ function Notifications() {
     notifications: [],
   });
 
-  const notificationDataParser = (query) => (
-    query.map((notification) => (
-      {
-        user: notification.user,
-        type: notification.notificationType,
-        userImage: notification.userImage,
-        eventImage: notification.notificationImage,
-      }
-    ))
-  );
-
   // eslint-disable-next-line no-unused-vars
   const getNotifications = async (userId) => {
     // backend query code to get notifications for user
@@ -48,22 +37,25 @@ function Notifications() {
         notificationType: notificationTypes.FOLLOWED,
         userImage: sampleUserImage,
         notificationImage: sampleNotificationImage,
+        id: '0',
       },
       {
         user: 'chiarabroo',
         notificationType: notificationTypes.JOINED,
         userImage: sampleUserImage,
         notificationImage: sampleNotificationImage,
+        id: '1',
       },
       {
         user: 'charles',
         notificationType: notificationTypes.LIT,
         userImage: sampleUserImage,
         notificationImage: sampleNotificationImage,
+        id: '2',
       },
     ];
 
-    const parsedNotifications = notificationDataParser(fakeNotifications);
+    const parsedNotifications = fakeNotifications;
     const notificationList = [];
 
     parsedNotifications.forEach((element) => {
@@ -75,9 +67,11 @@ function Notifications() {
     });
   };
 
-  const showNotifications = () => {
-    getNotifications('');
+  useEffect(() => {
+    getNotifications();
+  }, []);
 
+  const showNotifications = () => {
     const notificationList = notifications.notifications;
 
     if (notificationList.length === 0) {
@@ -92,6 +86,7 @@ function Notifications() {
         notificationType={notification.type}
         userImage={notification.userImage}
         notificationImage={notification.eventImage}
+        key={notification.id}
       />
     ));
   };
