@@ -77,3 +77,24 @@ export const USER_EVENTS_QUERY = gql`
     }
   }
 `;
+
+export const NEWS_FEED_QUERY = gql`
+  query newsFeed {
+    newsFeed {
+      id
+      title
+      description
+      status
+      owner {
+        id
+        name
+      }
+      invited {
+        id
+      }
+      joined {
+        id
+      }
+    }
+  }
+`;
