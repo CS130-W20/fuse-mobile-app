@@ -110,47 +110,56 @@ function RegularNotification({
       notificationText = 'is showing you the default notification';
       break;
   }
-  if (notificationType === 'followed' || notificationType === 'joined' || notificationType === 'lit' || notificationType === 'completed') {
-    return (
-      <View style={styles.container}>
-        <View style={styles.profileImageContainer}>
-          <Image source={userImage} style={styles.profileImage} />
+  switch (notificationType) {
+    case 'followed':
+    case 'joined':
+    case 'lit':
+    case 'completed':
+      return (
+        <View style={styles.container}>
+          <View style={styles.profileImageContainer}>
+            <Image source={userImage} style={styles.profileImage} />
+          </View>
+          <View style={styles.messageBox}>
+            <Text style={styles.message}>
+              <Text style={styles.user}>{user}</Text>
+              {' '}
+              {notificationText}
+            </Text>
+          </View>
+          <View style={styles.eventContainer}>
+            <Image source={notificationImage} style={styles.eventImage} />
+          </View>
         </View>
-        <View style={styles.messageBox}>
-          <Text style={styles.message}>
-            <Text style={styles.user}>{user}</Text>
-            {' '}
-            {notificationText}
-          </Text>
+      );
+    case 'friend':
+      return (
+        <View style={styles.container}>
+          <View style={styles.profileImageContainer}>
+            <Image source={notificationImage} style={styles.profileImage} />
+          </View>
+          <View style={styles.messageBox}>
+            <Text style={styles.message}>
+              <Text style={styles.user}>{user}</Text>
+              {' '}
+              {notificationText}
+            </Text>
+          </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.acceptButton}>
+              <Text style={styles.buttonText}>ACCEPT</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.rejectButton}>
+              <Text style={styles.buttonText}>REJECT</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={styles.eventContainer}>
-          <Image source={notificationImage} style={styles.eventImage} />
-        </View>
-      </View>
-    );
+      );
+    default:
+      return (
+        <Text>There are no notifications to display.</Text>
+      );
   }
-  return (
-    <View style={styles.container}>
-      <View style={styles.profileImageContainer}>
-        <Image source={notificationImage} style={styles.profileImage} />
-      </View>
-      <View style={styles.messageBox}>
-        <Text style={styles.message}>
-          <Text style={styles.user}>{user}</Text>
-          {' '}
-          {notificationText}
-        </Text>
-      </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.acceptButton}>
-          <Text style={styles.buttonText}>ACCEPT</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.rejectButton}>
-          <Text style={styles.buttonText}>REJECT</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
 }
 
 RegularNotification.propTypes = {
