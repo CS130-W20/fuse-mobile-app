@@ -18,6 +18,7 @@ const notificationTypes = {
   JOINED: 'joined',
   LIT: 'lit',
   COMPLETED: 'completed',
+  FRIEND: 'friend',
 };
 
 const sampleUserImage = require('../assets/peter.png');
@@ -34,23 +35,23 @@ function Notifications() {
     const fakeNotifications = [
       {
         user: 'ryan',
-        notificationType: notificationTypes.FOLLOWED,
+        type: notificationTypes.FOLLOWED,
         userImage: sampleUserImage,
-        notificationImage: sampleNotificationImage,
+        eventImage: sampleNotificationImage,
         id: '0',
       },
       {
         user: 'chiarabroo',
-        notificationType: notificationTypes.JOINED,
+        type: notificationTypes.JOINED,
         userImage: sampleUserImage,
-        notificationImage: sampleNotificationImage,
+        eventImage: sampleNotificationImage,
         id: '1',
       },
       {
         user: 'charles',
-        notificationType: notificationTypes.LIT,
+        type: notificationTypes.FRIEND,
         userImage: sampleUserImage,
-        notificationImage: sampleNotificationImage,
+        eventImage: sampleNotificationImage,
         id: '2',
       },
     ];
