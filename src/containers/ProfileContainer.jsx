@@ -5,12 +5,14 @@ import {
   ScrollView,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import { useQuery } from '@apollo/react-hooks';
 
 import ProfileHeader from '../components/ProfileHeader';
 import NewFuseButton from '../components/NewFuseButton';
 import ViewToggle from '../components/ViewToggle';
 import Spacer from '../helpers/Spacer';
 import { mockAsyncWithData } from '../helpers/mock';
+import { USER_EVENTS_QUERY } from '../graphql/GeneralQueries';
 
 import styles from './styles/ProfileContainerStyles';
 import EventTile from '../components/EventTile';
@@ -32,25 +34,11 @@ export default function ProfileContainer({ navigation }) {
     completed: [],
   });
 
-  const profileDataQueryParser = (queryResponse) => (
-    {
-      name: queryResponse.name,
-      bio: queryResponse.bio,
-      score: queryResponse.score,
-      friendCount: queryResponse.friendCount,
-      completedEventCount: queryResponse.completedEventCount,
-    }
-  );
-  const fuseQueryParser = (queryResponse) => (
-    queryResponse.map((fuse) => (
-      {
-        name: fuse.name,
-        owner: fuse.owner,
-        description: fuse.description,
-        state: fuse.state,
-      }
-    ))
-  );
+  // TODO handle error
+  const {
+    data: eventQueryData,
+    loading: eventQueryLoading,
+  } = useQuery(USER_EVENTS_QUERY);
 
   // eslint-disable-next-line no-unused-vars
   const getProfileData = async (profileId) => {
@@ -62,51 +50,30 @@ export default function ProfileContainer({ navigation }) {
       friendCount: 3,
       completedEventCount: 69,
     };
-    const data = await mockAsyncWithData(mockedProfileData, 1000);
+    const mockData = await mockAsyncWithData(mockedProfileData, 1000);
 
-    setProfileData(profileDataQueryParser(data));
+    setProfileData(mockData);
   };
 
   // eslint-disable-next-line no-unused-vars
   const getProfileFuses = async (profileId) => {
-    // TODO replace mock call with real query
-    const mockedProfileFuses = [
-      {
-        name: 'Party with Peter',
-        owner: 'Peter',
-        description: 'A party!',
-        state: 1,
-      },
-      {
-        name: 'Lit Party with Peter',
-        owner: 'Peter',
-        description: 'A lit party!',
-        state: 0,
-      },
-      {
-        name: 'Plane flight',
-        owner: 'Peter',
-        description: 'Zoom zoom',
-        state: 2,
-      },
-    ];
-    const fuseData = await mockAsyncWithData(mockedProfileFuses, 1000);
-    const parsedFuseData = fuseQueryParser(fuseData);
+    const parsedFuseData = eventQueryData.user.events;
 
     const setFuses = [];
     const litFuses = [];
     const completedFuses = [];
 
     parsedFuseData.forEach((fuse) => {
-      switch (fuse.state) {
-        case 0:
-          litFuses.push(fuse);
-          break;
-        case 1: {
+      // TODO eventually transition to using enum for fuse states
+      switch (fuse.status) {
+        case 'SET':
           setFuses.push(fuse);
           break;
+        case 'LIT': {
+          litFuses.push(fuse);
+          break;
         }
-        case 2: {
+        case 'COMPLETED': {
           completedFuses.push(fuse);
           break;
         }
@@ -125,6 +92,7 @@ export default function ProfileContainer({ navigation }) {
   const showToggledView = () => {
     let fuseListToShow;
 
+
     switch (focusedView) {
       case 0:
         fuseListToShow = profileFuses.set;
@@ -139,7 +107,7 @@ export default function ProfileContainer({ navigation }) {
     }
 
     if (fuseListToShow.length === 0) {
-      // TODO replace with text
+      // TODO replace text
       return (
         <Text>No fuses</Text>
       );
@@ -147,21 +115,23 @@ export default function ProfileContainer({ navigation }) {
 
     return fuseListToShow.map((fuse) => (
       <EventTile
-        eventName={fuse.name}
-        eventCreator={fuse.owner}
+        eventName={fuse.title}
+        eventCreator={fuse.owner.name}
         description={fuse.description}
-        eventStage={fuse.state}
+        eventStage={fuse.status}
         eventView={0}
         eventRelation={0}
-        key={fuse.name}
+        key={fuse.title}
       />
     ));
   };
 
   useEffect(() => {
-    getProfileData('');
-    getProfileFuses('');
-  }, []);
+    if (eventQueryData && !eventQueryLoading) {
+      getProfileData('');
+      getProfileFuses('');
+    }
+  }, [eventQueryData, eventQueryLoading]);
 
   return (
     <View style={styles.wrapper}>

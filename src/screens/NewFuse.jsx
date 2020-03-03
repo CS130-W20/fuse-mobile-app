@@ -235,11 +235,26 @@ export default function NewFuse({ navigation }) {
   const submissionButton = () => {
     const b = (isSet
       ? (
+<<<<<<< HEAD
         <CupertinoButtonGrey
           text="Save"
           style={styles.button}
           onPress={() => updateEditing(false)}
         />
+=======
+        <View>
+          <CupertinoButtonGrey
+            text="Save"
+            style={styles.submit}
+            onPress={() => updateEditing(false)}
+          />
+          <Image
+            source={fuseLogo}
+            resizeMode="contain"
+            style={styles.image}
+          />
+        </View>
+>>>>>>> d976324ba0ed12891bb7af512fb66859a4c1a893
       ) : (
         <CupertinoButtonGrey
           text="Submit"
