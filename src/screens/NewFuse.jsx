@@ -104,74 +104,97 @@ const styles = StyleSheet.create({
 const fuseLogo = require('../../src/assets/images/logo-fuse1.png');
 const calendarIcon = require('../../src/assets/images/calendar.png');
 
+const example = [
+  {
+    id: 0,
+    title: 'George Clooney',
+  },
+  {
+    id: 1,
+    title: 'Brad Pitt',
+  },
+  {
+    id: 2,
+    title: 'Matt Damon',
+  },
+  {
+    id: 3,
+    title: 'Julia Roberts',
+  },
+  {
+    id: 4,
+    title: 'Andy Garcia',
+  },
+  {
+    id: 5,
+    title: 'Bernie Mac',
+  },
+  {
+    id: 6,
+    title: 'Scott Cann',
+  },
+  {
+    id: 7,
+    title: 'Elliot Gould',
+  },
+  {
+    id: 8,
+    title: 'Eddie Jemison',
+  },
+  {
+    id: 9,
+    title: 'Don Cheadle',
+  },
+  {
+    id: 10,
+    title: 'Shaobo Qin',
+  },
+  {
+    id: 11,
+    title: 'Carl Reiner',
+  },
+  {
+    id: 12,
+    title: 'Wayne Newton',
+  },
+];
 
 const itemlist = [
   {
     title: 'Friends',
     id: 0,
-    icon: {
-      uri:
-        'https://img.icons8.com/material-outlined/50/000000/user--v1.png',
-    },
-
-    children: [
-      {
-        title: 'Apple',
-        id: 10,
-      },
-      {
-        title: 'Pineapple',
-        id: 13,
-      },
-      {
-        title: 'Banana',
-        id: 14,
-      },
-      {
-        title: 'Watermelon',
-        id: 15,
-      },
-      {
-        title: 'Raspberry',
-        id: 18,
-      },
-      {
-        title: 'Orange',
-        id: 19,
-      },
-      {
-        title: 'Mandarin',
-        id: 20,
-      },
-      {
-        title: 'Papaya',
-        id: 21,
-      },
-      {
-        title: 'Lychee',
-        id: 22,
-      },
-      {
-        title: 'Cherry',
-        id: 23,
-      },
-      {
-        title: 'Peach',
-        id: 24,
-      },
-      {
-        title: 'Apricot',
-        id: 25,
-      },
-    ],
+    children: example,
   },
 ];
 
+const friendDict = {};
+
+const keys = Object.keys(example);
+
+for (let i = 0; i < keys.length; i += 1) {
+  const value = example[keys[i]];
+  friendDict[i] = value;
+}
+
+const selectedText = (selectedItems) => {
+  const str = [];
+  for (let i = 0; i < Object.keys(friendDict).length; i += 1) {
+    const temp = (Object.values(friendDict[i]))[1];
+    if (selectedItems.includes((Object.values(friendDict[i]))[0])) {
+      str.push(temp);
+    }
+  }
+  if (str.length > 0) {
+    return str.join(', ');
+  }
+  return 'No friends invited yet.';
+};
+
 export default function NewFuse({ navigation }) {
-  // let isSet = false;
+  const isOwner = true;
   const [isSet, updateSet] = useState(false);
 
-  const [isEditing, updateEditing] = useState(true);
+  const [isEditing, updateEditing] = useState(isOwner);
 
   const [selectingFriends, toggleFriends] = useState(false);
 
@@ -183,22 +206,9 @@ export default function NewFuse({ navigation }) {
 
   const [selectedItems, onSelectedItemsChange] = useState([]);
 
-  const getKey = (id) => (itemlist['Children'.id.title]);
-
-  const selectText = (selectedItems.length
-    ? `${selectedItems
-      .map((id, i) => {
-        let label = `${id.title}, `;
-        if (i === selectedItems.length - 2) label = `${id.title} and `;
-        if (i === selectedItems.length - 1) label = `${id.title}.`;
-        return label;
-      })
-      .join('')}`
-    : 'No friends invited');
-
   const onConfirm = () => {
     toggleFriends(false);
-    friendListChange(selectText);
+    friendListChange(selectedText(selectedItems));
   };
 
   const createEvent = () => {
@@ -232,6 +242,16 @@ export default function NewFuse({ navigation }) {
       />
     ));
 
+  const notifSwitch = () => (
+    <View style={styles.switch}>
+      <Text style={{ color: 'rgba(129,129,129,1)' }}>Send Notifications?</Text>
+      <Switch
+        disabled={false}
+        trackColor={{ true: 'rgba(230, 230, 230,1)' }}
+      />
+    </View>
+  );
+
   const submissionButton = () => {
     const b = (isSet
       ? (
@@ -248,6 +268,26 @@ export default function NewFuse({ navigation }) {
         />
       )
     );
+    return b;
+  };
+
+  const ownerButtons = () => {
+    const b = (isEditing ? (
+      <View style={styles.submit}>
+        {submissionButton()}
+        <Image
+          source={fuseLogo}
+          resizeMode="contain"
+          style={styles.image}
+        />
+      </View>
+    ) : (
+      <CupertinoButtonGrey
+        text="Edit"
+        style={styles.edit}
+        onPress={() => updateEditing(true)}
+      />
+    ));
     return b;
   };
 
@@ -272,13 +312,7 @@ export default function NewFuse({ navigation }) {
             <Text>{friendList}</Text>
             {isEditing ? friendSelector() : null}
           </View>
-          <View style={styles.switch}>
-            <Text style={{ color: 'rgba(129,129,129,1)' }}>Send Notifications?</Text>
-            <Switch
-              disabled={false}
-              trackColor={{ true: 'rgba(230, 230, 230,1)' }}
-            />
-          </View>
+          {isOwner ? notifSwitch() : null}
           <View style={styles.deadline}>
             <Image
               source={calendarIcon}
@@ -291,24 +325,7 @@ export default function NewFuse({ navigation }) {
               editable={isEditing}
             />
           </View>
-          {
-            isEditing ? (
-              <View style={styles.submit}>
-                {submissionButton()}
-                <Image
-                  source={fuseLogo}
-                  resizeMode="contain"
-                  style={styles.image}
-                />
-              </View>
-            ) : (
-              <CupertinoButtonGrey
-                text="Edit"
-                style={styles.edit}
-                onPress={() => updateEditing(true)}
-              />
-            )
-          }
+          {isOwner ? ownerButtons() : null }
         </View>
       </View>
     </ImageBackground>
