@@ -10,7 +10,8 @@ import { AppTabNavigator } from './AppTabNavigator';
 import screenIds from './ScreenIds';
 import { USER_QUERY } from '../graphql/GeneralQueries';
 import SignUp from '../screens/Signup';
-import NewFuse from '../screens/NewFuse';
+
+import addScreensToLoginStack from './Screens';
 
 const rootStackOptions = {
   headerShown: false,
@@ -19,6 +20,7 @@ const rootStackOptions = {
 export default function RootAppRouter() {
   const rootStack = createStackNavigator();
 
+  // eslint-disable-next-line no-unused-vars
   const { data, loading, error } = useQuery(USER_QUERY);
 
   // TODO: replace with our own loading screen?
@@ -41,7 +43,7 @@ export default function RootAppRouter() {
           <>
             {/* Screens only accessible when logged in */}
             <rootStack.Screen name={screenIds.appTabNavigator} component={AppTabNavigator} />
-            <rootStack.Screen name={screenIds.newFuse} component={NewFuse} />
+            {addScreensToLoginStack(rootStack)}
           </>
         )}
       </rootStack.Navigator>
