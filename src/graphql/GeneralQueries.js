@@ -54,7 +54,7 @@ export const USER_EVENTS_QUERY = gql`
   query userQuery {
     user {
       id
-      events(association: [], status: [SET, COMPLETED, LIT]) {
+      events(association: [OWNER, JOINED], status: [SET, COMPLETED, LIT]) {
         id
         title
         description
