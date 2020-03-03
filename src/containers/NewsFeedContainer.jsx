@@ -12,6 +12,7 @@ import NewFuseButton from '../components/NewFuseButton';
 import EventTile from '../components/EventTile';
 import styles from './styles/NewsFeedContainerStyles';
 import Spacer from '../helpers/Spacer';
+// import ImageUploadButton from '../components/buttons/ImageUploadButton';
 
 export default function ProfileContainer({ navigation }) {
   const {
@@ -51,6 +52,8 @@ export default function ProfileContainer({ navigation }) {
         <Spacer padding={20} />
       </ScrollView>
       <NewFuseButton navigation={navigation} />
+      {/* Uncomment the next line to test image upload */}
+      {/* <ImageUploadButton /> */}
     </View>
   );
 }

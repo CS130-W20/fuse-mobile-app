@@ -24,7 +24,10 @@
     "apollo-link-error": "latest",
     "apollo-link-http": "latest",
     "expo": "~36.0.0",
+    "expo-constants": "^8.0.0",
     "expo-facebook": "~8.0.0",
+    "expo-image-picker": "^8.0.2",
+    "expo-permissions": "latest",
     "graphql": "14.6.0",
     "graphql-tag": "latest",
     "mem": ">=4.0.0",
@@ -33,6 +36,8 @@
     "react-apollo": "latest",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
+    "react-native-aws3": "0.0.9",
+    "react-native-dotenv": "^0.2.0",
     "react-native-fbsdk": "1.1.2",
     "react-native-gesture-handler": "1.5.6",
     "react-native-reanimated": "1.4.0",
@@ -52,7 +57,8 @@
     "eslint-plugin-jsx-a11y": "6.2.3",
     "eslint-plugin-react": "7.18.3",
     "eslint-plugin-react-hooks": "1.7.0",
-    "jest": "^25.1.0"
+    "jest": "^25.1.0",
+    "metro-react-native-babel-preset": "^0.58.0"
   },
   "private": true
 }
