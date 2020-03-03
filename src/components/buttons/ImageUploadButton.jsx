@@ -7,6 +7,7 @@ import { launchImageLibraryAsync, MediaTypeOptions } from 'expo-image-picker';
 import Constants from 'expo-constants';
 import { askAsync, CAMERA_ROLL } from 'expo-permissions';
 import { RNS3 } from 'react-native-aws3';
+import { ACCESS_KEY, SECRET_KEY } from 'react-native-dotenv';
 
 import styles from '../styles/NewFuseButtonStyles';
 
@@ -21,6 +22,7 @@ async function getPermissionAsync(setPhotoAccess) {
 
 async function uploadPhoto(photoAccess, setImageUri) {
   if (!photoAccess) {
+    // eslint-disable-next-line no-alert
     alert('We need access to photos to enable photo upload.');
     return;
   }
@@ -32,17 +34,15 @@ async function uploadPhoto(photoAccess, setImageUri) {
     quality: 1,
   });
 
-  console.log(result);
-
   if (!result.cancelled) {
     setImageUri(result.uri);
   }
 }
 
-async function uploadToS3(imageUri) {
+async function uploadToS3(imageUri, name) {
   const file = {
     uri: imageUri,
-    name: 'test-photo.jpg',
+    name,
     type: 'image/jpeg',
   };
 
@@ -51,8 +51,8 @@ async function uploadToS3(imageUri) {
     bucket: 'fuse-image-bucket',
     region: 'us-west-2',
     successActionStatus: 201,
-    accessKey: 'AKIATNII2GEYJ3AWI6GM',
-    secretKey: '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',
+    accessKey: ACCESS_KEY,
+    secretKey: SECRET_KEY,
   };
 
   RNS3.put(file, options)
@@ -60,8 +60,10 @@ async function uploadToS3(imageUri) {
       if (response.status !== 201) {
         throw new Error('Failed to upload image to S3');
       }
+      // eslint-disable-next-line no-console
       console.log(response.body);
     })
+    // eslint-disable-next-line no-console
     .catch((err) => console.error(err));
 }
 
@@ -69,16 +71,16 @@ export default function ImageUploadButton() {
   const [photoAccess, setPhotoAccess] = useState(false);
   const [triedToUpload, setTriedToUpload] = useState(0);
   const [imageUri, setImageUri] = useState(null);
+  // eslint-disable-next-line no-unused-vars
+  const [imageName, setImageName] = useState('test-photo.jpg');
 
   useEffect(() => {
     getPermissionAsync(setPhotoAccess);
   }, [triedToUpload]);
 
-  console.log(imageUri);
-
   useEffect(() => {
     if (imageUri) {
-      uploadToS3(imageUri);
+      uploadToS3(imageUri, imageName);
     }
   }, [imageUri]);
 
