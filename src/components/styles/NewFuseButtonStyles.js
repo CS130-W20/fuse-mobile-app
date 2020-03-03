@@ -18,6 +18,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.redorange,
   },
+  imageUploadWrapper: {
+    position: 'absolute',
+    bottom: 15,
+    left: 15,
+    width: 65,
+    height: 65,
+    borderRadius: 55,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.sizzlefuseyellow,
+  },
 });
 
 export default styles;
