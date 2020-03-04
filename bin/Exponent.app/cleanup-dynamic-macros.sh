@@ -1,11 +1,3 @@
-#!/usr/bin/env bash
-
-set -exo pipefail
-
-if [ -z "$EXPO_TOOLS_DIR" ]; then
-  EXPO_TOOLS_DIR="${SRCROOT}/../tools"
-fi
-
-source ${EXPO_TOOLS_DIR}/source-login-scripts.sh
-export PATH="${SRCROOT}/../bin:$PATH"
-et ios-cleanup-dynamic-macros --configuration ${CONFIGURATION}
+version https://git-lfs.github.com/spec/v1
+oid sha256:ad0b570e4dccbdc36dcdf3c2b91217f5aeabda561d5952289b06c873ce4c0b38
+size 267
