@@ -10,6 +10,7 @@ import screenIds from './ScreenIds';
 import HelloWorld from '../screens/HelloWorld';
 import ProfileContainer from '../containers/ProfileContainer';
 import NewsFeedContainer from '../containers/NewsFeedContainer';
+import ExploreContainer from '../containers/ExploreContainer';
 
 // Stack ids. Each tab in our tab navigation has a stack
 export const NavigationStackIds = {
@@ -38,7 +39,7 @@ const Screens = {
   },
   explore: {
     name: screenIds.explore,
-    component: HelloWorld,
+    component: ExploreContainer,
     stack: NavigationStackIds.explore,
   },
   notifications: {

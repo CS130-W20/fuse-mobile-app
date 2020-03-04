@@ -6,7 +6,6 @@ import {
   Image,
 } from 'react-native';
 import { PropTypes } from 'prop-types';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import Spacer from '../helpers/Spacer';
 import styles from './styles/EventTileStyles';
 import FuseTileButton from './FuseTileButton';
@@ -20,7 +19,6 @@ export default class EventTile extends PureComponent {
   showButtons() {
     let button1 = '';
     let button2 = '';
-    let button3 = '';
     const { eventStage } = this.props;
     const { eventRelation } = this.props;
     switch (eventStage) {
@@ -28,7 +26,7 @@ export default class EventTile extends PureComponent {
         switch (eventRelation) {
           case 0: // creator
             button1 = 'LIGHT';
-            button2 = 'ATTENDEES';
+            button2 = 'DETAILS';
             return (
               <View style={styles.bottomHeader}>
                 <FuseTileButton buttonName={button1} />
@@ -36,7 +34,7 @@ export default class EventTile extends PureComponent {
               </View>
             );
           case 1: // joined
-            button1 = 'ATTENDEES';
+            button1 = 'DETAILS';
             return (
               <View style={styles.bottomHeader}>
                 <FuseTileButton buttonName={button1} />
@@ -44,7 +42,7 @@ export default class EventTile extends PureComponent {
             );
           case 2: // invited
             button1 = 'JOIN';
-            button2 = 'ATTENDEES';
+            button2 = 'DETAILS';
             return (
               <View style={styles.bottomHeader}>
                 <FuseTileButton buttonName={button1} />
@@ -60,7 +58,7 @@ export default class EventTile extends PureComponent {
           case 0: // owner
           case 1: // joined
             button1 = 'SCHEDULE';
-            button2 = 'ATTENDEES';
+            button2 = 'DETAILS';
             return (
               <View style={styles.bottomHeader}>
                 <FuseTileButton buttonName={button1} />
@@ -78,13 +76,11 @@ export default class EventTile extends PureComponent {
           case 0: // owner
           case 1: // joined
             button1 = 'DETAILS';
-            button2 = 'ATTENDEES';
-            button3 = 'LIKE'; // ADD DIFFERENT STLYING LATER
+            button2 = 'LIKE'; // ADD DIFFERENT STLYING LATER
             return (
               <View style={styles.bottomHeader}>
                 <FuseTileButton buttonName={button1} />
                 <FuseTileButton buttonName={button2} />
-                <FuseTileButton buttonName={button3} />
               </View>
             );
           case 2: // invited
@@ -165,14 +161,14 @@ export default class EventTile extends PureComponent {
       // eslint-disable-next-line no-unused-vars
       description,
       // eslint-disable-next-line no-unused-vars
-      eventStage, // 0: lit, 1: set, 2: complete
+      eventStage, // 0: set, 1: lit, 2: complete
       // eslint-disable-next-line no-unused-vars
       eventRelation, // 0: creator, 1: joined, 2: invited, 3: unaffiliated
     } = this.props;
     return (
-      <TouchableOpacity style={styles.outerTile}>
+      <View style={styles.outerTile}>
         {this.showTile()}
-      </TouchableOpacity>
+      </View>
     );
   }
 }
