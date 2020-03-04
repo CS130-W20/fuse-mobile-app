@@ -36,7 +36,7 @@
     "graphql-tag": "latest",
     "mem": ">=4.0.0",
     "prop-types": "15.7.2",
-    "react": "16.9.0",
+    "react": "~16.9.0",
     "react-apollo": "latest",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",

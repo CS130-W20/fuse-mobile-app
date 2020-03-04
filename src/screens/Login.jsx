@@ -158,7 +158,6 @@ export default function Login({ navigation }) {
           style={styles.materialUnderlineTextbox3}
             // eslint-disable-next-line no-console
           onPress={() => navigation.navigate(screenIds.signUp)}
-          testID="no_account"
         >
           dont have an account?
 
