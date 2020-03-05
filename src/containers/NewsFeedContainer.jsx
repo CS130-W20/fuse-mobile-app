@@ -14,7 +14,7 @@ import styles from './styles/NewsFeedContainerStyles';
 import Spacer from '../helpers/Spacer';
 // import ImageUploadButton from '../components/buttons/ImageUploadButton';
 
-export default function ProfileContainer({ navigation }) {
+export default function NewsFeedContainer({ navigation }) {
   const {
     loading: newsFeedQueryLoading,
     error: newsFeedQueryError,
@@ -58,7 +58,7 @@ export default function ProfileContainer({ navigation }) {
   );
 }
 
-ProfileContainer.propTypes = {
+NewsFeedContainer.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
   }).isRequired,
