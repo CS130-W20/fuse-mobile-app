@@ -7,9 +7,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import screenIds from './ScreenIds';
 
 // Import screens, containers, header styles you need from the screen/container directory
-import HelloWorld from '../screens/HelloWorld';
+
 import ProfileScreen, { profileHeaderOptions } from '../screens/ProfileScreen';
 import NewsFeedContainer from '../containers/NewsFeedContainer';
+import ExploreContainer from '../containers/ExploreContainer';
 import Notification from '../screens/Notification';
 
 
@@ -43,7 +44,7 @@ const Screens = {
   },
   explore: {
     name: screenIds.explore,
-    component: HelloWorld,
+    component: ExploreContainer,
     stack: NavigationStackIds.explore,
     options: {
       headerTitle: 'fuse',
