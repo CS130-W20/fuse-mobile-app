@@ -1,6 +1,9 @@
 import React from 'react';
+
 import NewFuse from '../screens/NewFuse';
-import LightFuse from '../screens/LightFuse'
+import LightFuse from '../screens/LightFuse';
+import SettingsScreen, { settingsHeaderOptions } from '../screens/SettingsScreen';
+
 import screenIds from './ScreenIds';
 
 const Screens = {
@@ -11,6 +14,11 @@ const Screens = {
   lightFuse: {
     name: screenIds.lightFuse,
     component: LightFuse,
+  },
+  settings: {
+    name: screenIds.settings,
+    component: SettingsScreen,
+    options: settingsHeaderOptions,
   },
 };
 
@@ -23,6 +31,7 @@ const addScreensToLoginStack = (stack) => {
         name={screen.name}
         component={screen.component}
         key={screen.name}
+        options={screen.options}
       />
     ));
   });

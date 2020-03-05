@@ -6,6 +6,7 @@ const screenIds = {
   profile: 'Profile',
   login: 'Login',
   appTabNavigator: 'AppTabNavigator',
+  settings: 'Settings',
   signUp: 'SignUp',
   newFuse: 'NewFuse',
   lightFuse: 'LightFuse',
