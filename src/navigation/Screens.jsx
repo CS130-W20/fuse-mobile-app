@@ -3,6 +3,7 @@ import React from 'react';
 import NewFuse from '../screens/NewFuse';
 import SettingsScreen, { settingsHeaderOptions } from '../screens/SettingsScreen';
 import EditProfileDetailsScreen, { editProfileHeaderOptions } from '../screens/EditProfileDetailsScreen';
+import LightFuse from '../screens/LightFuse';
 
 import screenIds from './ScreenIds';
 
@@ -10,6 +11,10 @@ const Screens = {
   newFuse: {
     name: screenIds.newFuse,
     component: NewFuse,
+  },
+  lightFuse: {
+    name: screenIds.lightFuse,
+    component: LightFuse,
   },
   settings: {
     name: screenIds.settings,

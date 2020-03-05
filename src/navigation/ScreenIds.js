@@ -10,6 +10,7 @@ const screenIds = {
   settings: 'Settings',
   signUp: 'SignUp',
   newFuse: 'NewFuse',
+  lightFuse: 'LightFuse',
 };
 
 export default screenIds;
