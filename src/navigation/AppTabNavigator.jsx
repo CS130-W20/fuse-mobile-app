@@ -7,10 +7,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 import screenIds from './ScreenIds';
 
 // Import screens or containers you need from the screen/container directory
-import HelloWorld from '../screens/HelloWorld';
+// import HelloWorld from '../screens/HelloWorld';
 import ProfileContainer from '../containers/ProfileContainer';
 import NewsFeedContainer from '../containers/NewsFeedContainer';
 import ExploreContainer from '../containers/ExploreContainer';
+import Notification from '../screens/Notification';
 
 // Stack ids. Each tab in our tab navigation has a stack
 export const NavigationStackIds = {
@@ -44,7 +45,7 @@ const Screens = {
   },
   notifications: {
     name: screenIds.notifications,
-    component: HelloWorld,
+    component: Notification,
     stack: NavigationStackIds.notifications,
   },
   profile: {

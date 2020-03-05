@@ -17,8 +17,8 @@ export const USER_QUERY = gql`
 `;
 
 export const LOGIN_MUTATION = gql`
-    mutation login($email: String!, $password: String!) {
-        login(email: $email, password: $password) {
+    mutation login($email: String, $password: String, $fbToken: String) {
+        login(email: $email, password: $password, fbToken: $fbToken) {
             token
             user {
                 id
@@ -48,4 +48,53 @@ export const CREATE_EVENT_MUTATION = gql`
             id
         }
     }
+`;
+
+export const USER_EVENTS_QUERY = gql`
+  query userQuery {
+    user {
+      id
+      events(association: [OWNER, JOINED], status: [SET, COMPLETED, LIT]) {
+        id
+        title
+        description
+        owner {
+          id
+          name
+        }
+        status
+        invited {
+          id
+          name
+        }
+        joined {
+          id
+          name
+        }
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+
+export const NEWS_FEED_QUERY = gql`
+  query newsFeed {
+    newsFeed {
+      id
+      title
+      description
+      status
+      owner {
+        id
+        name
+      }
+      invited {
+        id
+      }
+      joined {
+        id
+      }
+    }
+  }
 `;

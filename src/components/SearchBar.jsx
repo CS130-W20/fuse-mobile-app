@@ -1,10 +1,12 @@
-import React from 'react';
-import { View, TouchableOpacity, TextInput } from 'react-native';
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { View, TextInput } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import styles from './styles/SearchBarStyles';
 
 function SearchBar() {
+  // eslint-disable-next-line no-unused-vars
+  const [searchText, setText] = useState(null);
   return (
     <View style={[styles.container]}>
       <View style={styles.rect1}>
@@ -12,12 +14,8 @@ function SearchBar() {
           <View style={styles.leftIconButton}>
             <MaterialIcons name="search" size={30} color="grey" />
           </View>
-          <TextInput placeholder="Search" keyboardAppearance="light" style={styles.inputStyle} />
+          <TextInput placeholder="Search" keyboardAppearance="light" style={styles.inputStyle} onChangeText={(text) => { setText(text); }} clearButtonMode={3} />
         </View>
-        <View style={styles.leftIconButtonRowFiller} />
-        <TouchableOpacity style={styles.rightIconButton}>
-          <MaterialCommunityIcons name="close" size={30} color="grey" />
-        </TouchableOpacity>
       </View>
     </View>
   );
