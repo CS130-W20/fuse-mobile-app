@@ -30,6 +30,7 @@ export default function Multiselect({
         searchTextFontFamily="alata-regular"
         // subItemFontFamily="alata-regular"
         // itemFontFamily="alata-regular"
+        searchPlaceholderText="Search friends..."
       />
     </View>
   );
