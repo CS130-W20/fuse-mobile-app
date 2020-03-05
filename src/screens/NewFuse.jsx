@@ -5,13 +5,14 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/react-hooks';
+import DatePicker from 'react-native-datepicker';
 import Multiselect from '../components/fields/Multiselect';
 import CupertinoButtonGrey from '../components/buttons/CupertinoButtonGrey';
 import MaterialUnderlineTextbox from '../components/fields/MaterialUnderlineTextbox';
 import { CREATE_EVENT_MUTATION } from '../graphql/GeneralQueries';
+import screenIds from '../navigation/ScreenIds';
 
 const gradient = require('../../src/assets/images/Gradient_LIswryi.png');
-
 
 const styles = StyleSheet.create({
   trim: {
@@ -21,9 +22,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     margin: '5%',
+    height: '100%',
     backgroundColor: 'white',
     borderRadius: 10,
     flexDirection: 'column',
+  },
+  container2: {
+    margin: '5%',
+    height: '70%',
   },
   loremIpsum: {
     width: 34,
@@ -49,11 +55,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
   image: {
-    bottom: 20,
+    bottom: 40,
     left: '85%',
     width: 88,
     height: 78,
-    position: 'absolute',
     transform: [
       {
         rotate: '15.00deg',
@@ -81,17 +86,25 @@ const styles = StyleSheet.create({
   button: {
     width: '80%',
     height: 50,
+    top: 5,
     bottom: 0,
     position: 'absolute',
     alignSelf: 'center',
     backgroundColor: '#ed5c45',
   },
-  edit: {
-    width: '25%',
+  light: {
+    width: '80%',
     height: 50,
-    top: 10,
+    top: 60,
     position: 'absolute',
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
+    backgroundColor: 'rgba(247,116,33,1)',
+  },
+  edit: {
+    justify: 'flex-start',
+    width: '80%',
+    height: 50,
+    alignSelf: 'center',
     backgroundColor: '#ed5c45',
   },
 });
@@ -101,7 +114,7 @@ const calendarIcon = require('../../src/assets/images/calendar.png');
 
 const example = [
   {
-    id: 0,
+    id: 13,
     title: 'George Clooney',
   },
   {
@@ -188,18 +201,17 @@ const selectedText = (selectedItems) => {
 export default function NewFuse({ navigation }) {
   const isOwner = true;
   const [isSet, updateSet] = useState(false);
-
   const [isEditing, updateEditing] = useState(isOwner);
-
   const [selectingFriends, toggleFriends] = useState(false);
 
   const [eventName, setEventName] = useState('');
-
-  const [createEventMutation] = useMutation(CREATE_EVENT_MUTATION);
-
+  const [eventDescription, setEventDescription] = useState('');
+  const [date, setDate] = useState('03-04-2020');
+  const [selectedItems, onSelectedItemsChange] = useState([]);
+  const [notifications, setNotifications] = useState(false);
   const [friendList, friendListChange] = useState('No friends invited');
 
-  const [selectedItems, onSelectedItemsChange] = useState([]);
+  const [createEventMutation] = useMutation(CREATE_EVENT_MUTATION);
 
   const onConfirm = () => {
     toggleFriends(false);
@@ -222,7 +234,7 @@ export default function NewFuse({ navigation }) {
   const friendSelector = () => (selectingFriends
     ? (
       <Multiselect
-        style={{ alignSelf: 'center' }}
+        style={{ alignSelf: 'center', width: '100%' }}
         itemlist={itemlist}
         selectedItems={selectedItems}
         onSelectedItemsChange={onSelectedItemsChange}
@@ -243,6 +255,8 @@ export default function NewFuse({ navigation }) {
       <Switch
         disabled={false}
         trackColor={{ true: 'rgba(230, 230, 230,1)' }}
+        onValueChange={setNotifications}
+        value={notifications}
       />
     </View>
   );
@@ -268,20 +282,22 @@ export default function NewFuse({ navigation }) {
 
   const ownerButtons = () => {
     const b = (isEditing ? (
-      <View style={styles.submit}>
+      <View>
         {submissionButton()}
-        <Image
-          source={fuseLogo}
-          resizeMode="contain"
-          style={styles.image}
-        />
       </View>
     ) : (
-      <CupertinoButtonGrey
-        text="Edit"
-        style={styles.edit}
-        onPress={() => updateEditing(true)}
-      />
+      <View>
+        <CupertinoButtonGrey
+          text="Edit"
+          style={styles.edit}
+          onPress={() => updateEditing(true)}
+        />
+        <CupertinoButtonGrey
+          style={styles.light}
+          text="Light"
+          onPress={() => navigation.navigate(screenIds.lightFuse)}
+        />
+      </View>
     ));
     return b;
   };
@@ -289,7 +305,7 @@ export default function NewFuse({ navigation }) {
   return (
     <ImageBackground source={gradient} style={styles.trim}>
       <View style={styles.container}>
-        <View style={styles.container}>
+        <View style={styles.container2}>
           <Text style={styles.loremIpsum} onPress={navigation.goBack}>&lt;</Text>
           <Text style={styles.set}>SET</Text>
           <MaterialUnderlineTextbox
@@ -301,6 +317,7 @@ export default function NewFuse({ navigation }) {
           <MaterialUnderlineTextbox
             style={styles.nameInput}
             placeholder="Event Description"
+            onChangeText={setEventDescription}
             editable={isEditing}
           />
           <View style={{ top: 60 }}>
@@ -308,20 +325,39 @@ export default function NewFuse({ navigation }) {
             {isEditing ? friendSelector() : null}
           </View>
           {isOwner ? notifSwitch() : null}
+          <Text style={styles.deadline}>Deadline:</Text>
           <View style={styles.deadline}>
-            <Image
-              source={calendarIcon}
-              resizeMode="contain"
-              style={{ width: 40, height: 40 }}
-            />
-            <MaterialUnderlineTextbox
-              placeholder="Event Deadline"
-              style={{ left: 30, width: 250 }}
-              editable={isEditing}
+            <DatePicker
+              style={{ width: 280 }}
+              date={date}
+              mode="date"
+              placeholder="select date"
+              format="MM-DD-YYYY"
+              minDate="01-01-2020"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              customStyles={{
+                dateIcon: {
+                  position: 'absolute',
+                  left: 0,
+                  top: 4,
+                  marginLeft: 0,
+                },
+                dateInput: {
+                  marginLeft: 36,
+                },
+                // ... You can check the source to find the other keys.
+              }}
+              onDateChange={setDate}
             />
           </View>
-          {isOwner ? ownerButtons() : null }
         </View>
+        {isOwner ? ownerButtons() : null }
+        <Image
+          source={fuseLogo}
+          resizeMode="contain"
+          style={styles.image}
+        />
       </View>
     </ImageBackground>
   );

@@ -8,6 +8,7 @@ const screenIds = {
   appTabNavigator: 'AppTabNavigator',
   signUp: 'SignUp',
   newFuse: 'NewFuse',
+  lightFuse: 'LightFuse',
 };
 
 export default screenIds;
