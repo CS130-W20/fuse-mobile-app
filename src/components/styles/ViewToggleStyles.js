@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 3,
   },
   wrapper: {
-    // backgroundColor: 'lightcyan',
     flex: 1,
     width: '100%',
   },
