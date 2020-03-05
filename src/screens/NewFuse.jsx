@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(247,116,33,1)',
   },
   edit: {
-    justify: 'flex-start',
+    justifyContent: 'flex-start',
     width: '80%',
     height: 50,
     alignSelf: 'center',

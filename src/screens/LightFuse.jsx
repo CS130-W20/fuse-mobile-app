@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   button: {
-    justify: 'flex-start',
+    justifyContent: 'flex-start',
     width: '72%',
     height: 50,
     alignSelf: 'center',
@@ -193,6 +193,7 @@ export default function LightFuse({ navigation }) {
   const title = 'Event Name';
   const description = 'Insert random text about event right here.\n This is super fun!\nBlah blah blah blah blah blah blah,\n';
   const [date, setDate] = useState('03-04-2020');
+  // eslint-disable-next-line no-unused-vars
   const [location, setLocation] = useState('');
 
   const scheduleButton = () => (
