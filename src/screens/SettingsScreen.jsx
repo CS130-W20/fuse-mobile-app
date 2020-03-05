@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import screenIds from '../navigation/ScreenIds';
 
 import styles from './styles/SettingsScreenStyles';
 
@@ -27,6 +28,7 @@ function SettingsTile({ navigation, title, onPress }) {
 // eslint-disable-next-line no-unused-vars
 export default function SettingsScreen({ navigation }) {
   const onPressEditProfile = () => {
+    navigation.navigate(screenIds.editProfile);
   };
 
   const onPressLogout = () => {
