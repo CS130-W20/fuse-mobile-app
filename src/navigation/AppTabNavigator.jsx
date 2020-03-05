@@ -6,11 +6,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import screenIds from './ScreenIds';
 
-// Import screens or containers you need from the screen/container directory
+// Import screens, containers, header styles you need from the screen/container directory
 import HelloWorld from '../screens/HelloWorld';
-import ProfileContainer from '../containers/ProfileContainer';
+import ProfileScreen, { profileHeaderOptions } from '../screens/ProfileScreen';
 import NewsFeedContainer from '../containers/NewsFeedContainer';
 import Notification from '../screens/Notification';
+
 
 // Stack ids. Each tab in our tab navigation has a stack
 export const NavigationStackIds = {
@@ -36,21 +37,31 @@ const Screens = {
     name: screenIds.newsFeed,
     component: NewsFeedContainer,
     stack: NavigationStackIds.feed,
+    options: {
+      headerTitle: 'fuse',
+    },
   },
   explore: {
     name: screenIds.explore,
     component: HelloWorld,
     stack: NavigationStackIds.explore,
+    options: {
+      headerTitle: 'fuse',
+    },
   },
   notifications: {
     name: screenIds.notifications,
     component: Notification,
     stack: NavigationStackIds.notifications,
+    options: {
+      headerTitle: 'fuse',
+    },
   },
   profile: {
     name: screenIds.profile,
-    component: ProfileContainer,
+    component: ProfileScreen,
     stack: NavigationStackIds.profile,
+    options: profileHeaderOptions,
   },
 };
 
@@ -79,19 +90,12 @@ const createNavigationStacks = () => {
     const targetStackId = screen.stack;
     const TargetStack = stackToScreenRef[targetStackId].stackNavigator;
 
-    // TODO we need a better way for people to customize their headers if they need to
-    const screenOptions = {};
-    screenOptions.headerTitle = screen.customHeaderTitle || 'fuse';
-    // screenOptions.headerTitle = screen.customHeaderTitle != null
-    //   ? screen.customHeaderTitle
-    //   : 'fuse';
-
     const screenComponent = (
       <TargetStack.Screen
         name={screen.name}
         component={screen.component}
         key={screen.name}
-        options={screenOptions}
+        options={screen.options}
       />
     );
 
