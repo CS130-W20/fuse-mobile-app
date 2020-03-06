@@ -9,17 +9,28 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   fieldLabel: {
-    fontWeight: '500',
+    fontSize: 16,
+    fontWeight: '700',
   },
   fieldLabelWrapper: {
-    // backgroundColor: 'lightblue',
-    width: 50,
     paddingTop: 10,
     justifyContent: 'center',
   },
   fieldWrapper: {
     // backgroundColor: colors.accentred,
-    height: 80,
+    height: 100,
+  },
+  saveButton: {
+  },
+  saveButtonText: {
+    color: colors.accentred,
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  saveButtonWrapper: {
+    height: 50,
+    width: 50,
+    justifyContent: 'center',
   },
   wrapper: {
     backgroundColor: colors.white,

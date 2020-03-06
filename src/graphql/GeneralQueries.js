@@ -122,3 +122,13 @@ export const FRIENDS_COUNT = gql`
     friendsCount(userId: $userId)
   }
 `;
+
+export const PROFILE_DETAILS_MUTATION = gql`
+  mutation ($name: String, $bio: String) {
+    updateProfileDetails(name: $name, bio: $bio) {
+      id
+      name
+      bio
+    }
+  }
+`;
