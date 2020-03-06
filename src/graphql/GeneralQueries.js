@@ -98,3 +98,27 @@ export const NEWS_FEED_QUERY = gql`
     }
   }
 `;
+
+export const USER_PROFILE_DETAILS_QUERY = gql`
+  query {
+    user {
+      id
+      name
+      email
+      bio
+      score
+    }
+  }
+`;
+
+export const COMPLETED_EVENTS_COUNT = gql`
+  query ($userId: ID) {
+    completedEventsCount(userId: $userId)
+  }
+`;
+
+export const FRIENDS_COUNT = gql`
+  query ($userId: ID) {
+    friendsCount(userId: $userId)
+  }
+`;
