@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  StyleSheet, View, Text, Image, ImageBackground, Modal, ScrollView
+  StyleSheet, View, Text, Image, ImageBackground, Modal, ScrollView,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-native-datepicker';
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     width: '85%',
     alignSelf: 'center',
   },
-  modalText:{
+  modalText: {
     fontSize: 20,
     alignSelf: 'center',
     textAlign: 'center',
@@ -247,15 +247,17 @@ export default function LightFuse({ navigation }) {
             transparent
           >
             <View style={styles.modal}>
-              <ImageBackground 
+              <ImageBackground
                 source={gradient}
                 style={styles.container}
                 resizeMode="stretch"
                 borderRadius={10}
               >
                 <View style={styles.container}>
-                  <Text style={styles.loremIpsum} onPress={() => toggleFriends(false)}> X   Attendees</Text>
-                  <ScrollView style={{height: '90%'}}>
+                  <Text style={styles.loremIpsum} onPress={() => toggleFriends(false)}>
+                    X   Attendees
+                  </Text>
+                  <ScrollView style={{ height: '90%' }}>
                     <Text style={styles.modalText}>
                       {listFriends(false)}
                     </Text>

@@ -215,7 +215,6 @@ export default function NewFuse({ navigation }) {
   const [createEventMutation] = useMutation(CREATE_EVENT_MUTATION);
 
   const onConfirm = () => {
-    // toggleFriends(false);
     friendListChange(selectedText(selectedItems));
   };
 

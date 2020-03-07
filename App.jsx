@@ -58,3 +58,21 @@ export default function App() {
     </ApolloProvider>
   );
 }
+
+// import React, { Component } from 'react';
+// import {
+//   View, Text,
+// } from 'react-native';
+
+// // eslint-disable-next-line react/prefer-stateless-function
+// export default class App extends Component {
+//   render() {
+//     return (
+//       <View>
+//         <Text testID="welcome">
+//         Welcome to React Native!
+//       </Text>
+//       </View>
+//     );
+//   }
+// }

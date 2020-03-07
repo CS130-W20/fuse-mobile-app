@@ -3,6 +3,7 @@ const screenIds = {
   newsFeed: 'NewsFeed',
   explore: 'Explore',
   notifications: 'Notifications',
+  editProfile: 'EditProfile',
   profile: 'Profile',
   login: 'Login',
   appTabNavigator: 'AppTabNavigator',
