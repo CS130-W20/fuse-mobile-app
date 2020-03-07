@@ -131,15 +131,17 @@ export default function ProfileContainer({ navigation }) {
     }
 
     return fuseListToShow.map((fuse) => (
-      <EventTile
-        eventName={fuse.title}
-        eventCreator={fuse.owner.name}
-        description={fuse.description}
-        eventStage={fuse.status}
-        eventView={0}
-        eventRelation={0}
-        key={fuse.title}
-      />
+      <View style={styles.tileWrapper}>
+        <EventTile
+          eventName={fuse.title}
+          eventCreator={fuse.owner.name}
+          description={fuse.description}
+          eventStage={fuse.status}
+          eventView={0}
+          eventRelation={0}
+          key={fuse.title}
+        />
+      </View>
     ));
   };
 
