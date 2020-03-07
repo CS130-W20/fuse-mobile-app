@@ -1,8 +1,9 @@
 import { StyleSheet } from 'react-native';
+import colors from '../../styles/colors';
 
 const styles = StyleSheet.create({
   buttonText: {
-    color: 'grey',
+    color: colors.grey,
     fontSize: 14,
   },
   buttonWrapper: {
@@ -11,7 +12,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
   },
 });
 
