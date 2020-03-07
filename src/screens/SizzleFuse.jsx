@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  StyleSheet, View, Text, Image, ImageBackground, Modal,
+  StyleSheet, View, Text, Image, ImageBackground, Modal, ScrollView,
 } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -141,7 +141,7 @@ export default function SizzleFuse({ navigation }) {
   return (
     <ImageBackground source={gradient} style={styles.trim}>
       <View style={styles.container}>
-        <View style={styles.container2}>
+        <ScrollView style={styles.container2}>
           <Text style={styles.loremIpsum} onPress={navigation.goBack}>&lt;</Text>
           <Text style={styles.sizzle}>SIZZLE</Text>
           <Text style={styles.title}>{title}</Text>
@@ -189,7 +189,8 @@ export default function SizzleFuse({ navigation }) {
               </ImageBackground>
             </View>
           </Modal>
-        </View>
+          <View style={{ height: 100 }} />
+        </ScrollView>
         {isEditing ? buttons() : null}
       </View>
     </ImageBackground>

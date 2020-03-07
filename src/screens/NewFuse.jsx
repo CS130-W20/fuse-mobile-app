@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import {
-  StyleSheet, View, Text, Image, Switch, ImageBackground,
+  StyleSheet, View, Text, Image, Switch, ImageBackground, ScrollView,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/react-hooks';
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   set: {
     color: 'rgba(218,209,209,1)',
     fontSize: 30,
-    height: 50,
+    height: 40,
     alignSelf: 'center',
     position: 'absolute',
     // fontFamily: "alata-regular"
@@ -244,7 +244,7 @@ export default function NewFuse({ navigation }) {
     <View style={styles.switch}>
       <Text style={{ color: 'rgba(129,129,129,1)' }}>Send Notifications?</Text>
       <Switch
-        disabled={false}
+        disabled={!isEditing}
         trackColor={{ true: 'green' }}
         onValueChange={setNotifications}
         value={notifications}
@@ -296,7 +296,7 @@ export default function NewFuse({ navigation }) {
   return (
     <ImageBackground source={gradient} style={styles.trim}>
       <View style={styles.container}>
-        <View style={styles.container2}>
+        <ScrollView style={styles.container2}>
           <Text style={styles.loremIpsum} onPress={navigation.goBack}>&lt;</Text>
           <Text style={styles.set}>SET</Text>
           <MaterialUnderlineTextbox
@@ -310,6 +310,7 @@ export default function NewFuse({ navigation }) {
             placeholder="Event Description"
             onChangeText={setEventDescription}
             editable={isEditing}
+            multiline
           />
           <View style={{ top: 60 }}>
             {isEditing ? friendSelector() : (
@@ -347,7 +348,8 @@ export default function NewFuse({ navigation }) {
               onDateChange={setDate}
             />
           </View>
-        </View>
+          <View style={{ height: 150 }} />
+        </ScrollView>
         {isOwner ? ownerButtons() : null }
         <Image
           source={fuseLogo}

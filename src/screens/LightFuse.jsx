@@ -86,9 +86,9 @@ const listFriends = (trim) => {
     if (trim) {
       return (`${str.join('\n')}\n and more...`);
     }
-    return str.join('\n');
+    return (`${str.join('\n')}\n`);
   }
-  return 'No friends invited yet.';
+  return 'No friends joined yet.';
 };
 
 const styles = StyleSheet.create({
@@ -145,6 +145,14 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     top: 80,
     position: 'relative',
+  },
+  attHeader: {
+    justifyContent: 'center',
+    fontSize: 30,
+    width: '100%',
+    textAlign: 'center',
+    position: 'absolute',
+    color: 'rgba(129,129,129,1)',
   },
   attList: {
     textAlign: 'center',
@@ -229,7 +237,7 @@ export default function LightFuse({ navigation }) {
   return (
     <ImageBackground source={gradient} style={styles.trim}>
       <View style={styles.container}>
-        <View style={styles.container2}>
+        <ScrollView style={styles.container2}>
           <Text style={styles.loremIpsum} onPress={navigation.goBack}>&lt;</Text>
           <Text style={styles.light}>LIGHT</Text>
           <Text style={styles.title}>{title}</Text>
@@ -254,10 +262,9 @@ export default function LightFuse({ navigation }) {
                 borderRadius={10}
               >
                 <View style={styles.container}>
-                  <Text style={styles.loremIpsum} onPress={() => toggleFriends(false)}>
-                    X   Attendees
-                  </Text>
-                  <ScrollView style={{ height: '90%' }}>
+                  <Text style={styles.attHeader}>Attendees</Text>
+                  <Text style={styles.loremIpsum} onPress={() => toggleFriends(false)}>X</Text>
+                  <ScrollView>
                     <Text style={styles.modalText}>
                       {listFriends(false)}
                     </Text>
@@ -295,7 +302,8 @@ export default function LightFuse({ navigation }) {
             }}
             onDateChange={setDate}
           />
-        </View>
+          <View style={{ height: 100 }} />
+        </ScrollView>
         { isEditing ? scheduleButton() : null }
       </View>
     </ImageBackground>
