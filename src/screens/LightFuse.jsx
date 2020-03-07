@@ -1,18 +1,92 @@
-import React, { PureComponent } from 'react';
-//  import { Text, View } from 'react-native';
+import React, { useState } from 'react';
 import {
   StyleSheet, View, Text, Image, ImageBackground,
 } from 'react-native';
-import CupertinoButtonGrey from '../components/login/CupertinoButtonGrey';
-import MaterialUnderlineTextbox from '../components/login/MaterialUnderlineTextbox';
-/*  import Light from "../components/Light";
-import WhitePanel from "../components/WhitePanel";
-import MaterialFixedLabelTextbox3 from "../components/MaterialFixedLabelTextbox3";
-import MaterialIconTextbox from "../components/MaterialIconTextbox";
-*/
+import PropTypes from 'prop-types';
+import DatePicker from 'react-native-datepicker';
+import CupertinoButtonGrey from '../components/buttons/CupertinoButtonGrey';
+import MaterialUnderlineTextbox from '../components/fields/MaterialUnderlineTextbox';
+
 
 const gradient = require('../../src/assets/images/setombre.png');
 
+const example = [
+  {
+    id: 13,
+    title: 'George Clooney',
+  },
+  {
+    id: 1,
+    title: 'Brad Pitt',
+  },
+  {
+    id: 2,
+    title: 'Matt Damon',
+  },
+  {
+    id: 3,
+    title: 'Julia Roberts',
+  },
+  {
+    id: 4,
+    title: 'Andy Garcia',
+  },
+  {
+    id: 5,
+    title: 'Bernie Mac',
+  },
+  {
+    id: 6,
+    title: 'Scott Cann',
+  },
+  {
+    id: 7,
+    title: 'Elliot Gould',
+  },
+  {
+    id: 8,
+    title: 'Eddie Jemison',
+  },
+  {
+    id: 9,
+    title: 'Don Cheadle',
+  },
+  {
+    id: 10,
+    title: 'Shaobo Qin',
+  },
+  {
+    id: 11,
+    title: 'Carl Reiner',
+  },
+  {
+    id: 12,
+    title: 'Wayne Newton',
+  },
+];
+
+const friendDict = {};
+
+const keys = Object.keys(example);
+
+for (let i = 0; i < keys.length; i += 1) {
+  const value = example[keys[i]];
+  friendDict[i] = value;
+}
+
+const listFriends = () => {
+  const str = [];
+  for (let i = 0; i < Object.keys(friendDict).length; i += 1) {
+    const temp = (Object.values(friendDict[i]))[1];
+    if (str.length < 4) {
+      str.push(temp);
+    }
+  }
+  if (str.length > 0) {
+    return (`${str.join('\n')}\n and more...`);
+  }
+  return 'No friends invited yet.';
+};
 
 const styles = StyleSheet.create({
   trim: {
@@ -22,8 +96,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     margin: '5%',
+    height: '100%',
     backgroundColor: 'white',
     borderRadius: 10,
+  },
+  container2: {
+    margin: '5%',
+    height: '80%',
   },
   loremIpsum: {
     width: 34,
@@ -80,8 +159,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
   image: {
-    bottom: 20,
-    left: 275,
+    bottom: 25,
+    left: '81%',
     width: 88,
     height: 78,
     position: 'absolute',
@@ -92,79 +171,100 @@ const styles = StyleSheet.create({
     ],
   },
   deadline: {
-    flexDirection: 'row',
-    width: '95%',
+    width: 280,
     top: 100,
     height: 50,
     position: 'relative',
   },
   button: {
-    width: '75%',
+    justifyContent: 'flex-start',
+    width: '72%',
     height: 50,
-    bottom: 0,
-    position: 'absolute',
     alignSelf: 'center',
     backgroundColor: 'rgba(247,116,33,1)',
   },
 });
 
 const fuseLogo = require('../../src/assets/images/logo-fuse1.png');
-const calendarIcon = require('../../src/assets/images/calendar.png');
 
+export default function LightFuse({ navigation }) {
+  const isOwner = true;
+  const [isEditing, toggleIsEditing] = useState(isOwner);
+  const title = 'Event Name';
+  const description = 'Insert random text about event right here.\n This is super fun!\nBlah blah blah blah blah blah blah,\n';
+  const [date, setDate] = useState('03-04-2020');
+  // eslint-disable-next-line no-unused-vars
+  const [location, setLocation] = useState('');
 
-export default class LightFuse extends PureComponent {
-  render() {
-    return (
-      <ImageBackground source={gradient} style={styles.trim}>
-        <View style={styles.container}>
-          <View style={styles.container}>
-            <Text style={styles.loremIpsum}>&lt;</Text>
-            <Text style={styles.light}>LIGHT</Text>
-            <Text style={styles.title}>Event Name</Text>
-            <Text style={styles.description}>
-              Insert random text about event right here.
-              This is super fun!
-              Blah blah blah blah blah blah blah,
-              I want to test the text wrap.
-              What happens when this block of text gets to its max height?
+  const scheduleButton = () => (
+    <View>
+      <CupertinoButtonGrey
+        text="Schedule"
+        style={styles.button}
+        onPress={() => toggleIsEditing(false)}
+      />
+      <Image
+        source={fuseLogo}
+        resizeMode="contain"
+        style={styles.image}
+      />
+    </View>
+  );
+
+  return (
+    <ImageBackground source={gradient} style={styles.trim}>
+      <View style={styles.container}>
+        <View style={styles.container2}>
+          <Text style={styles.loremIpsum} onPress={navigation.goBack}>&lt;</Text>
+          <Text style={styles.light}>LIGHT</Text>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.description}>
+            {description}
+          </Text>
+          <View style={styles.attendance}>
+            <Text style={styles.attList}>
+              {listFriends()}
             </Text>
-            <View style={styles.attendance}>
-              <Text style={styles.attList}>
-                List of guests
-                {'\n'}
-                Person1
-                {'\n'}
-                Person2
-                {'\n'}
-              </Text>
-            </View>
-            <View style={styles.deadline}>
-              <Image
-                source={calendarIcon}
-                resizeMode="contain"
-                style={{ width: 40, height: 40 }}
-              />
-              <MaterialUnderlineTextbox
-                textInput1="Event Date"
-                style={{ left: 30, width: 250 }}
-              />
-            </View>
-            <MaterialUnderlineTextbox
-              style={styles.nameInput}
-              textInput1="Event Location"
-            />
-            <CupertinoButtonGrey
-              text1="Schedule"
-              style={styles.button}
-            />
-            <Image
-              source={fuseLogo}
-              resizeMode="contain"
-              style={styles.image}
-            />
           </View>
+          <Text style={styles.deadline}>Event Date:</Text>
+          <DatePicker
+            style={styles.deadline}
+            date={date}
+            mode="date"
+            placeholder="select date"
+            format="MM-DD-YYYY"
+            minDate="01-01-2020"
+            confirmBtnText="Confirm"
+            cancelBtnText="Cancel"
+            customStyles={{
+              dateIcon: {
+                position: 'absolute',
+                left: 0,
+                top: 4,
+                marginLeft: 0,
+              },
+              dateInput: {
+                marginLeft: 36,
+              },
+            }}
+            onDateChange={setDate}
+          />
+          <MaterialUnderlineTextbox
+            style={styles.nameInput}
+            placeholder="Event Location"
+            onChangeText={setLocation}
+            editable={isEditing}
+          />
         </View>
-      </ImageBackground>
-    );
-  }
+        { isEditing ? scheduleButton() : null }
+      </View>
+    </ImageBackground>
+  );
 }
+
+LightFuse.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired,
+  }).isRequired,
+};

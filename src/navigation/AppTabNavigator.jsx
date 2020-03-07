@@ -7,7 +7,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import screenIds from './ScreenIds';
 
 // Import screens, containers, header styles you need from the screen/container directory
-
 import ProfileScreen, { profileHeaderOptions } from '../screens/ProfileScreen';
 import NewsFeedContainer from '../containers/NewsFeedContainer';
 import ExploreContainer from '../containers/ExploreContainer';
