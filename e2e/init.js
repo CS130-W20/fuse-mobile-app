@@ -20,7 +20,7 @@ beforeAll(async () => {
 
 beforeEach(async () => {
   await adapter.beforeEach();
-});
+}, 2000);
 
 afterAll(async () => {
   await adapter.afterAll();
