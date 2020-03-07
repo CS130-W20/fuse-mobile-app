@@ -208,7 +208,7 @@ export default function LightFuse({ navigation }) {
   const title = 'Event Name';
   const description = 'Insert random text about event right here.\n This is super fun!\nBlah blah blah blah blah blah blah,\n';
   const [date, setDate] = useState('03-04-2020');
-  const [location, setLocation] = useState('');
+  const [location, setLocation] = useState('Event Location');
   const [expandFriends, toggleFriends] = useState(false);
 
   const scheduleButton = () => (
@@ -268,7 +268,7 @@ export default function LightFuse({ navigation }) {
           </Modal>
           <MaterialUnderlineTextbox
             style={styles.locInput}
-            placeholder="Event Location"
+            placeholder={location}
             onChangeText={setLocation}
             editable={isEditing}
           />
