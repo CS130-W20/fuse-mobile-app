@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  StyleSheet, View, Text, Image, ImageBackground,
+  StyleSheet, View, Text, Image, ImageBackground, Modal, ScrollView
 } from 'react-native';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-native-datepicker';
@@ -74,16 +74,19 @@ for (let i = 0; i < keys.length; i += 1) {
   friendDict[i] = value;
 }
 
-const listFriends = () => {
+const listFriends = (trim) => {
   const str = [];
   for (let i = 0; i < Object.keys(friendDict).length; i += 1) {
     const temp = (Object.values(friendDict[i]))[1];
-    if (str.length < 4) {
+    if (str.length < 4 || !trim) {
       str.push(temp);
     }
   }
   if (str.length > 0) {
-    return (`${str.join('\n')}\n and more...`);
+    if (trim) {
+      return (`${str.join('\n')}\n and more...`);
+    }
+    return str.join('\n');
   }
   return 'No friends invited yet.';
 };
@@ -105,7 +108,6 @@ const styles = StyleSheet.create({
     height: '80%',
   },
   loremIpsum: {
-    width: 34,
     height: 50,
     color: 'rgba(218,209,209,1)',
     fontSize: 40,
@@ -150,9 +152,9 @@ const styles = StyleSheet.create({
     position: 'relative',
     color: 'rgba(129,129,129,1)',
   },
-  nameInput: {
+  locInput: {
     height: 80,
-    top: 120,
+    top: 80,
     width: '95%',
     position: 'relative',
     alignItems: 'flex-end',
@@ -172,16 +174,29 @@ const styles = StyleSheet.create({
   },
   deadline: {
     width: 280,
-    top: 100,
+    top: 110,
     height: 50,
     position: 'relative',
   },
   button: {
-    justify: 'flex-start',
     width: '72%',
     height: 50,
     alignSelf: 'center',
     backgroundColor: 'rgba(247,116,33,1)',
+  },
+  modal: {
+    top: '30%',
+    height: 300,
+    width: '85%',
+    alignSelf: 'center',
+  },
+  modalText:{
+    fontSize: 20,
+    alignSelf: 'center',
+    textAlign: 'center',
+    top: 20,
+    position: 'relative',
+    color: 'rgba(129,129,129,1)',
   },
 });
 
@@ -194,6 +209,7 @@ export default function LightFuse({ navigation }) {
   const description = 'Insert random text about event right here.\n This is super fun!\nBlah blah blah blah blah blah blah,\n';
   const [date, setDate] = useState('03-04-2020');
   const [location, setLocation] = useState('');
+  const [expandFriends, toggleFriends] = useState(false);
 
   const scheduleButton = () => (
     <View>
@@ -221,10 +237,39 @@ export default function LightFuse({ navigation }) {
             {description}
           </Text>
           <View style={styles.attendance}>
-            <Text style={styles.attList}>
-              {listFriends()}
+            <Text style={styles.attList} onPress={() => toggleFriends(true)}>
+              {listFriends(true)}
             </Text>
           </View>
+          <Modal
+            animationType="slide"
+            visible={expandFriends}
+            transparent
+          >
+            <View style={styles.modal}>
+              <ImageBackground 
+                source={gradient}
+                style={styles.container}
+                resizeMode="stretch"
+                borderRadius={10}
+              >
+                <View style={styles.container}>
+                  <Text style={styles.loremIpsum} onPress={() => toggleFriends(false)}> X   Attendees</Text>
+                  <ScrollView style={{height: '90%'}}>
+                    <Text style={styles.modalText}>
+                      {listFriends(false)}
+                    </Text>
+                  </ScrollView>
+                </View>
+              </ImageBackground>
+            </View>
+          </Modal>
+          <MaterialUnderlineTextbox
+            style={styles.locInput}
+            placeholder="Event Location"
+            onChangeText={setLocation}
+            editable={isEditing}
+          />
           <Text style={styles.deadline}>Event Date:</Text>
           <DatePicker
             style={styles.deadline}
@@ -247,12 +292,6 @@ export default function LightFuse({ navigation }) {
               },
             }}
             onDateChange={setDate}
-          />
-          <MaterialUnderlineTextbox
-            style={styles.nameInput}
-            placeholder="Event Location"
-            onChangeText={setLocation}
-            editable={isEditing}
           />
         </View>
         { isEditing ? scheduleButton() : null }
