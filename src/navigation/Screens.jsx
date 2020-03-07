@@ -2,6 +2,7 @@ import React from 'react';
 
 import NewFuse from '../screens/NewFuse';
 import LightFuse from '../screens/LightFuse';
+import SizzleFuse from '../screens/SizzleFuse';
 import SettingsScreen, { settingsHeaderOptions } from '../screens/SettingsScreen';
 
 import screenIds from './ScreenIds';
@@ -20,6 +21,10 @@ const Screens = {
     component: SettingsScreen,
     options: settingsHeaderOptions,
   },
+  sizzleFuse:{
+    name: screenIds.sizzleFuse,
+    component: SizzleFuse,
+  }
 };
 
 const addScreensToLoginStack = (stack) => {
