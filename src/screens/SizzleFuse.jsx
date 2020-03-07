@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     width: '85%',
     alignSelf: 'center',
   },
-  modalText:{
+  modalText: {
     fontSize: 30,
     alignSelf: 'center',
     textAlign: 'center',
@@ -118,6 +118,11 @@ export default function SizzleFuse({ navigation }) {
   const description = 'Insert random text about event right here.\n This is super fun!\nBlah blah blah blah blah blah blah,\n';
   const [numPhotos, updateNumPhotos] = useState(0);
 
+  const complete = () => {
+    toggleIsEditing(false);
+    togglePopUp(true);
+  };
+
   const buttons = () => (
     <View>
       <CupertinoButtonGrey
@@ -132,11 +137,6 @@ export default function SizzleFuse({ navigation }) {
       />
     </View>
   );
-
-  const complete = () => {
-    toggleIsEditing(false);
-    togglePopUp(true);
-  };
 
   return (
     <ImageBackground source={gradient} style={styles.trim}>
@@ -160,7 +160,7 @@ export default function SizzleFuse({ navigation }) {
             transparent
           >
             <View style={styles.modal}>
-              <ImageBackground 
+              <ImageBackground
                 source={gradient}
                 style={styles.container}
                 resizeMode="stretch"
@@ -170,7 +170,15 @@ export default function SizzleFuse({ navigation }) {
                   <Text style={styles.modalText}>
                     {`You've earned \n${(numPhotos + 5)}\npoints!`}
                   </Text>
-                  <View style={{ position: 'absolute', top: 150, width: 200, alignSelf: 'center' }}>
+                  <View style={
+                    {
+                      position: 'absolute',
+                      top: 150,
+                      width: 200,
+                      alignSelf: 'center',
+                    }
+                  }
+                  >
                     <CupertinoButtonGrey
                       text="Accept"
                       style={styles.button}
