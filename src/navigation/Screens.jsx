@@ -1,8 +1,9 @@
 import React from 'react';
 
 import NewFuse from '../screens/NewFuse';
-import LightFuse from '../screens/LightFuse';
 import SettingsScreen, { settingsHeaderOptions } from '../screens/SettingsScreen';
+import EditProfileDetailsScreen, { editProfileHeaderOptions } from '../screens/EditProfileDetailsScreen';
+import LightFuse from '../screens/LightFuse';
 
 import screenIds from './ScreenIds';
 
@@ -19,6 +20,11 @@ const Screens = {
     name: screenIds.settings,
     component: SettingsScreen,
     options: settingsHeaderOptions,
+  },
+  editProfile: {
+    name: screenIds.editProfile,
+    component: EditProfileDetailsScreen,
+    options: editProfileHeaderOptions,
   },
 };
 

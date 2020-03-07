@@ -46,7 +46,7 @@ export default function NewsFeedContainer({ navigation }) {
   };
 
   return (
-    <View style={styles.wrapper}>
+    <View style={styles.wrapper} testID="newsfeed">
       <ScrollView style={styles.scrollView}>
         {eventTilesToRender()}
         <Spacer padding={20} />
