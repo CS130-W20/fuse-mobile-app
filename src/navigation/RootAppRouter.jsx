@@ -26,6 +26,7 @@ export default function RootAppRouter() {
   // TODO: replace with our own loading screen?
   if (loading) return <AppLoading />;
   const user = error ? null : data.user;
+  // const user = '';
 
   return (
     <NavigationContainer>

@@ -268,12 +268,14 @@ export default function NewFuse({ navigation }) {
           text="Save"
           style={styles.button}
           onPress={() => updateEditing(false)}
+          testID="newFuseSaveButton"
         />
       ) : (
         <CupertinoButtonGrey
           text="Submit"
           style={styles.button}
           onPress={createEvent}
+          testID="newFuseSubmitButton"
         />
       )
     );
@@ -291,11 +293,13 @@ export default function NewFuse({ navigation }) {
           text="Edit"
           style={styles.edit}
           onPress={() => updateEditing(true)}
+          testID="newFuseEditButton"
         />
         <CupertinoButtonGrey
           style={styles.light}
           text="Light"
           onPress={() => navigation.navigate(screenIds.lightFuse)}
+          testID="newFuseLightButton"
         />
       </View>
     ));
@@ -306,21 +310,23 @@ export default function NewFuse({ navigation }) {
     <ImageBackground source={gradient} style={styles.trim}>
       <View style={styles.container}>
         <View style={styles.container2}>
-          <Text style={styles.loremIpsum} onPress={navigation.goBack}>&lt;</Text>
+          <Text style={styles.loremIpsum} onPress={navigation.goBack} testID="newFuseBackButton">&lt;</Text>
           <Text style={styles.set}>SET</Text>
           <MaterialUnderlineTextbox
             style={styles.nameInput}
             placeholder="Event Name"
             onChangeText={setEventName}
             editable={isEditing}
+            testID="newFuseEventNameField"
           />
           <MaterialUnderlineTextbox
             style={styles.nameInput}
             placeholder="Event Description"
             onChangeText={setEventDescription}
             editable={isEditing}
+            testID="newFuseEventDescriptionField"
           />
-          <View style={{ top: 60 }}>
+          <View style={{ top: 60 }} testID="newFuseFriendSelector">
             <Text>{friendList}</Text>
             {isEditing ? friendSelector() : null}
           </View>
