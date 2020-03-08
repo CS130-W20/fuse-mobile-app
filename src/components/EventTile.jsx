@@ -51,6 +51,12 @@ export default class EventTile extends PureComponent {
               </View>
             );
           case 3: // unaffiliated
+            button1 = 'DETAILS';
+            return (
+              <View style={styles.bottomHeader}>
+                <FuseTileButton buttonName={button1} />
+              </View>
+            );
           default:
             return (<View />);
         }
@@ -69,6 +75,12 @@ export default class EventTile extends PureComponent {
             // NEED TO ADD CASE FOR AFTER SCHEDULE BEFORE COMPLETE
           case 2: // invited
           case 3: // unaffiliated
+            button1 = 'DETAILS';
+            return (
+              <View style={styles.bottomHeader}>
+                <FuseTileButton buttonName={button1} />
+              </View>
+            );
           default:
             return (<View />);
         }
@@ -106,6 +118,7 @@ export default class EventTile extends PureComponent {
     const { eventName } = this.props;
     const { eventCreator } = this.props;
     const { description } = this.props;
+    const creatorText = 'by ';
     return (
       <View style={styles.innterTile}>
         <View style={styles.upperHeader}>
@@ -115,8 +128,11 @@ export default class EventTile extends PureComponent {
           </View>
           <View style={styles.titleColumn}>
             <Spacer padding={10} />
-            <Text style={styles.eventName}>{eventName}</Text>
-            <Text style={styles.eventCreator}>{eventCreator}</Text>
+            <Text numberOfLines={2} style={styles.eventName}>{eventName}</Text>
+            <Text numberOfLines={1} style={styles.eventCreator}>
+              {creatorText}
+              {eventCreator}
+            </Text>
           </View>
         </View>
         <View style={styles.middleHeader}>
