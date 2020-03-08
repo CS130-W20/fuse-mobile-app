@@ -5,7 +5,7 @@ import {
   ScrollView,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useApolloClient } from '@apollo/react-hooks';
 
 import ProfileHeader from '../components/ProfileHeader';
 import NewFuseButton from '../components/NewFuseButton';
@@ -16,6 +16,7 @@ import {
   USER_PROFILE_DETAILS_QUERY,
   FRIENDS_COUNT,
   COMPLETED_EVENTS_COUNT,
+  USER_QUERY,
 } from '../graphql/GeneralQueries';
 
 import styles from './styles/ProfileContainerStyles';
@@ -36,7 +37,12 @@ export default function ProfileContainer({ navigation }) {
     completed: [],
   });
 
-  // TODO handle error
+  // Read from cache
+  const client = useApolloClient();
+  // eslint-disable-next-line no-unused-vars
+  const { me: currentUser } = client.readQuery({ query: USER_QUERY });
+
+  // Fetch using Fuse API
   const {
     data: eventQueryData,
     loading: eventQueryLoading,
@@ -62,11 +68,11 @@ export default function ProfileContainer({ navigation }) {
 
   // eslint-disable-next-line no-unused-vars
   const getProfileData = async (profileId) => {
-    const { user } = profileDetailsQueryData;
+    const { me } = profileDetailsQueryData;
     setProfileData({
-      name: user.name,
-      bio: user.bio,
-      score: user.score,
+      name: me.name,
+      bio: me.bio,
+      score: me.score,
       friendCount: friendCountQueryData.friendsCount,
       completedEventCount: completedEventCountQueryData.completedEventsCount,
     });
@@ -74,7 +80,7 @@ export default function ProfileContainer({ navigation }) {
 
   // eslint-disable-next-line no-unused-vars
   const getProfileFuses = async (profileId) => {
-    const parsedFuseData = eventQueryData.user.events;
+    const parsedFuseData = eventQueryData.me.events;
 
     const setFuses = [];
     const litFuses = [];
@@ -131,15 +137,17 @@ export default function ProfileContainer({ navigation }) {
     }
 
     return fuseListToShow.map((fuse) => (
-      <EventTile
-        eventName={fuse.title}
-        eventCreator={fuse.owner.name}
-        description={fuse.description}
-        eventStage={fuse.status}
-        eventView={0}
-        eventRelation={0}
-        key={fuse.title}
-      />
+      <View style={styles.tileWrapper}>
+        <EventTile
+          eventName={fuse.title}
+          eventCreator={fuse.owner.name}
+          description={fuse.description}
+          eventStage={fuse.status}
+          eventView={0}
+          eventRelation={0}
+          key={fuse.title}
+        />
+      </View>
     ));
   };
 

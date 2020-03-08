@@ -94,7 +94,7 @@ const updateCache = (cache, { data: { signup } }) => {
   const { token, user } = signup;
   cache.writeQuery({
     query: USER_QUERY,
-    data: { user, token },
+    data: { me: { ...user }, token },
   });
 };
 

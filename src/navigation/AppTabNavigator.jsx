@@ -12,7 +12,6 @@ import NewsFeedContainer from '../containers/NewsFeedContainer';
 import ExploreContainer from '../containers/ExploreContainer';
 import Notification from '../screens/Notification';
 
-
 // Stack ids. Each tab in our tab navigation has a stack
 export const NavigationStackIds = {
   feed: 'Feed',
