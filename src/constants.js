@@ -9,3 +9,7 @@ export const EVENTSTATUS = {
   lit: 'LIT',
   completed: 'COMPLETED',
 };
+
+export const ProfileParams = {
+  profileId: 'profileId',
+};

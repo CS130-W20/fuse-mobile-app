@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { useApolloClient, useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 
 import { AppLoading } from 'expo';
 import Login from '../screens/Login';
