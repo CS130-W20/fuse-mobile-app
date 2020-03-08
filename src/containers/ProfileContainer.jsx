@@ -11,13 +11,15 @@ import ProfileHeader from '../components/ProfileHeader';
 import NewFuseButton from '../components/NewFuseButton';
 import ViewToggle from '../components/ViewToggle';
 import Spacer from '../helpers/Spacer';
-import { mockAsyncWithData } from '../helpers/mock';
-import { USER_EVENTS_QUERY } from '../graphql/GeneralQueries';
+import {
+  USER_EVENTS_QUERY,
+  USER_PROFILE_DETAILS_QUERY,
+  FRIENDS_COUNT,
+  COMPLETED_EVENTS_COUNT,
+} from '../graphql/GeneralQueries';
 
 import styles from './styles/ProfileContainerStyles';
 import EventTile from '../components/EventTile';
-
-const bio = 'Searching for my wife.\nI am accepting snakes and champagne stealers only.\nWill you accept this rose?';
 
 export default function ProfileContainer({ navigation }) {
   const [focusedView, setFocusedView] = useState(0);
@@ -39,25 +41,40 @@ export default function ProfileContainer({ navigation }) {
     data: eventQueryData,
     loading: eventQueryLoading,
   } = useQuery(USER_EVENTS_QUERY);
+  const {
+    data: profileDetailsQueryData,
+    loading: profileDetailsQueryLoading,
+    // eslint-disable-next-line no-unused-vars
+    error: profileDetailsQueryError,
+  } = useQuery(USER_PROFILE_DETAILS_QUERY);
+  const {
+    data: friendCountQueryData,
+    loading: friendCountQueryLoading,
+    // eslint-disable-next-line no-unused-vars
+    error: friendCountQueryError,
+  } = useQuery(FRIENDS_COUNT);
+  const {
+    data: completedEventCountQueryData,
+    loading: completedEventCountQueryLoading,
+    // eslint-disable-next-line no-unused-vars
+    error: completedEventCountQueryError,
+  } = useQuery(COMPLETED_EVENTS_COUNT);
 
   // eslint-disable-next-line no-unused-vars
   const getProfileData = async (profileId) => {
-    // TODO replace mock call with real query
-    const mockedProfileData = {
-      name: 'Peter Weber',
-      bio,
-      score: 420,
-      friendCount: 3,
-      completedEventCount: 69,
-    };
-    const mockData = await mockAsyncWithData(mockedProfileData, 1000);
-
-    setProfileData(mockData);
+    const { me } = profileDetailsQueryData;
+    setProfileData({
+      name: me.name,
+      bio: me.bio,
+      score: me.score,
+      friendCount: friendCountQueryData.friendsCount,
+      completedEventCount: completedEventCountQueryData.completedEventsCount,
+    });
   };
 
   // eslint-disable-next-line no-unused-vars
   const getProfileFuses = async (profileId) => {
-    const parsedFuseData = eventQueryData.user.events;
+    const parsedFuseData = eventQueryData.me.events;
 
     const setFuses = [];
     const litFuses = [];
@@ -114,24 +131,39 @@ export default function ProfileContainer({ navigation }) {
     }
 
     return fuseListToShow.map((fuse) => (
-      <EventTile
-        eventName={fuse.title}
-        eventCreator={fuse.owner.name}
-        description={fuse.description}
-        eventStage={fuse.status}
-        eventView={0}
-        eventRelation={0}
-        key={fuse.title}
-      />
+      <View style={styles.tileWrapper}>
+        <EventTile
+          eventName={fuse.title}
+          eventCreator={fuse.owner.name}
+          description={fuse.description}
+          eventStage={fuse.status}
+          eventView={0}
+          eventRelation={0}
+          key={fuse.title}
+        />
+      </View>
     ));
   };
 
   useEffect(() => {
     if (eventQueryData && !eventQueryLoading) {
-      getProfileData('');
-      getProfileFuses('');
+      getProfileFuses();
     }
   }, [eventQueryData, eventQueryLoading]);
+
+  useEffect(() => {
+    if (
+      profileDetailsQueryData && !profileDetailsQueryLoading
+      && friendCountQueryData && !friendCountQueryLoading
+      && completedEventCountQueryData && !completedEventCountQueryLoading
+    ) {
+      getProfileData();
+    }
+  }, [
+    profileDetailsQueryData, profileDetailsQueryLoading,
+    friendCountQueryData, friendCountQueryLoading,
+    completedEventCountQueryData, completedEventCountQueryLoading,
+  ]);
 
   return (
     <View style={styles.wrapper}>

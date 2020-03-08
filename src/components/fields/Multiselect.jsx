@@ -15,21 +15,19 @@ export default function Multiselect({
         uniqueKey="id"
         subKey="children"
         displayKey="title"
-        selectText="Choose some friends:"
-        showDropDowns
-        readOnlyHeadings
+        selectText="Invite friends:"
+        showDropDowns={false}
         onSelectedItemsChange={onSelectedItemsChange}
         selectedItems={selectedItems}
-        hideSelect
-        modalWithTouchable
-        modalWithSafeAreaView
+        showChips={false}
         onConfirm={confirmFunc}
         colors={{ primary: '#ed5c45' }}
-        styles={{ container: { alignSelf: 'center' } }}
-        confirmFontFamily="alata-regular"
-        searchTextFontFamily="alata-regular"
+        styles={{ container: { maxHeight: '60%' } }}
+        // confirmFontFamily="alata-regular"
+        // searchTextFontFamily="alata-regular"
         // subItemFontFamily="alata-regular"
         // itemFontFamily="alata-regular"
+        searchPlaceholderText="Search friends..."
       />
     </View>
   );

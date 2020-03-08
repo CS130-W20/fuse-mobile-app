@@ -1,15 +1,11 @@
-import React, { PureComponent } from 'react';
-//  import { Text, View } from 'react-native';
+import React, { useState } from 'react';
 import {
-  StyleSheet, View, Text, Image, ImageBackground,
+  StyleSheet, View, Text, Image, ImageBackground, Modal,
 } from 'react-native';
-import CupertinoButtonGrey from '../components/login/CupertinoButtonGrey';
-import MaterialUnderlineTextbox from '../components/login/MaterialUnderlineTextbox';
-/*  import Light from "../components/Light";
-import WhitePanel from "../components/WhitePanel";
-import MaterialFixedLabelTextbox3 from "../components/MaterialFixedLabelTextbox3";
-import MaterialIconTextbox from "../components/MaterialIconTextbox";
-*/
+import PropTypes from 'prop-types';
+
+import CupertinoButtonGrey from '../components/buttons/CupertinoButtonGrey';
+import MaterialUnderlineTextbox from '../components/fields/MaterialUnderlineTextbox';
 
 const gradient = require('../../src/assets/images/completeombre.png');
 
@@ -25,6 +21,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 10,
   },
+  container2: {
+    margin: '5%',
+    height: '70%',
+  },
   loremIpsum: {
     width: 34,
     height: 50,
@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
     height: 50,
     alignSelf: 'center',
     position: 'absolute',
-    // fontFamily: "alata-regular"
   },
   title: {
     fontSize: 40,
@@ -65,11 +64,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
   image: {
-    bottom: 20,
-    left: 275,
+    bottom: 38,
+    left: '85%',
     width: 88,
     height: 78,
-    position: 'absolute',
+    position: 'relative',
     transform: [
       {
         rotate: '15.00deg',
@@ -84,54 +83,122 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   button: {
-    width: '75%',
+    width: '80%',
     height: 50,
+    top: 5,
     bottom: 0,
     position: 'absolute',
     alignSelf: 'center',
     backgroundColor: 'rgba(247,177,33,1)',
+  },
+  modal: {
+    top: '30%',
+    height: 300,
+    width: '85%',
+    alignSelf: 'center',
+  },
+  modalText: {
+    fontSize: 30,
+    alignSelf: 'center',
+    textAlign: 'center',
+    top: 20,
+    position: 'relative',
+    color: 'rgba(129,129,129,1)',
   },
 });
 
 const fuseLogo = require('../../src/assets/images/logo-fuse1.png');
 
 
-export default class LightFuse extends PureComponent {
-  render() {
-    return (
-      <ImageBackground source={gradient} style={styles.trim}>
-        <View style={styles.container}>
-          <View style={styles.container}>
-            <Text style={styles.loremIpsum}>&lt;</Text>
-            <Text style={styles.sizzle}>SIZZLE</Text>
-            <Text style={styles.title}>Event Name</Text>
-            <Text style={styles.description}>
-              Insert random text about event right here.
-              This is super fun!
-              Blah blah blah blah blah blah blah,
-              I want to test the text wrap.
-              What happens when this block of text gets to its max height?
-            </Text>
-            <MaterialUnderlineTextbox
-              style={styles.nameInput}
-              textInput1="Event Photos"
-            />
-            <MaterialUnderlineTextbox
-              style={styles.nameInput}
-              textInput1="Event Memories"
-            />
-            <CupertinoButtonGrey
-              text1="Complete"
-              style={styles.button}
-            />
-            <Image
-              source={fuseLogo}
-              resizeMode="contain"
-              style={styles.image}
-            />
-          </View>
+export default function SizzleFuse({ navigation }) {
+  const isOwner = true;
+  const [isEditing, toggleIsEditing] = useState(isOwner);
+  const [popup, togglePopUp] = useState(false);
+  const title = 'Event Name';
+  const description = 'Insert random text about event right here.\n This is super fun!\nBlah blah blah blah blah blah blah,\n';
+  const [numPhotos] = useState(0);
+
+  const complete = () => {
+    toggleIsEditing(false);
+    togglePopUp(true);
+  };
+
+  const buttons = () => (
+    <View>
+      <CupertinoButtonGrey
+        text="Complete"
+        style={styles.button}
+        onPress={complete}
+      />
+      <Image
+        source={fuseLogo}
+        resizeMode="contain"
+        style={styles.image}
+      />
+    </View>
+  );
+
+  return (
+    <ImageBackground source={gradient} style={styles.trim}>
+      <View style={styles.container}>
+        <View style={styles.container2}>
+          <Text style={styles.loremIpsum} onPress={navigation.goBack}>&lt;</Text>
+          <Text style={styles.sizzle}>SIZZLE</Text>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.description}>{description}</Text>
+          <MaterialUnderlineTextbox
+            style={styles.nameInput}
+            placeholder="Event Photos"
+          />
+          <MaterialUnderlineTextbox
+            style={styles.nameInput}
+            placeholder="Event Memories"
+          />
+          <Modal
+            animationType="slide"
+            visible={popup}
+            transparent
+          >
+            <View style={styles.modal}>
+              <ImageBackground
+                source={gradient}
+                style={styles.container}
+                resizeMode="stretch"
+                borderRadius={10}
+              >
+                <View style={styles.container}>
+                  <Text style={styles.modalText}>
+                    {`You've earned \n${(numPhotos + 5)}\npoints!`}
+                  </Text>
+                  <View style={
+                    {
+                      position: 'absolute',
+                      top: 150,
+                      width: 200,
+                      alignSelf: 'center',
+                    }
+                  }
+                  >
+                    <CupertinoButtonGrey
+                      text="Accept"
+                      style={styles.button}
+                      onPress={() => togglePopUp(false)}
+                    />
+                  </View>
+                </View>
+              </ImageBackground>
+            </View>
+          </Modal>
         </View>
-      </ImageBackground>
-    );
-  }
+        {isEditing ? buttons() : null}
+      </View>
+    </ImageBackground>
+  );
 }
+
+SizzleFuse.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired,
+  }).isRequired,
+};

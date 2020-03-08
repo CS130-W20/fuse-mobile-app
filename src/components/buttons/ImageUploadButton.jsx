@@ -48,7 +48,7 @@ async function uploadToS3(imageUri, name) {
 
   const options = {
     keyPrefix: 'photos/tests/',
-    bucket: 'fuse-image-bucket',
+    bucket: 'fuse-photo-bucket',
     region: 'us-west-2',
     successActionStatus: 201,
     accessKey: ACCESS_KEY,

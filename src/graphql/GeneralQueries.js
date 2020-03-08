@@ -8,7 +8,7 @@ export const PING_QUERY = gql`
 
 export const USER_QUERY = gql`
     query userQuery {
-        user {
+        me {
             id
             email
             name
@@ -52,7 +52,7 @@ export const CREATE_EVENT_MUTATION = gql`
 
 export const USER_EVENTS_QUERY = gql`
   query userQuery {
-    user {
+    me {
       id
       events(association: [OWNER, JOINED], status: [SET, COMPLETED, LIT]) {
         id
@@ -95,6 +95,40 @@ export const NEWS_FEED_QUERY = gql`
       joined {
         id
       }
+    }
+  }
+`;
+
+export const USER_PROFILE_DETAILS_QUERY = gql`
+  query {
+    me {
+      id
+      name
+      email
+      bio
+      score
+    }
+  }
+`;
+
+export const COMPLETED_EVENTS_COUNT = gql`
+  query ($userId: ID) {
+    completedEventsCount(userId: $userId)
+  }
+`;
+
+export const FRIENDS_COUNT = gql`
+  query ($userId: ID) {
+    friendsCount(userId: $userId)
+  }
+`;
+
+export const PROFILE_DETAILS_MUTATION = gql`
+  mutation ($name: String, $bio: String) {
+    updateProfileDetails(name: $name, bio: $bio) {
+      id
+      name
+      bio
     }
   }
 `;
