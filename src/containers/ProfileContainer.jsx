@@ -62,11 +62,11 @@ export default function ProfileContainer({ navigation }) {
 
   // eslint-disable-next-line no-unused-vars
   const getProfileData = async (profileId) => {
-    const { user } = profileDetailsQueryData;
+    const { me } = profileDetailsQueryData;
     setProfileData({
-      name: user.name,
-      bio: user.bio,
-      score: user.score,
+      name: me.name,
+      bio: me.bio,
+      score: me.score,
       friendCount: friendCountQueryData.friendsCount,
       completedEventCount: completedEventCountQueryData.completedEventsCount,
     });
@@ -74,7 +74,7 @@ export default function ProfileContainer({ navigation }) {
 
   // eslint-disable-next-line no-unused-vars
   const getProfileFuses = async (profileId) => {
-    const parsedFuseData = eventQueryData.user.events;
+    const parsedFuseData = eventQueryData.me.events;
 
     const setFuses = [];
     const litFuses = [];
