@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
+import { useApolloClient, useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
-import { useQuery } from '@apollo/react-hooks';
 import { AppLoading } from 'expo';
 import Login from '../screens/Login';
 import { AppTabNavigator } from './AppTabNavigator';
@@ -18,14 +19,29 @@ const rootStackOptions = {
 };
 
 export default function RootAppRouter() {
+  const client = useApolloClient();
+  const [user, setUser] = useState(null);
+
   const rootStack = createStackNavigator();
 
   // eslint-disable-next-line no-unused-vars
   const { data, loading, error } = useQuery(USER_QUERY);
 
+  // eslint-disable-next-line no-unused-vars
+  const unsubscribe = client.onClearStore(() => {
+    // eslint-disable-next-line no-console
+    console.log('Heard that Apollo client store cleared. Setting user to null and switching to auth stack');
+    setUser(null);
+  });
+
+  useEffect(() => {
+    if (!loading) {
+      setUser(error ? null : data.me);
+    }
+  }, [data, loading, error]);
+
   // TODO: replace with our own loading screen?
   if (loading) return <AppLoading />;
-  const user = error ? null : data.me;
 
   return (
     <NavigationContainer>
