@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
 });
 
 function MaterialUnderlineTextbox({
-  style, placeholder, onChangeText, secureTextEntry, textContentType, editable, value, multiline,
+  style, placeholder, onChangeText, secureTextEntry, textContentType,
+  editable, value, multiline, testID,
 }) {
   return (
     <View style={[styles.container, style]}>
@@ -39,6 +40,7 @@ function MaterialUnderlineTextbox({
         editable={editable}
         value={value}
         multiline={multiline}
+        testID={testID}
       />
     </View>
   );
@@ -55,6 +57,7 @@ MaterialUnderlineTextbox.defaultProps = {
   editable: true,
   value: null,
   multiline: false,
+  testID: '',
 };
 
 MaterialUnderlineTextbox.propTypes = {
@@ -66,6 +69,7 @@ MaterialUnderlineTextbox.propTypes = {
   editable: PropTypes.bool,
   value: PropTypes.string,
   multiline: PropTypes.bool,
+  testID: PropTypes.string,
 };
 
 
