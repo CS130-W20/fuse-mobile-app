@@ -8,7 +8,7 @@ export const PING_QUERY = gql`
 
 export const USER_QUERY = gql`
     query userQuery {
-        user {
+        me {
             id
             email
             name
@@ -52,7 +52,7 @@ export const CREATE_EVENT_MUTATION = gql`
 
 export const USER_EVENTS_QUERY = gql`
   query userQuery {
-    user {
+    me {
       id
       events(association: [OWNER, JOINED], status: [SET, COMPLETED, LIT]) {
         id
@@ -101,7 +101,7 @@ export const NEWS_FEED_QUERY = gql`
 
 export const USER_PROFILE_DETAILS_QUERY = gql`
   query {
-    user {
+    me {
       id
       name
       email
