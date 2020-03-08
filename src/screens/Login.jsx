@@ -92,7 +92,7 @@ const updateCache = (cache, { data: { login } }) => {
   const { token, user } = login;
   cache.writeQuery({
     query: USER_QUERY,
-    data: { user, token },
+    data: { me: { ...user }, token },
   });
 };
 

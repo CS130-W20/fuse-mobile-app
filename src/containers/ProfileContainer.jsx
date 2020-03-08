@@ -5,7 +5,7 @@ import {
   ScrollView,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useApolloClient } from '@apollo/react-hooks';
 
 import ProfileHeader from '../components/ProfileHeader';
 import NewFuseButton from '../components/NewFuseButton';
@@ -16,6 +16,7 @@ import {
   USER_PROFILE_DETAILS_QUERY,
   FRIENDS_COUNT,
   COMPLETED_EVENTS_COUNT,
+  USER_QUERY,
 } from '../graphql/GeneralQueries';
 
 import styles from './styles/ProfileContainerStyles';
@@ -36,7 +37,12 @@ export default function ProfileContainer({ navigation }) {
     completed: [],
   });
 
-  // TODO handle error
+  // Read from cache
+  const client = useApolloClient();
+  // eslint-disable-next-line no-unused-vars
+  const { me: currentUser } = client.readQuery({ query: USER_QUERY });
+
+  // Fetch using Fuse API
   const {
     data: eventQueryData,
     loading: eventQueryLoading,
