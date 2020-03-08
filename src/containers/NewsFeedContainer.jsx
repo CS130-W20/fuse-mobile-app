@@ -12,7 +12,7 @@ import NewFuseButton from '../components/NewFuseButton';
 import EventTile from '../components/EventTile';
 import styles from './styles/NewsFeedContainerStyles';
 import Spacer from '../helpers/Spacer';
-import ImageUploadButton from '../components/buttons/ImageUploadButton';
+// import ImageUploadButton from '../components/buttons/ImageUploadButton';
 
 export default function NewsFeedContainer({ navigation }) {
   const {
@@ -23,11 +23,11 @@ export default function NewsFeedContainer({ navigation }) {
 
   const eventTilesToRender = () => {
     if (newsFeedQueryLoading) {
-      return <Text>Loading</Text>;
+      return <Text testID="newsfeedTile">Loading</Text>;
     }
 
     if (newsFeedQueryError) {
-      return <Text>Error</Text>;
+      return <Text testID="newsfeedTile">Error</Text>;
     }
 
     const eventTiles = newsFeedQueryData.newsFeed.map((event) => (
@@ -40,20 +40,21 @@ export default function NewsFeedContainer({ navigation }) {
         eventRelation={2}
         eventView={0}
         key={event.id}
+        testID="newsfeedTile"
       />
     ));
     return eventTiles;
   };
 
   return (
-    <View style={styles.wrapper}>
+    <View style={styles.wrapper} testID="newsfeed">
       <ScrollView style={styles.scrollView}>
         {eventTilesToRender()}
         <Spacer padding={20} />
       </ScrollView>
-      <NewFuseButton navigation={navigation} />
+      <NewFuseButton navigation={navigation} testID="addEventButton" />
       {/* Uncomment the next line to test image upload */}
-      <ImageUploadButton />
+      {/* <ImageUploadButton /> */}
     </View>
   );
 }

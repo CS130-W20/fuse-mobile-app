@@ -100,8 +100,8 @@ export const NEWS_FEED_QUERY = gql`
 `;
 
 export const USER_PROFILE_DETAILS_QUERY = gql`
-  query {
-    me {
+  query ($id: ID!) {
+    user (id: $id) {
       id
       name
       email

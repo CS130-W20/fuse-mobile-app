@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import {
   TouchableOpacity,
 } from 'react-native';
-import { Feather } from '@expo/vector-icons';
 import { launchImageLibraryAsync, MediaTypeOptions } from 'expo-image-picker';
 import Constants from 'expo-constants';
 import { askAsync, CAMERA_ROLL } from 'expo-permissions';
@@ -39,7 +38,7 @@ async function uploadPhoto(photoAccess, setImageUri) {
   }
 }
 
-async function uploadToS3(imageUri, name) {
+async function uploadToS3(imageUri, name, imagePath, incrementer, numAttempts) {
   const file = {
     uri: imageUri,
     name,
@@ -47,7 +46,7 @@ async function uploadToS3(imageUri, name) {
   };
 
   const options = {
-    keyPrefix: 'photos/tests/',
+    keyPrefix: `photos/${imagePath}/`,
     bucket: 'fuse-photo-bucket',
     region: 'us-west-2',
     successActionStatus: 201,
@@ -62,17 +61,20 @@ async function uploadToS3(imageUri, name) {
       }
       // eslint-disable-next-line no-console
       console.log(response.body);
+      incrementer(numAttempts + 1);
     })
     // eslint-disable-next-line no-console
     .catch((err) => console.error(err));
 }
 
-export default function ImageUploadButton() {
+export default function ImageUploadButton({
+  // eslint-disable-next-line react/prop-types
+  children, imageName, imagePath, incrementer, numAttempts,
+}) {
   const [photoAccess, setPhotoAccess] = useState(false);
   const [triedToUpload, setTriedToUpload] = useState(0);
   const [imageUri, setImageUri] = useState(null);
   // eslint-disable-next-line no-unused-vars
-  const [imageName, setImageName] = useState('test-photo.jpg');
 
   useEffect(() => {
     getPermissionAsync(setPhotoAccess);
@@ -80,7 +82,7 @@ export default function ImageUploadButton() {
 
   useEffect(() => {
     if (imageUri) {
-      uploadToS3(imageUri, imageName);
+      uploadToS3(imageUri, imageName, imagePath, incrementer, numAttempts);
     }
   }, [imageUri]);
 
@@ -89,10 +91,11 @@ export default function ImageUploadButton() {
       style={styles.imageUploadWrapper}
       onPress={() => {
         uploadPhoto(photoAccess, setImageUri);
+        incrementer(numAttempts + 1);
         setTriedToUpload(triedToUpload + 1);
       }}
     >
-      <Feather name="plus" style={styles.newFuseIcon} />
+      {children}
     </TouchableOpacity>
   );
 }
