@@ -5,7 +5,7 @@ import {
   ScrollView,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useApolloClient } from '@apollo/react-hooks';
 
 import ProfileHeader from '../components/ProfileHeader';
 import NewFuseButton from '../components/NewFuseButton';
@@ -16,12 +16,13 @@ import {
   USER_PROFILE_DETAILS_QUERY,
   FRIENDS_COUNT,
   COMPLETED_EVENTS_COUNT,
+  USER_QUERY,
 } from '../graphql/GeneralQueries';
 
 import styles from './styles/ProfileContainerStyles';
 import EventTile from '../components/EventTile';
 
-export default function ProfileContainer({ navigation }) {
+export default function ProfileContainer({ profileId, navigation }) {
   const [focusedView, setFocusedView] = useState(0);
   const [profileData, setProfileData] = useState({
     name: '',
@@ -36,7 +37,12 @@ export default function ProfileContainer({ navigation }) {
     completed: [],
   });
 
-  // TODO handle error
+  // Read from cache
+  const client = useApolloClient();
+  // eslint-disable-next-line no-unused-vars
+  const { me: currentUser } = client.readQuery({ query: USER_QUERY });
+
+  // Fetch using Fuse API
   const {
     data: eventQueryData,
     loading: eventQueryLoading,
@@ -46,22 +52,34 @@ export default function ProfileContainer({ navigation }) {
     loading: profileDetailsQueryLoading,
     // eslint-disable-next-line no-unused-vars
     error: profileDetailsQueryError,
-  } = useQuery(USER_PROFILE_DETAILS_QUERY);
+  } = useQuery(USER_PROFILE_DETAILS_QUERY, {
+    variables: {
+      id: profileId,
+    },
+  });
   const {
     data: friendCountQueryData,
     loading: friendCountQueryLoading,
     // eslint-disable-next-line no-unused-vars
     error: friendCountQueryError,
-  } = useQuery(FRIENDS_COUNT);
+  } = useQuery(FRIENDS_COUNT, {
+    variables: {
+      userId: profileId,
+    },
+  });
   const {
     data: completedEventCountQueryData,
     loading: completedEventCountQueryLoading,
     // eslint-disable-next-line no-unused-vars
     error: completedEventCountQueryError,
-  } = useQuery(COMPLETED_EVENTS_COUNT);
+  } = useQuery(COMPLETED_EVENTS_COUNT, {
+    variables: {
+      userId: profileId,
+    },
+  });
 
   // eslint-disable-next-line no-unused-vars
-  const getProfileData = async (profileId) => {
+  const getProfileData = async () => {
     const { user } = profileDetailsQueryData;
     setProfileData({
       name: user.name,
@@ -73,8 +91,8 @@ export default function ProfileContainer({ navigation }) {
   };
 
   // eslint-disable-next-line no-unused-vars
-  const getProfileFuses = async (profileId) => {
-    const parsedFuseData = eventQueryData.user.events;
+  const getProfileFuses = async () => {
+    const parsedFuseData = eventQueryData.me.events;
 
     const setFuses = [];
     const litFuses = [];
@@ -131,7 +149,10 @@ export default function ProfileContainer({ navigation }) {
     }
 
     return fuseListToShow.map((fuse) => (
-      <View style={styles.tileWrapper}>
+      <View
+        style={styles.tileWrapper}
+        key={fuse.title}
+      >
         <EventTile
           eventName={fuse.title}
           eventCreator={fuse.owner.name}
@@ -139,11 +160,14 @@ export default function ProfileContainer({ navigation }) {
           eventStage={fuse.status}
           eventView={0}
           eventRelation={0}
-          key={fuse.title}
         />
       </View>
     ));
   };
+
+  useEffect(() => {
+    // TODO make different call to fetch friend events if not personal id
+  }, []);
 
   useEffect(() => {
     if (eventQueryData && !eventQueryLoading) {
@@ -188,6 +212,7 @@ export default function ProfileContainer({ navigation }) {
 }
 
 ProfileContainer.propTypes = {
+  profileId: PropTypes.string.isRequired,
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
     goBack: PropTypes.func.isRequired,

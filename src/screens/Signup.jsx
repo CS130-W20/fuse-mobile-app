@@ -94,7 +94,7 @@ const updateCache = (cache, { data: { signup } }) => {
   const { token, user } = signup;
   cache.writeQuery({
     query: USER_QUERY,
-    data: { user, token },
+    data: { me: { ...user }, token },
   });
 };
 
@@ -145,6 +145,7 @@ export default function SignUp({ navigation }) {
         style={styles.materialUnderlineTextbox1}
         onChangeText={setName}
         textContentType="name"
+        testID="signupName"
       />
       <MaterialUnderlineTextbox
         placeholder="Password"
@@ -152,22 +153,26 @@ export default function SignUp({ navigation }) {
         secureTextEntry
         textContentType="newPassword"
         onChangeText={setPassword}
+        testID="signupPassword"
       />
       <MaterialUnderlineTextbox
         placeholder="Email"
         style={styles.materialUnderlineTextbox3}
         textContentType="emailAddress"
         onChangeText={setEmail}
+        testID="signupEmail"
       />
       <CupertinoButtonGrey
         text="create"
         style={styles.cupertinoButtonGrey1}
         onPress={attemptSignup}
+        testID="signupCreate"
       />
       <CupertinoButtonGrey
         text="back"
         style={styles.cupertinoButtonInfo}
         onPress={() => navigation.navigate(screenIds.login)}
+        testID="signupBack"
       />
 
     </View>

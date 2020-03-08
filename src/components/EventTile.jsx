@@ -20,6 +20,8 @@ export default class EventTile extends PureComponent {
   showButtons() {
     let button1 = '';
     let button2 = '';
+    // eslint-disable-next-line no-unused-vars
+    const { testID } = this.props;
     const { eventStage } = this.props;
     const { eventRelation } = this.props;
     switch (eventStage) {
@@ -181,9 +183,11 @@ export default class EventTile extends PureComponent {
       eventStage, // 0: set, 1: lit, 2: complete
       // eslint-disable-next-line no-unused-vars
       eventRelation, // 0: creator, 1: joined, 2: invited, 3: unaffiliated
+      // eslint-disable-next-line no-unused-vars
+      testID,
     } = this.props;
     return (
-      <View style={styles.outerTile}>
+      <View style={styles.outerTile} testID={testID}>
         {this.showTile()}
       </View>
     );
@@ -196,4 +200,5 @@ EventTile.propTypes = {
   description: PropTypes.string.isRequired,
   eventStage: PropTypes.string.isRequired,
   eventRelation: PropTypes.number.isRequired,
+  testID: PropTypes.string.isRequired,
 };
