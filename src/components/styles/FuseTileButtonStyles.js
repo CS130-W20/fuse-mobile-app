@@ -3,7 +3,7 @@ import colors from '../../styles/colors';
 
 const styles = StyleSheet.create({
   buttonText: {
-    color: colors.white,
+    color: colors.grey,
     fontSize: 14,
   },
   buttonWrapper: {
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.buttongrey,
+    backgroundColor: colors.white,
   },
 });
 

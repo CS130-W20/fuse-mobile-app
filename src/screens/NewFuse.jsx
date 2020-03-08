@@ -101,7 +101,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(247,116,33,1)',
   },
   edit: {
-    justifyContent: 'flex-start',
     width: '80%',
     height: 50,
     alignSelf: 'center',
@@ -190,6 +189,9 @@ const selectedText = (selectedItems) => {
     const temp = (Object.values(friendDict[i]))[1];
     if (selectedItems.includes((Object.values(friendDict[i]))[0])) {
       str.push(temp);
+      if (str.length > 2) {
+        return `${str.join(', ')}\nand more...`;
+      }
     }
   }
   if (str.length > 0) {
@@ -202,7 +204,6 @@ export default function NewFuse({ navigation }) {
   const isOwner = true;
   const [isSet, updateSet] = useState(false);
   const [isEditing, updateEditing] = useState(isOwner);
-  const [selectingFriends, toggleFriends] = useState(false);
 
   const [eventName, setEventName] = useState('');
   const [eventDescription, setEventDescription] = useState('');
@@ -214,7 +215,6 @@ export default function NewFuse({ navigation }) {
   const [createEventMutation] = useMutation(CREATE_EVENT_MUTATION);
 
   const onConfirm = () => {
-    toggleFriends(false);
     friendListChange(selectedText(selectedItems));
   };
 
@@ -231,30 +231,21 @@ export default function NewFuse({ navigation }) {
       }); */
   };
 
-  const friendSelector = () => (selectingFriends
-    ? (
-      <Multiselect
-        style={{ alignSelf: 'center', width: '100%' }}
-        itemlist={itemlist}
-        selectedItems={selectedItems}
-        onSelectedItemsChange={onSelectedItemsChange}
-        confirmFunc={onConfirm}
-      />
-    )
-    : (
-      <CupertinoButtonGrey
-        style={{ top: 10 }}
-        text="Add Friends"
-        onPress={() => toggleFriends(isEditing)}
-      />
-    ));
+  const friendSelector = () => (
+    <Multiselect
+      itemlist={itemlist}
+      selectedItems={selectedItems}
+      onSelectedItemsChange={onSelectedItemsChange}
+      confirmFunc={onConfirm}
+    />
+  );
 
   const notifSwitch = () => (
     <View style={styles.switch}>
       <Text style={{ color: 'rgba(129,129,129,1)' }}>Send Notifications?</Text>
       <Switch
         disabled={false}
-        trackColor={{ true: 'rgba(230, 230, 230,1)' }}
+        trackColor={{ true: 'green' }}
         onValueChange={setNotifications}
         value={notifications}
       />
@@ -327,8 +318,13 @@ export default function NewFuse({ navigation }) {
             testID="newFuseEventDescriptionField"
           />
           <View style={{ top: 60 }} testID="newFuseFriendSelector">
+            {isEditing ? friendSelector() : (
+              <Text>
+                Invited Friends:
+                {'\n'}
+              </Text>
+            )}
             <Text>{friendList}</Text>
-            {isEditing ? friendSelector() : null}
           </View>
           {isOwner ? notifSwitch() : null}
           <Text style={styles.deadline}>Deadline:</Text>

@@ -5,17 +5,26 @@ describe('Event Engine Tests', () => {
     await reloadApp();
   });
 
+  it('user can login', async () => {
+    // eslint-disable-next-line no-undef
+    await element(by.id('loginEmail')).typeText('test@test.com');
+    // eslint-disable-next-line no-undef
+    await element(by.id('loginPassword')).typeText('asdf');
+    // eslint-disable-next-line no-undef
+    await element(by.id('loginButton')).tap();
+  });
+
   it('user can see the fields in the new fuse page', async () => {
     // eslint-disable-next-line no-undef
     await element(by.id('addEventButton')).tap();
     // eslint-disable-next-line no-undef
-    await expect(element(by.id('newFuseSubmitButton'))).toBeVisible();
+    await expect(element(by.id('newFuseSubmitButton')));
     // eslint-disable-next-line no-undef
-    await expect(element(by.id('newFuseEventNameField'))).toBeVisible();
+    await expect(element(by.id('newFuseEventNameField')));
     // eslint-disable-next-line no-undef
-    await expect(element(by.id('newFuseEventDescriptionField'))).toBeVisible();
+    await expect(element(by.id('newFuseEventDescriptionField')));
     // eslint-disable-next-line no-undef
-    await expect(element(by.id('newFuseFriendSelector'))).toBeVisible();
+    await expect(element(by.id('newFuseFriendSelector')));
   });
 
   it('user can see the updated event fields in the new fuse page after pressing submit button', async () => {

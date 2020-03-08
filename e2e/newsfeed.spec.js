@@ -6,12 +6,12 @@ describe('Newsfeed Screen Tests', () => {
   });
 
   it('user see the event tiles in the newsfeed', async () => {
-    // // eslint-disable-next-line no-undef
-    // await element(by.id('loginEmail')).typeText('test@test.com');
-    // // eslint-disable-next-line no-undef
-    // await element(by.id('loginPassword')).typeText('asdf');
-    // // eslint-disable-next-line no-undef
-    // await element(by.id('loginButton')).tap();
+    // eslint-disable-next-line no-undef
+    await element(by.id('loginEmail')).typeText('test@test.com');
+    // eslint-disable-next-line no-undef
+    await element(by.id('loginPassword')).typeText('asdf');
+    // eslint-disable-next-line no-undef
+    await element(by.id('loginButton')).tap();
     // eslint-disable-next-line no-undef
     await expect(element(by.id('newsfeedTile')));
   });

@@ -58,14 +58,14 @@ const styles = StyleSheet.create({
     width: 60,
     height: 30,
     borderRadius: 25,
-    shadowColor: 'black',
+    shadowColor: colors.black,
     shadowOpacity: 0.41,
     shadowOffset: {
       height: 1,
       width: 1,
     },
     shadowRadius: 6,
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
     justifyContent: 'center',
   },
   scoreText: {
