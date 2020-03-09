@@ -57,7 +57,7 @@ const Screens = {
     },
   },
   profile: {
-    name: screenIds.profile,
+    name: screenIds.myProfile,
     component: ProfileScreen,
     stack: NavigationStackIds.profile,
     options: profileHeaderOptions,

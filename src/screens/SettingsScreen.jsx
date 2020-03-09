@@ -3,7 +3,10 @@ import {
   View,
   Text,
   TouchableOpacity,
+  AsyncStorage,
 } from 'react-native';
+import { useApolloClient } from '@apollo/react-hooks';
+
 import PropTypes from 'prop-types';
 import screenIds from '../navigation/ScreenIds';
 
@@ -27,11 +30,15 @@ function SettingsTile({ navigation, title, onPress }) {
 
 // eslint-disable-next-line no-unused-vars
 export default function SettingsScreen({ navigation }) {
+  const client = useApolloClient();
+
   const onPressEditProfile = () => {
     navigation.navigate(screenIds.editProfile);
   };
 
-  const onPressLogout = () => {
+  const onPressLogout = async () => {
+    await AsyncStorage.clear();
+    await client.clearStore();
   };
 
   return (
@@ -40,10 +47,12 @@ export default function SettingsScreen({ navigation }) {
       <SettingsTile
         title="Edit profile"
         onPress={onPressEditProfile}
+        navigation={navigation}
       />
       <SettingsTile
         title="Logout"
         onPress={onPressLogout}
+        navigation={navigation}
       />
     </View>
   );
