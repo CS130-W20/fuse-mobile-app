@@ -12,7 +12,6 @@ import NewsFeedContainer from '../containers/NewsFeedContainer';
 import ExploreContainer from '../containers/ExploreContainer';
 import Notification from '../screens/Notification';
 
-
 // Stack ids. Each tab in our tab navigation has a stack
 export const NavigationStackIds = {
   feed: 'Feed',
@@ -58,7 +57,7 @@ const Screens = {
     },
   },
   profile: {
-    name: screenIds.profile,
+    name: screenIds.myProfile,
     component: ProfileScreen,
     stack: NavigationStackIds.profile,
     options: profileHeaderOptions,

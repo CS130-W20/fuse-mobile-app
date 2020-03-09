@@ -211,14 +211,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: 'rgba(247,116,33,1)',
   },
-  dateButton: {
-    top: 100,
-    width: '72%',
-    height: 50,
-    position: 'absolute',
-    alignSelf: 'center',
-    backgroundColor: 'rgba(247,116,33,1)',
-  },
   modal: {
     top: '30%',
     height: 300,
@@ -257,6 +249,7 @@ export default function LightFuse({ navigation }) {
         text="Schedule"
         style={styles.button}
         onPress={() => toggleIsEditing(false)}
+        testID="litFuseScheduleButton"
       />
       <Image
         source={fuseLogo}
@@ -303,7 +296,7 @@ export default function LightFuse({ navigation }) {
     <ImageBackground source={gradient} style={styles.trim}>
       <View style={styles.container}>
         <ScrollView style={styles.container2} contentContainerStyle={{ height: 550 }}>
-          <Text style={styles.loremIpsum} onPress={navigation.goBack}>&lt;</Text>
+          <Text style={styles.loremIpsum} onPress={navigation.goBack} testID="litFuseBackButton">&lt;</Text>
           <Text style={styles.light}>LIGHT</Text>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.description}>
@@ -343,6 +336,7 @@ export default function LightFuse({ navigation }) {
             placeholder={location}
             onChangeText={setLocation}
             editable={isEditing}
+            testID="litFuseEventLocationField"
           />
           <View style={styles.deadline}>
             <Text>Event date: </Text>

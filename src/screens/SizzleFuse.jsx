@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  StyleSheet, View, Text, Image, ImageBackground, Modal, ScrollView,
+  StyleSheet, View, Text, Image, ImageBackground, Modal,
 } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -116,6 +116,7 @@ export default function SizzleFuse({ navigation }) {
   const [popup, togglePopUp] = useState(false);
   const title = 'Event Name';
   const description = 'Insert random text about event right here.\n This is super fun!\nBlah blah blah blah blah blah blah,\n';
+  // eslint-disable-next-line no-unused-vars
   const [numPhotos, updateNumPhotos] = useState(0);
 
   const complete = () => {
@@ -141,7 +142,7 @@ export default function SizzleFuse({ navigation }) {
   return (
     <ImageBackground source={gradient} style={styles.trim}>
       <View style={styles.container}>
-        <ScrollView style={styles.container2}>
+        <View style={styles.container2}>
           <Text style={styles.loremIpsum} onPress={navigation.goBack}>&lt;</Text>
           <Text style={styles.sizzle}>SIZZLE</Text>
           <Text style={styles.title}>{title}</Text>
@@ -189,8 +190,7 @@ export default function SizzleFuse({ navigation }) {
               </ImageBackground>
             </View>
           </Modal>
-          <View style={{ height: 100 }} />
-        </ScrollView>
+        </View>
         {isEditing ? buttons() : null}
       </View>
     </ImageBackground>

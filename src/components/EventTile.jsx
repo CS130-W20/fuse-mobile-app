@@ -20,6 +20,8 @@ export default class EventTile extends PureComponent {
   showButtons() {
     let button1 = '';
     let button2 = '';
+    // eslint-disable-next-line no-unused-vars
+    const { testID } = this.props;
     const { eventStage } = this.props;
     const { eventRelation } = this.props;
     switch (eventStage) {
@@ -51,6 +53,12 @@ export default class EventTile extends PureComponent {
               </View>
             );
           case 3: // unaffiliated
+            button1 = 'DETAILS';
+            return (
+              <View style={styles.bottomHeader}>
+                <FuseTileButton buttonName={button1} />
+              </View>
+            );
           default:
             return (<View />);
         }
@@ -69,6 +77,12 @@ export default class EventTile extends PureComponent {
             // NEED TO ADD CASE FOR AFTER SCHEDULE BEFORE COMPLETE
           case 2: // invited
           case 3: // unaffiliated
+            button1 = 'DETAILS';
+            return (
+              <View style={styles.bottomHeader}>
+                <FuseTileButton buttonName={button1} />
+              </View>
+            );
           default:
             return (<View />);
         }
@@ -106,6 +120,7 @@ export default class EventTile extends PureComponent {
     const { eventName } = this.props;
     const { eventCreator } = this.props;
     const { description } = this.props;
+    const creatorText = 'by ';
     return (
       <View style={styles.innterTile}>
         <View style={styles.upperHeader}>
@@ -115,8 +130,11 @@ export default class EventTile extends PureComponent {
           </View>
           <View style={styles.titleColumn}>
             <Spacer padding={10} />
-            <Text style={styles.eventName}>{eventName}</Text>
-            <Text style={styles.eventCreator}>{eventCreator}</Text>
+            <Text numberOfLines={2} style={styles.eventName}>{eventName}</Text>
+            <Text numberOfLines={1} style={styles.eventCreator}>
+              {creatorText}
+              {eventCreator}
+            </Text>
           </View>
         </View>
         <View style={styles.middleHeader}>
@@ -165,9 +183,11 @@ export default class EventTile extends PureComponent {
       eventStage, // 0: set, 1: lit, 2: complete
       // eslint-disable-next-line no-unused-vars
       eventRelation, // 0: creator, 1: joined, 2: invited, 3: unaffiliated
+      // eslint-disable-next-line no-unused-vars
+      testID,
     } = this.props;
     return (
-      <View style={styles.outerTile}>
+      <View style={styles.outerTile} testID={testID}>
         {this.showTile()}
       </View>
     );
@@ -180,4 +200,5 @@ EventTile.propTypes = {
   description: PropTypes.string.isRequired,
   eventStage: PropTypes.string.isRequired,
   eventRelation: PropTypes.number.isRequired,
+  testID: PropTypes.string.isRequired,
 };

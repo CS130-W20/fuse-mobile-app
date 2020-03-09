@@ -5,8 +5,12 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { useQuery, useMutation } from '@apollo/react-hooks';
-import { USER_PROFILE_DETAILS_QUERY, PROFILE_DETAILS_MUTATION } from '../graphql/GeneralQueries';
+import { useQuery, useMutation, useApolloClient } from '@apollo/react-hooks';
+import {
+  USER_PROFILE_DETAILS_QUERY,
+  PROFILE_DETAILS_MUTATION,
+  USER_QUERY,
+} from '../graphql/GeneralQueries';
 import MaterialUnderlineTextbox from '../components/fields/MaterialUnderlineTextbox';
 import Spacer from '../helpers/Spacer';
 
@@ -22,12 +26,19 @@ export default function EditProfileDetailsScreen({ navigation }) {
   const [name, setName] = useState(null);
   const [bio, setBio] = useState(null);
 
+  const client = useApolloClient();
+  const { me: currentUser } = client.readQuery({ query: USER_QUERY });
+
   const {
     data: detailsQueryData,
     loading: detailsQueryLoading,
     // eslint-disable-next-line no-unused-vars
     error: detailsQueryError,
-  } = useQuery(USER_PROFILE_DETAILS_QUERY);
+  } = useQuery(USER_PROFILE_DETAILS_QUERY, {
+    variables: {
+      id: currentUser.id,
+    },
+  });
 
   const [
     detailsMutation,

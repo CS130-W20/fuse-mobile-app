@@ -290,12 +290,14 @@ export default function NewFuse({ navigation }) {
           text="Save"
           style={styles.button}
           onPress={() => updateEditing(false)}
+          testID="newFuseSaveButton"
         />
       ) : (
         <CupertinoButtonGrey
           text="Submit"
           style={styles.button}
           onPress={createEvent}
+          testID="newFuseSubmitButton"
         />
       )
     );
@@ -333,11 +335,13 @@ export default function NewFuse({ navigation }) {
           text="Edit"
           style={styles.edit}
           onPress={() => updateEditing(true)}
+          testID="newFuseEditButton"
         />
         <CupertinoButtonGrey
           style={styles.light}
           text="Light"
           onPress={() => navigation.navigate(screenIds.lightFuse)}
+          testID="newFuseLightButton"
         />
       </View>
     ));
@@ -348,13 +352,14 @@ export default function NewFuse({ navigation }) {
     <ImageBackground source={gradient} style={styles.trim}>
       <View style={styles.container}>
         <ScrollView style={styles.container2} contentContainerStyle={styles.container3}>
-          <Text style={styles.loremIpsum} onPress={navigation.goBack}>&lt;</Text>
+          <Text style={styles.loremIpsum} onPress={navigation.goBack} testID="newFuseBackButton">&lt;</Text>
           <Text style={styles.set}>SET</Text>
           <MaterialUnderlineTextbox
             style={styles.nameInput}
             placeholder="Event Name"
             onChangeText={setEventName}
             editable={isEditing}
+            testID="newFuseEventNameField"
           />
           <MaterialUnderlineTextbox
             style={styles.nameInput}
@@ -362,8 +367,9 @@ export default function NewFuse({ navigation }) {
             onChangeText={setEventDescription}
             editable={isEditing}
             multiline
+            testID="newFuseEventDescriptionField"
           />
-          <View style={styles.friendContainer}>
+          <View style={styles.friendContainer} testID="newFuseFriendSelector">
             {isEditing ? friendSelector() : (
               <Text>
                 Invited Friends:

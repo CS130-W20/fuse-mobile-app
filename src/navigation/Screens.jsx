@@ -5,6 +5,7 @@ import LightFuse from '../screens/LightFuse';
 import SizzleFuse from '../screens/SizzleFuse';
 import SettingsScreen, { settingsHeaderOptions } from '../screens/SettingsScreen';
 import EditProfileDetailsScreen, { editProfileHeaderOptions } from '../screens/EditProfileDetailsScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 import screenIds from './ScreenIds';
 
@@ -30,6 +31,10 @@ const Screens = {
     name: screenIds.editProfile,
     component: EditProfileDetailsScreen,
     options: editProfileHeaderOptions,
+  },
+  profile: {
+    name: screenIds.userProfile,
+    component: ProfileScreen,
   },
 };
 

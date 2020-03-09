@@ -21,6 +21,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     flex: 1,
   },
+  tileWrapper: {
+    alignItems: 'center',
+  },
 });
 
 export default styles;
