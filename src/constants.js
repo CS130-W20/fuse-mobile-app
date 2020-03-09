@@ -9,3 +9,14 @@ export const EVENTSTATUS = {
   lit: 'LIT',
   completed: 'COMPLETED',
 };
+
+export const ProfileParams = {
+  profileId: 'profileId',
+};
+
+export const FriendStatus = {
+  friend: 'FRIEND',
+  notFriend: 'NOTFRIEND',
+  requested: 'REQUESTED',
+  loading: 'LOADING',
+};

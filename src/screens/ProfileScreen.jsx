@@ -3,7 +3,10 @@ import {
   View,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import { useApolloClient } from '@apollo/react-hooks';
 
+import { USER_QUERY } from '../graphql/GeneralQueries';
+import { ProfileParams } from '../constants';
 import ProfileContainer from '../containers/ProfileContainer';
 import SettingsHeaderButton from '../components/SettingsHeaderButton';
 import styles from './styles/ProfileScreenStyles';
@@ -29,11 +32,28 @@ function Header({ navigation }) {
   );
 }
 
-export default function ProfileScreen({ navigation }) {
+export default function ProfileScreen({ navigation, route }) {
+  let profileId;
+  const client = useApolloClient();
+  const parentNavigator = navigation.dangerouslyGetParent();
+
+  if (
+    parentNavigator
+    && parentNavigator.dangerouslyGetState()
+    && parentNavigator.dangerouslyGetState().routeNames
+  ) {
+    // console.log("opened via tab navigator");
+    const { me: currentUser } = client.readQuery({ query: USER_QUERY });
+    profileId = currentUser.id;
+  } else {
+    // console.log("Opened via some random way");
+    profileId = route.params[ProfileParams.profileId];
+  }
+
   return (
     <View style={styles.wrapper}>
       <Header navigation={navigation} />
-      <ProfileContainer navigation={navigation} />
+      <ProfileContainer navigation={navigation} profileId={profileId} />
     </View>
   );
 }
@@ -48,6 +68,12 @@ Header.propTypes = {
 ProfileScreen.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
+    dangerouslyGetParent: PropTypes.func.isRequired,
     goBack: PropTypes.func.isRequired,
+  }).isRequired,
+  route: PropTypes.shape({
+    params: PropTypes.shape({
+      userId: PropTypes.string,
+    }),
   }).isRequired,
 };
