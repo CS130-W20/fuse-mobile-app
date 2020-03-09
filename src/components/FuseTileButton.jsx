@@ -6,15 +6,27 @@ import {
 
 import { PropTypes } from 'prop-types';
 import styles from './styles/FuseTileButtonStyles';
+import screenIds from '../navigation/ScreenIds';
 
 export default class FuseTileButton extends PureComponent {
+  changeScreen() {
+    const { navigation } = this.props;
+    navigation.navigate(screenIds.newFuse);
+  }
+
   render() {
     const {
       buttonName,
+      // eslint-disable-next-line no-unused-vars
+      navigation,
+      // eslint-disable-next-line no-unused-vars
+      screenId,
     } = this.props;
-
     return (
-      <TouchableOpacity style={styles.buttonWrapper}>
+      <TouchableOpacity
+        style={styles.buttonWrapper}
+        onPress={() => this.changeScreen()}
+      >
         <Text style={styles.buttonText}>{buttonName}</Text>
       </TouchableOpacity>
     );
@@ -22,5 +34,9 @@ export default class FuseTileButton extends PureComponent {
 }
 
 FuseTileButton.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+  screenId: PropTypes.string.isRequired,
   buttonName: PropTypes.string.isRequired,
 };

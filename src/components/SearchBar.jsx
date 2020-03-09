@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { View, TextInput } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import styles from './styles/SearchBarStyles';
 
-function SearchBar() {
+function SearchBar({ onChangeText }) {
   // eslint-disable-next-line no-unused-vars
   const [searchText, setText] = useState(null);
   return (
@@ -14,11 +15,13 @@ function SearchBar() {
           <View style={styles.leftIconButton}>
             <MaterialIcons name="search" size={30} color="grey" />
           </View>
-          <TextInput placeholder="Search" keyboardAppearance="light" style={styles.inputStyle} onChangeText={(text) => { setText(text); }} clearButtonMode={3} />
+          <TextInput placeholder="Search" keyboardAppearance="light" style={styles.inputStyle} onChangeText={(text) => { onChangeText(text); }} clearButtonMode="while-editing" />
         </View>
       </View>
     </View>
   );
 }
-
+SearchBar.propTypes = {
+  onChangeText: PropTypes.func.isRequired,
+};
 export default SearchBar;

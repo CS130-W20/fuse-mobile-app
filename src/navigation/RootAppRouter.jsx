@@ -20,7 +20,6 @@ const rootStackOptions = {
 export default function RootAppRouter() {
   const client = useApolloClient();
   const [user, setUser] = useState(null);
-
   const rootStack = createStackNavigator();
 
   // eslint-disable-next-line no-unused-vars

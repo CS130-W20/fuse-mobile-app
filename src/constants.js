@@ -13,3 +13,12 @@ export const EVENTSTATUS = {
 export const ProfileParams = {
   profileId: 'profileId',
 };
+
+export const PHOTO_BUCKET = 'https://fuse-photo-bucket.s3-us-west-2.amazonaws.com/photos';
+
+export const FriendStatus = {
+  friend: 'FRIEND',
+  notFriend: 'NOTFRIEND',
+  requested: 'REQUESTED',
+  loading: 'LOADING',
+};

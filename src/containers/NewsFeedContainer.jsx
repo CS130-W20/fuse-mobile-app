@@ -20,7 +20,6 @@ export default function NewsFeedContainer({ navigation }) {
     error: newsFeedQueryError,
     data: newsFeedQueryData,
   } = useQuery(NEWS_FEED_QUERY);
-
   const eventTilesToRender = () => {
     if (newsFeedQueryLoading) {
       return <Text testID="newsfeedTile">Loading</Text>;
@@ -41,6 +40,7 @@ export default function NewsFeedContainer({ navigation }) {
         eventView={0}
         key={event.id}
         testID="newsfeedTile"
+        navigation={navigation}
       />
     ));
     return eventTiles;
