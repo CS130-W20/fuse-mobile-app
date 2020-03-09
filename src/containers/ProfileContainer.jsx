@@ -17,6 +17,7 @@ import {
   FRIENDS_COUNT,
   COMPLETED_EVENTS_COUNT,
   USER_QUERY,
+  FRIEND_PROFILE_EVENTS,
 } from '../graphql/GeneralQueries';
 
 import styles from './styles/ProfileContainerStyles';
@@ -42,11 +43,25 @@ export default function ProfileContainer({ profileId, navigation }) {
   // eslint-disable-next-line no-unused-vars
   const { me: currentUser } = client.readQuery({ query: USER_QUERY });
 
+  const isCurrentUser = currentUser.id === profileId;
+  const isFriend = true; // TODO actually check for friend validity
+
   // Fetch using Fuse API
   const {
-    data: eventQueryData,
-    loading: eventQueryLoading,
-  } = useQuery(USER_EVENTS_QUERY);
+    data: userEventQueryData,
+    loading: userEventQueryLoading,
+  } = useQuery(USER_EVENTS_QUERY, {
+    skip: !isCurrentUser,
+  });
+  const {
+    data: friendEventQueryData,
+    loading: friendEventQueryLoading,
+  } = useQuery(FRIEND_PROFILE_EVENTS, {
+    variables: {
+      friendUserId: profileId,
+    },
+    skip: !isFriend,
+  });
   const {
     data: profileDetailsQueryData,
     loading: profileDetailsQueryLoading,
@@ -92,7 +107,12 @@ export default function ProfileContainer({ profileId, navigation }) {
 
   // eslint-disable-next-line no-unused-vars
   const getProfileFuses = async () => {
-    const parsedFuseData = eventQueryData.me.events;
+    let parsedFuseData;
+    if (isCurrentUser) {
+      parsedFuseData = userEventQueryData.me.events;
+    } else if (isFriend) {
+      parsedFuseData = friendEventQueryData.friendProfileEvents;
+    }
 
     const setFuses = [];
     const litFuses = [];
@@ -170,10 +190,16 @@ export default function ProfileContainer({ profileId, navigation }) {
   }, []);
 
   useEffect(() => {
-    if (eventQueryData && !eventQueryLoading) {
+    if (userEventQueryData && !userEventQueryLoading) {
       getProfileFuses();
     }
-  }, [eventQueryData, eventQueryLoading]);
+  }, [userEventQueryData, userEventQueryLoading]);
+
+  useEffect(() => {
+    if (friendEventQueryData && !friendEventQueryLoading) {
+      getProfileFuses();
+    }
+  }, [friendEventQueryData, friendEventQueryLoading]);
 
   useEffect(() => {
     if (
