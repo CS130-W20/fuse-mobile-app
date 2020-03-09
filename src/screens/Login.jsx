@@ -97,8 +97,8 @@ const updateCache = (cache, { data: { login } }) => {
 };
 
 export default function Login({ navigation }) {
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [invalidEmailPasswordCombo, setInvalidEmailPasswordCombo] = useState(false);
 
   const [loginMutation, { data, error }] = useMutation(LOGIN_MUTATION);

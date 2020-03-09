@@ -33,6 +33,7 @@ export default function ProfileContainer({ profileId, navigation }) {
     score: 0,
     friendCount: 0,
     completedEventCount: 0,
+    userId: '',
   });
   const [profileFuses, setProfileFuses] = useState({
     set: [],
@@ -105,6 +106,7 @@ export default function ProfileContainer({ profileId, navigation }) {
       score: user.score,
       friendCount: friendCountQueryData.friendsCount,
       completedEventCount: completedEventCountQueryData.completedEventsCount,
+      userId: user.id,
     });
   };
 
@@ -232,6 +234,7 @@ export default function ProfileContainer({ profileId, navigation }) {
           score={profileData.score}
           friendCount={profileData.friendCount}
           completedEventCount={profileData.completedEventCount}
+          userId={profileData.userId}
         />
         <Spacer padding={20} />
         {
