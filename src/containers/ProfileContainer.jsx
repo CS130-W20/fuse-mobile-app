@@ -8,19 +8,22 @@ import PropTypes from 'prop-types';
 import { useQuery, useApolloClient } from '@apollo/react-hooks';
 
 import ProfileHeader from '../components/ProfileHeader';
+import FriendButton, { onPressFriendButtonControl } from '../components/FriendButton';
 import NewFuseButton from '../components/NewFuseButton';
 import ViewToggle from '../components/ViewToggle';
 import Spacer from '../helpers/Spacer';
+import EventTile from '../components/EventTile';
 import {
   USER_EVENTS_QUERY,
   USER_PROFILE_DETAILS_QUERY,
   FRIENDS_COUNT,
   COMPLETED_EVENTS_COUNT,
   USER_QUERY,
+  FRIEND_PROFILE_EVENTS,
 } from '../graphql/GeneralQueries';
 
+import { FriendStatus } from '../constants';
 import styles from './styles/ProfileContainerStyles';
-import EventTile from '../components/EventTile';
 
 export default function ProfileContainer({ profileId, navigation }) {
   const [focusedView, setFocusedView] = useState(0);
@@ -30,23 +33,39 @@ export default function ProfileContainer({ profileId, navigation }) {
     score: 0,
     friendCount: 0,
     completedEventCount: 0,
+    userId: '',
   });
   const [profileFuses, setProfileFuses] = useState({
     set: [],
     lit: [],
     completed: [],
   });
+  const [friendStatus, setFriendStatus] = useState(FriendStatus.loading);
 
   // Read from cache
   const client = useApolloClient();
   // eslint-disable-next-line no-unused-vars
   const { me: currentUser } = client.readQuery({ query: USER_QUERY });
 
+  const isCurrentUser = currentUser.id === profileId;
+  const isFriend = true; // TODO actually check for friend validity
+
   // Fetch using Fuse API
   const {
-    data: eventQueryData,
-    loading: eventQueryLoading,
-  } = useQuery(USER_EVENTS_QUERY);
+    data: userEventQueryData,
+    loading: userEventQueryLoading,
+  } = useQuery(USER_EVENTS_QUERY, {
+    skip: !isCurrentUser,
+  });
+  const {
+    data: friendEventQueryData,
+    loading: friendEventQueryLoading,
+  } = useQuery(FRIEND_PROFILE_EVENTS, {
+    variables: {
+      friendUserId: profileId,
+    },
+    skip: !isFriend,
+  });
   const {
     data: profileDetailsQueryData,
     loading: profileDetailsQueryLoading,
@@ -87,12 +106,18 @@ export default function ProfileContainer({ profileId, navigation }) {
       score: user.score,
       friendCount: friendCountQueryData.friendsCount,
       completedEventCount: completedEventCountQueryData.completedEventsCount,
+      userId: user.id,
     });
   };
 
   // eslint-disable-next-line no-unused-vars
   const getProfileFuses = async () => {
-    const parsedFuseData = eventQueryData.me.events;
+    let parsedFuseData;
+    if (isCurrentUser) {
+      parsedFuseData = userEventQueryData.me.events;
+    } else if (isFriend) {
+      parsedFuseData = friendEventQueryData.friendProfileEvents;
+    }
 
     const setFuses = [];
     const litFuses = [];
@@ -165,15 +190,26 @@ export default function ProfileContainer({ profileId, navigation }) {
     ));
   };
 
+  const onPressFriendButton = () => (
+    onPressFriendButtonControl(friendStatus, setFriendStatus, profileId)
+  );
+
   useEffect(() => {
-    // TODO make different call to fetch friend events if not personal id
+    // TODO make official request to check friend status;
+    setFriendStatus(FriendStatus.friend);
   }, []);
 
   useEffect(() => {
-    if (eventQueryData && !eventQueryLoading) {
+    if (userEventQueryData && !userEventQueryLoading) {
       getProfileFuses();
     }
-  }, [eventQueryData, eventQueryLoading]);
+  }, [userEventQueryData, userEventQueryLoading]);
+
+  useEffect(() => {
+    if (friendEventQueryData && !friendEventQueryLoading) {
+      getProfileFuses();
+    }
+  }, [friendEventQueryData, friendEventQueryLoading]);
 
   useEffect(() => {
     if (
@@ -198,8 +234,21 @@ export default function ProfileContainer({ profileId, navigation }) {
           score={profileData.score}
           friendCount={profileData.friendCount}
           completedEventCount={profileData.completedEventCount}
+          userId={profileData.userId}
         />
         <Spacer padding={20} />
+        {
+          isCurrentUser
+            ? null
+            : (
+              <>
+                <View style={styles.friendButtonWrapper}>
+                  <FriendButton friendStatus={friendStatus} onPress={onPressFriendButton} />
+                </View>
+                <Spacer padding={20} />
+              </>
+            )
+        }
         <ViewToggle
           viewToggler={setFocusedView}
         />

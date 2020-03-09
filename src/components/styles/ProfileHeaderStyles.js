@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     resizeMode: 'contain',
+    borderRadius: 70,
   },
   // container for where the image will go
   profilePicWrapper: {
