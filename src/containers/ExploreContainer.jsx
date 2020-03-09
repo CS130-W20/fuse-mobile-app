@@ -3,6 +3,7 @@ import {
   View,
   ScrollView,
 } from 'react-native';
+import PropTypes from 'prop-types';
 
 import { useQuery } from '@apollo/react-hooks';
 import SearchBar from '../components/SearchBar';
@@ -11,7 +12,7 @@ import {
   FRIEND_SEARCH,
 } from '../graphql/GeneralQueries';
 
-export default function ExploreContainer() {
+export default function ExploreContainer({ navigation }) {
   const [searchText, setSearchText] = useState('');
   const [friendTiles, setFriendTiles] = useState(<View />);
   const {
@@ -32,6 +33,8 @@ export default function ExploreContainer() {
           <FriendTile
             userName={user.name}
             userId={user.id}
+            navigation={navigation}
+            key={user.id}
           />
         )));
       }
@@ -55,4 +58,8 @@ export default function ExploreContainer() {
 }
 
 ExploreContainer.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired,
+  }).isRequired,
 };

@@ -163,6 +163,9 @@ const tabScreenOptions = {
 
 const tabBarOptions = {
   showLabel: true, // hides text labels for navigation bar
+  labelStyle: {
+    color: 'grey',
+  },
 };
 
 // Create the tab navigator using react navigation

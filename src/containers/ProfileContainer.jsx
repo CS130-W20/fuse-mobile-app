@@ -186,6 +186,7 @@ export default function ProfileContainer({ profileId, navigation }) {
           eventStage={fuse.status}
           eventView={0}
           eventRelation={0}
+          navigation={navigation}
         />
       </View>
     ));
