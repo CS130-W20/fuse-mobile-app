@@ -7,6 +7,7 @@ import {
 import PropTypes from 'prop-types';
 import { useQuery, useApolloClient } from '@apollo/react-hooks';
 
+// eslint-disable-next-line import/no-named-as-default
 import ProfileHeader from '../components/ProfileHeader';
 import FriendButton, { onPressFriendButtonControl } from '../components/FriendButton';
 import NewFuseButton from '../components/NewFuseButton';
@@ -33,6 +34,7 @@ export default function ProfileContainer({ profileId, navigation }) {
     score: 0,
     friendCount: 0,
     completedEventCount: 0,
+    userId: '',
   });
   const [profileFuses, setProfileFuses] = useState({
     set: [],
@@ -105,6 +107,7 @@ export default function ProfileContainer({ profileId, navigation }) {
       score: user.score,
       friendCount: friendCountQueryData.friendsCount,
       completedEventCount: completedEventCountQueryData.completedEventsCount,
+      userId: user.id,
     });
   };
 
@@ -233,6 +236,7 @@ export default function ProfileContainer({ profileId, navigation }) {
           friendCount={profileData.friendCount}
           completedEventCount={profileData.completedEventCount}
           testID="userProfileName"
+          userId={profileData.userId}
         />
         <Spacer padding={20} />
         {

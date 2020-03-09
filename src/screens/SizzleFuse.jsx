@@ -116,8 +116,7 @@ export default function SizzleFuse({ navigation }) {
   const [popup, togglePopUp] = useState(false);
   const title = 'Event Name';
   const description = 'Insert random text about event right here.\n This is super fun!\nBlah blah blah blah blah blah blah,\n';
-  // eslint-disable-next-line no-unused-vars
-  const [numPhotos, updateNumPhotos] = useState(0);
+  const [numPhotos] = useState(0);
 
   const complete = () => {
     toggleIsEditing(false);
