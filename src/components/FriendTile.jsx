@@ -11,6 +11,7 @@ export default class FriendTile extends PureComponent {
   render() {
     const {
       userName,
+      // eslint-disable-next-line no-unused-vars
       userId,
     } = this.props;
     return (

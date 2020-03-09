@@ -34,15 +34,27 @@ export default class EventTile extends PureComponent {
             button2 = 'DETAILS';
             return (
               <View style={styles.bottomHeader}>
-                <FuseTileButton navigation={navigation} screenId={screenIds.SetFuse} buttonName={button1} />
-                <FuseTileButton navigation={navigation} screenId={screenIds.SetFuse} buttonName={button2} />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId={screenIds.SetFuse}
+                  buttonName={button1}
+                />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId={screenIds.SetFuse}
+                  buttonName={button2}
+                />
               </View>
             );
           case 1: // joined
             button1 = 'DETAILS';
             return (
               <View style={styles.bottomHeader}>
-                <FuseTileButton navigation={navigation} screenId={screenIds.SetFuse} buttonName={button1} />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId={screenIds.SetFuse}
+                  buttonName={button1}
+                />
               </View>
             );
           case 2: // invited
@@ -50,15 +62,27 @@ export default class EventTile extends PureComponent {
             button2 = 'DETAILS';
             return (
               <View style={styles.bottomHeader}>
-                <FuseTileButton navigation={navigation} screenId={screenIds.SetFuse} buttonName={button1} />
-                <FuseTileButton navigation={navigation} screenId={screenIds.SetFuse} buttonName={button2} />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId={screenIds.SetFuse}
+                  buttonName={button1}
+                />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId={screenIds.SetFuse}
+                  buttonName={button2}
+                />
               </View>
             );
           case 3: // unaffiliated
             button1 = 'DETAILS';
             return (
               <View style={styles.bottomHeader}>
-                <FuseTileButton navigation={navigation} screenId={screenIds.SetFuse} buttonName={button1} />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId={screenIds.SetFuse}
+                  buttonName={button1}
+                />
               </View>
             );
           default:
@@ -72,8 +96,16 @@ export default class EventTile extends PureComponent {
             button2 = 'DETAILS';
             return (
               <View style={styles.bottomHeader}>
-                <FuseTileButton navigation={navigation} screenId={screenIds.SetFuse} buttonName={button1} />
-                <FuseTileButton navigation={navigation} screenId={screenIds.SetFuse} buttonName={button2} />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId={screenIds.SetFuse}
+                  buttonName={button1}
+                />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId={screenIds.SetFuse}
+                  buttonName={button2}
+                />
               </View>
             );
             // NEED TO ADD CASE FOR AFTER SCHEDULE BEFORE COMPLETE
@@ -82,7 +114,11 @@ export default class EventTile extends PureComponent {
             button1 = 'DETAILS';
             return (
               <View style={styles.bottomHeader}>
-                <FuseTileButton navigation={navigation} screenId={screenIds.SetFuse} buttonName={button1} />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId={screenIds.SetFuse}
+                  buttonName={button1}
+                />
               </View>
             );
           default:
@@ -96,8 +132,16 @@ export default class EventTile extends PureComponent {
             button2 = 'LIKE'; // ADD DIFFERENT STLYING LATER
             return (
               <View style={styles.bottomHeader}>
-                <FuseTileButton navigation={navigation} screenId={screenIds.SetFuse} buttonName={button1} />
-                <FuseTileButton navigation={navigation} screenId={screenIds.SetFuse} buttonName={button2} />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId={screenIds.SetFuse}
+                  buttonName={button1}
+                />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId={screenIds.SetFuse}
+                  buttonName={button2}
+                />
               </View>
             );
           case 2: // invited
@@ -106,8 +150,16 @@ export default class EventTile extends PureComponent {
             button2 = 'LIKE'; // ADD DIFFERENT STLYING LATER
             return (
               <View style={styles.bottomHeader}>
-                <FuseTileButton navigation={navigation} screenId={screenIds.SetFuse} buttonName={button1} />
-                <FuseTileButton navigation={navigation} screenId={screenIds.SetFuse} buttonName={button2} />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId={screenIds.SetFuse}
+                  buttonName={button1}
+                />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId={screenIds.SetFuse}
+                  buttonName={button2}
+                />
               </View>
             );
           default:

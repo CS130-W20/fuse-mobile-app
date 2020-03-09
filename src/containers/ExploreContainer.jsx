@@ -26,7 +26,7 @@ export default function ExploreContainer() {
   });
   useEffect(() => {
     if (friendSearchQueryData && !friendSearchQueryLoading) {
-      console.log(friendSearchQueryData);
+      // console.log(friendSearchQueryData);
       if (searchText !== '') {
         setFriendTiles(friendSearchQueryData.users.map((user) => (
           <FriendTile

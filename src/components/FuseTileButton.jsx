@@ -17,7 +17,9 @@ export default class FuseTileButton extends PureComponent {
   render() {
     const {
       buttonName,
+      // eslint-disable-next-line no-unused-vars
       navigation,
+      // eslint-disable-next-line no-unused-vars
       screenId,
     } = this.props;
     return (
