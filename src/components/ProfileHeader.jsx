@@ -19,6 +19,7 @@ export default function ProfileHeader({
   friendCount,
   completedEventCount,
   userId,
+  testID,
 }) {
   // TODO: write a helper function to convert scores/counts to a renderable version
   // e.g. 1,100,000 -> 1.1m
@@ -50,6 +51,22 @@ export default function ProfileHeader({
               <View style={styles.scoreEllipse}>
                 <Text style={styles.scoreText}>{scoreText}</Text>
               </View>
+            </View>
+          </View>
+          <View style={styles.textColumn}>
+            <View style={styles.nameWrapper}>
+              <Text
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                style={styles.name}
+                testID={testID}
+              >
+                {name}
+              </Text>
+            </View>
+            <Spacer padding={10} />
+            <View style={styles.bioWrapper}>
+              <Text style={styles.bio}>{bio}</Text>
             </View>
           </View>
         </View>
@@ -84,5 +101,6 @@ ProfileHeader.propTypes = {
   score: PropTypes.number.isRequired,
   friendCount: PropTypes.number.isRequired,
   completedEventCount: PropTypes.number.isRequired,
+  testID: PropTypes.string.isRequired,
   userId: PropTypes.string.isRequired,
 };
