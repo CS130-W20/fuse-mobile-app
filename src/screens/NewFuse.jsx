@@ -74,6 +74,13 @@ const styles = StyleSheet.create({
       },
     ],
   },
+  friendContainer: {
+    top: 20,
+    borderBottomWidth: 2,
+    paddingBottom: 15,
+    borderBottomColor: 'rgba(220,220,230,1)',
+    width: '95%',
+  },
   switch: {
     flexDirection: 'row',
     width: '95%',
@@ -81,6 +88,9 @@ const styles = StyleSheet.create({
     top: 80,
     height: 50,
     position: 'relative',
+    borderBottomWidth: 2,
+    paddingBottom: 15,
+    borderBottomColor: 'rgba(220,220,230,1)',
   },
   deadline: {
     position: 'relative',
@@ -93,9 +103,9 @@ const styles = StyleSheet.create({
   dateBox: {
     textAlign: 'center',
     textAlignVertical: 'center',
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 5,
-    borderColor: 'gray',
+    borderColor: 'rgba(220,220,230,1)',
     fontSize: 15,
     padding: 10,
   },
@@ -353,7 +363,7 @@ export default function NewFuse({ navigation }) {
             editable={isEditing}
             multiline
           />
-          <View style={{ top: 20 }}>
+          <View style={styles.friendContainer}>
             {isEditing ? friendSelector() : (
               <Text>
                 Invited Friends:
