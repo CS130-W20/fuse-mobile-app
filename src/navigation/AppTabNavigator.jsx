@@ -175,7 +175,7 @@ export function AppTabNavigator() {
   return (
     <Tab.Navigator
       tabBarOptions={tabBarOptions}
-      initialRouteName={NavigationStackIds.feed}
+      initialRouteName={NavigationStackIds.newsFeed}
     >
       <Tab.Screen
         name={NavigationStackIds.feed}
