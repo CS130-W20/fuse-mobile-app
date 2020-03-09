@@ -12,6 +12,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  friendButtonWrapper: {
+    // backgroundColor: 'grey',
+    alignItems: 'flex-end',
+  },
   scrollView: {
     flex: 1,
     paddingLeft: 10,
