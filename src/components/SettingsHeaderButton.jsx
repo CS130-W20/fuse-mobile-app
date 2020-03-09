@@ -9,11 +9,12 @@ import styles from './styles/SettingsHeaderButtonStyles';
 
 import screenIds from '../navigation/ScreenIds';
 
-export default function SettingsHeaderButton({ navigation }) {
+export default function SettingsHeaderButton({ navigation, testID }) {
   return (
     <TouchableOpacity
       style={styles.buttonWrapper}
       onPress={() => navigation.navigate(screenIds.settings)}
+      testID={testID}
     >
       <Feather name="settings" size={25} />
     </TouchableOpacity>
@@ -25,4 +26,5 @@ SettingsHeaderButton.propTypes = {
     navigate: PropTypes.func.isRequired,
     goBack: PropTypes.func.isRequired,
   }).isRequired,
+  testID: PropTypes.string.isRequired,
 };
