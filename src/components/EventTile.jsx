@@ -36,12 +36,12 @@ export default class EventTile extends PureComponent {
               <View style={styles.bottomHeader}>
                 <FuseTileButton
                   navigation={navigation}
-                  screenId={screenIds.SetFuse}
+                  screenId="join"
                   buttonName={button1}
                 />
                 <FuseTileButton
                   navigation={navigation}
-                  screenId={screenIds.SetFuse}
+                  screenId={screenIds.newFuse}
                   buttonName={button2}
                 />
               </View>
@@ -52,7 +52,7 @@ export default class EventTile extends PureComponent {
               <View style={styles.bottomHeader}>
                 <FuseTileButton
                   navigation={navigation}
-                  screenId={screenIds.SetFuse}
+                  screenId={screenIds.newFuse}
                   buttonName={button1}
                 />
               </View>
@@ -64,12 +64,12 @@ export default class EventTile extends PureComponent {
               <View style={styles.bottomHeader}>
                 <FuseTileButton
                   navigation={navigation}
-                  screenId={screenIds.SetFuse}
+                  screenId="join"
                   buttonName={button1}
                 />
                 <FuseTileButton
                   navigation={navigation}
-                  screenId={screenIds.SetFuse}
+                  screenId={screenIds.newFuse}
                   buttonName={button2}
                 />
               </View>
@@ -80,7 +80,7 @@ export default class EventTile extends PureComponent {
               <View style={styles.bottomHeader}>
                 <FuseTileButton
                   navigation={navigation}
-                  screenId={screenIds.SetFuse}
+                  screenId={screenIds.newFuse}
                   buttonName={button1}
                 />
               </View>
@@ -98,12 +98,12 @@ export default class EventTile extends PureComponent {
               <View style={styles.bottomHeader}>
                 <FuseTileButton
                   navigation={navigation}
-                  screenId={screenIds.SetFuse}
+                  screenId={screenIds.lightFuse}
                   buttonName={button1}
                 />
                 <FuseTileButton
                   navigation={navigation}
-                  screenId={screenIds.SetFuse}
+                  screenId={screenIds.lightFuse}
                   buttonName={button2}
                 />
               </View>
@@ -116,7 +116,7 @@ export default class EventTile extends PureComponent {
               <View style={styles.bottomHeader}>
                 <FuseTileButton
                   navigation={navigation}
-                  screenId={screenIds.SetFuse}
+                  screenId={screenIds.lightFuse}
                   buttonName={button1}
                 />
               </View>
@@ -134,12 +134,12 @@ export default class EventTile extends PureComponent {
               <View style={styles.bottomHeader}>
                 <FuseTileButton
                   navigation={navigation}
-                  screenId={screenIds.SetFuse}
+                  screenId={screenIds.sizzleFuse}
                   buttonName={button1}
                 />
                 <FuseTileButton
                   navigation={navigation}
-                  screenId={screenIds.SetFuse}
+                  screenId="like"
                   buttonName={button2}
                 />
               </View>
@@ -152,12 +152,12 @@ export default class EventTile extends PureComponent {
               <View style={styles.bottomHeader}>
                 <FuseTileButton
                   navigation={navigation}
-                  screenId={screenIds.SetFuse}
+                  screenId={screenIds.sizzleFuse}
                   buttonName={button1}
                 />
                 <FuseTileButton
                   navigation={navigation}
-                  screenId={screenIds.SetFuse}
+                  screenId="like"
                   buttonName={button2}
                 />
               </View>

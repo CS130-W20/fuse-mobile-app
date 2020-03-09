@@ -6,12 +6,20 @@ import {
 
 import { PropTypes } from 'prop-types';
 import styles from './styles/FuseTileButtonStyles';
-import screenIds from '../navigation/ScreenIds';
 
 export default class FuseTileButton extends PureComponent {
   changeScreen() {
     const { navigation } = this.props;
-    navigation.navigate(screenIds.newFuse);
+    const { screenId } = this.props;
+    switch (screenId) {
+      case 'NewFuse':
+      case 'LightFuse':
+      case 'SizzleFuse':
+        navigation.navigate(screenId);
+        break;
+      default:
+        break;
+    }
   }
 
   render() {
