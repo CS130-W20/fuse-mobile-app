@@ -16,12 +16,16 @@ export const settingsHeaderOptions = {
   headerShown: true,
 };
 
-// eslint-disable-next-line no-unused-vars
-function SettingsTile({ navigation, title, onPress }) {
+
+function SettingsTile({
+  // eslint-disable-next-line no-unused-vars
+  navigation, title, onPress, testID,
+}) {
   return (
     <TouchableOpacity
       style={styles.tileWrapper}
       onPress={onPress}
+      testID={testID}
     >
       <Text style={styles.tileText}>{title}</Text>
     </TouchableOpacity>
@@ -42,12 +46,13 @@ export default function SettingsScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.wrapper}>
+    <View style={styles.wrapper} testID="settingsScreen">
       <Text style={styles.sectionHeaderText}>ACCOUNT</Text>
       <SettingsTile
         title="Edit profile"
         onPress={onPressEditProfile}
         navigation={navigation}
+        testID="settingsEditProfile"
       />
       <SettingsTile
         title="Logout"
@@ -65,6 +70,7 @@ SettingsTile.propTypes = {
     navigate: PropTypes.func.isRequired,
     goBack: PropTypes.func.isRequired,
   }).isRequired,
+  testID: PropTypes.string.isRequired,
 };
 
 SettingsScreen.propTypes = {

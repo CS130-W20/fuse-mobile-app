@@ -25,7 +25,7 @@ function Header({ navigation }) {
         <View style={styles.headerLeftWrapper} />
         <View style={styles.headerCenterWrapper} />
         <View style={styles.headerRightWrapper}>
-          <SettingsHeaderButton navigation={navigation} />
+          <SettingsHeaderButton navigation={navigation} testID="userSettings" />
         </View>
       </View>
     </View>

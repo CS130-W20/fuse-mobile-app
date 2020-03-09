@@ -7,6 +7,7 @@ import {
 import PropTypes from 'prop-types';
 import { useQuery, useApolloClient } from '@apollo/react-hooks';
 
+// eslint-disable-next-line import/no-named-as-default
 import ProfileHeader from '../components/ProfileHeader';
 import FriendButton, { onPressFriendButtonControl } from '../components/FriendButton';
 import NewFuseButton from '../components/NewFuseButton';
@@ -226,7 +227,7 @@ export default function ProfileContainer({ profileId, navigation }) {
   ]);
 
   return (
-    <View style={styles.wrapper}>
+    <View style={styles.wrapper} testID="userProfile">
       <ScrollView style={styles.scrollView}>
         <ProfileHeader
           name={profileData.name}
@@ -234,6 +235,7 @@ export default function ProfileContainer({ profileId, navigation }) {
           score={profileData.score}
           friendCount={profileData.friendCount}
           completedEventCount={profileData.completedEventCount}
+          testID="userProfileName"
           userId={profileData.userId}
         />
         <Spacer padding={20} />
@@ -251,11 +253,12 @@ export default function ProfileContainer({ profileId, navigation }) {
         }
         <ViewToggle
           viewToggler={setFocusedView}
+          testID="userEvents"
         />
         <Spacer padding={5} />
         {showToggledView()}
       </ScrollView>
-      <NewFuseButton navigation={navigation} />
+      <NewFuseButton navigation={navigation} testID="addEventButton" />
     </View>
   );
 }
