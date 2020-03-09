@@ -130,6 +130,7 @@ const tabScreenOptions = {
         ? <MaterialCommunityIcons name="home-outline" size={30} color={focusedTabColor} />
         : <MaterialCommunityIcons name="home-outline" size={30} color={unfocusedTabColor} />
     ),
+    tabBarTestID: 'goToNewsfeed',
   },
   explore: {
     // eslint-disable-next-line react/prop-types
@@ -138,6 +139,7 @@ const tabScreenOptions = {
         ? <MaterialIcons name="search" size={30} color={focusedTabColor} />
         : <MaterialIcons name="search" size={30} color={unfocusedTabColor} />
     ),
+    tabBarTestID: 'goToExplore',
   },
   notifications: {
     // eslint-disable-next-line react/prop-types
@@ -146,6 +148,7 @@ const tabScreenOptions = {
         ? <MaterialIcons name="notifications-none" size={30} color={focusedTabColor} />
         : <MaterialIcons name="notifications-none" size={30} color={unfocusedTabColor} />
     ),
+    tabBarTestID: 'goToNotifications',
   },
   profile: {
     // eslint-disable-next-line react/prop-types
@@ -154,11 +157,15 @@ const tabScreenOptions = {
         ? <MaterialCommunityIcons name="account-outline" size={30} color={focusedTabColor} />
         : <MaterialCommunityIcons name="account-outline" size={30} color={unfocusedTabColor} />
     ),
+    tabBarTestID: 'goToProfile',
   },
 };
 
 const tabBarOptions = {
-  showLabel: false, // hides text labels for navigation bar
+  showLabel: true, // hides text labels for navigation bar
+  labelStyle: {
+    color: 'grey',
+  },
 };
 
 // Create the tab navigator using react navigation

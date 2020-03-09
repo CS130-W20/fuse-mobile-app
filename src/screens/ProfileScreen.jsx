@@ -42,12 +42,12 @@ export default function ProfileScreen({ navigation, route }) {
     && parentNavigator.dangerouslyGetState()
     && parentNavigator.dangerouslyGetState().routeNames
   ) {
-    // console.log("opened via tab navigator");
     const { me: currentUser } = client.readQuery({ query: USER_QUERY });
     profileId = currentUser.id;
+    // console.log("opened via tab navigator");
   } else {
-    // console.log("Opened via some random way");
     profileId = route.params[ProfileParams.profileId];
+    // console.log("Opened via some random way", profileId);
   }
 
   return (

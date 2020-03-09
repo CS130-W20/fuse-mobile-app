@@ -40,9 +40,10 @@ const styles = StyleSheet.create({
     flex: 2,
     padding: 5,
     paddingTop: 20,
+    justifyContent: 'center',
   },
   profileImage: {
-    // backgroundColor: 'grey',
+    backgroundColor: 'grey',
     flex: 1,
     width: '100%',
     resizeMode: 'contain',

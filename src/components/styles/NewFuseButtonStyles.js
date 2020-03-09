@@ -19,16 +19,16 @@ const styles = StyleSheet.create({
     backgroundColor: colors.redorange,
   },
   imageUploadWrapper: {
-    position: 'absolute',
-    bottom: 15,
-    left: 15,
-    width: 145,
-    height: 145,
-    borderRadius: 170,
+    // position: 'absolute',
+    // bottom: 15,
+    // left: 15,
+    width: 130,
+    height: 130,
+    borderRadius: 130,
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.sizzlefuseyellow,
+    backgroundColor: colors.lightgrey,
   },
 });
 
