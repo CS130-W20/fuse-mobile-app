@@ -92,13 +92,13 @@ const updateCache = (cache, { data: { login } }) => {
   const { token, user } = login;
   cache.writeQuery({
     query: USER_QUERY,
-    data: { user, token },
+    data: { me: { ...user }, token },
   });
 };
 
 export default function Login({ navigation }) {
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [invalidEmailPasswordCombo, setInvalidEmailPasswordCombo] = useState(false);
 
   const [loginMutation, { data, error }] = useMutation(LOGIN_MUTATION);
@@ -138,6 +138,7 @@ export default function Login({ navigation }) {
         textContentType="emailAddress"
         style={styles.materialUnderlineTextbox1}
         onChangeText={(text) => { setInvalidEmailPasswordCombo(false); setEmail(text); }}
+        testID="loginEmail"
       />
 
       <MaterialUnderlineTextbox
@@ -146,6 +147,7 @@ export default function Login({ navigation }) {
         style={styles.materialUnderlineTextbox2}
         secureTextEntry
         onChangeText={(text) => { setInvalidEmailPasswordCombo(false); setPassword(text); }}
+        testID="loginPassword"
       />
 
       <View style={styles.cupertinoButtonInfoStack}>
@@ -153,12 +155,13 @@ export default function Login({ navigation }) {
           text="login with facebook"
           style={styles.cupertinoButtonInfo}
           onPress={loginFBAndSaveToken}
+          testID="loginFacebookButton"
         />
         <Text
           style={styles.materialUnderlineTextbox3}
             // eslint-disable-next-line no-console
           onPress={() => navigation.navigate(screenIds.signUp)}
-          testID="no_account"
+          testID="loginNoAccount"
         >
           dont have an account?
 
@@ -170,6 +173,7 @@ export default function Login({ navigation }) {
             style={styles.materialUnderlineTextbox4}
             // eslint-disable-next-line no-console
             onPress={() => navigation.navigate(screenIds.signUp)}
+            testID="loginWrongCombo"
           >
             Invalid email/password combo
           </Text>
@@ -183,6 +187,7 @@ export default function Login({ navigation }) {
         text="login"
         style={styles.cupertinoButtonGrey1}
         onPress={attemptLogin}
+        testID="loginButton"
       />
     </View>
   );

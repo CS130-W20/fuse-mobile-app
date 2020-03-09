@@ -10,6 +10,7 @@ import Spacer from '../helpers/Spacer';
 import styles from './styles/EventTileStyles';
 import FuseTileButton from './FuseTileButton';
 import { EVENTSTATUS } from '../constants';
+import screenIds from '../navigation/ScreenIds';
 
 const litOmbre = require('../assets/images/litombre.png');
 const setOmbre = require('../assets/images/setombre.png');
@@ -20,25 +21,40 @@ export default class EventTile extends PureComponent {
   showButtons() {
     let button1 = '';
     let button2 = '';
+    // eslint-disable-next-line no-unused-vars
+    const { testID } = this.props;
     const { eventStage } = this.props;
     const { eventRelation } = this.props;
+    const { navigation } = this.props;
     switch (eventStage) {
-      case EVENTSTATUS.set: // lit tiles
+      case EVENTSTATUS.set: // set tiles
         switch (eventRelation) {
           case 0: // creator
             button1 = 'LIGHT';
             button2 = 'DETAILS';
             return (
               <View style={styles.bottomHeader}>
-                <FuseTileButton buttonName={button1} />
-                <FuseTileButton buttonName={button2} />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId="join"
+                  buttonName={button1}
+                />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId={screenIds.newFuse}
+                  buttonName={button2}
+                />
               </View>
             );
           case 1: // joined
             button1 = 'DETAILS';
             return (
               <View style={styles.bottomHeader}>
-                <FuseTileButton buttonName={button1} />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId={screenIds.newFuse}
+                  buttonName={button1}
+                />
               </View>
             );
           case 2: // invited
@@ -46,21 +62,33 @@ export default class EventTile extends PureComponent {
             button2 = 'DETAILS';
             return (
               <View style={styles.bottomHeader}>
-                <FuseTileButton buttonName={button1} />
-                <FuseTileButton buttonName={button2} />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId="join"
+                  buttonName={button1}
+                />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId={screenIds.newFuse}
+                  buttonName={button2}
+                />
               </View>
             );
           case 3: // unaffiliated
             button1 = 'DETAILS';
             return (
               <View style={styles.bottomHeader}>
-                <FuseTileButton buttonName={button1} />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId={screenIds.newFuse}
+                  buttonName={button1}
+                />
               </View>
             );
           default:
             return (<View />);
         }
-      case EVENTSTATUS.lit: // set tiles
+      case EVENTSTATUS.lit: // lit tiles
         switch (eventRelation) {
           case 0: // owner
           case 1: // joined
@@ -68,8 +96,16 @@ export default class EventTile extends PureComponent {
             button2 = 'DETAILS';
             return (
               <View style={styles.bottomHeader}>
-                <FuseTileButton buttonName={button1} />
-                <FuseTileButton buttonName={button2} />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId={screenIds.lightFuse}
+                  buttonName={button1}
+                />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId={screenIds.lightFuse}
+                  buttonName={button2}
+                />
               </View>
             );
             // NEED TO ADD CASE FOR AFTER SCHEDULE BEFORE COMPLETE
@@ -78,7 +114,11 @@ export default class EventTile extends PureComponent {
             button1 = 'DETAILS';
             return (
               <View style={styles.bottomHeader}>
-                <FuseTileButton buttonName={button1} />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId={screenIds.lightFuse}
+                  buttonName={button1}
+                />
               </View>
             );
           default:
@@ -92,8 +132,16 @@ export default class EventTile extends PureComponent {
             button2 = 'LIKE'; // ADD DIFFERENT STLYING LATER
             return (
               <View style={styles.bottomHeader}>
-                <FuseTileButton buttonName={button1} />
-                <FuseTileButton buttonName={button2} />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId={screenIds.sizzleFuse}
+                  buttonName={button1}
+                />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId="like"
+                  buttonName={button2}
+                />
               </View>
             );
           case 2: // invited
@@ -102,8 +150,16 @@ export default class EventTile extends PureComponent {
             button2 = 'LIKE'; // ADD DIFFERENT STLYING LATER
             return (
               <View style={styles.bottomHeader}>
-                <FuseTileButton buttonName={button1} />
-                <FuseTileButton buttonName={button2} />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId={screenIds.sizzleFuse}
+                  buttonName={button1}
+                />
+                <FuseTileButton
+                  navigation={navigation}
+                  screenId="like"
+                  buttonName={button2}
+                />
               </View>
             );
           default:
@@ -181,9 +237,13 @@ export default class EventTile extends PureComponent {
       eventStage, // 0: set, 1: lit, 2: complete
       // eslint-disable-next-line no-unused-vars
       eventRelation, // 0: creator, 1: joined, 2: invited, 3: unaffiliated
+      // eslint-disable-next-line no-unused-vars
+      testID,
+      // eslint-disable-next-line no-unused-vars
+      navigation,
     } = this.props;
     return (
-      <View style={styles.outerTile}>
+      <View style={styles.outerTile} testID={testID}>
         {this.showTile()}
       </View>
     );
@@ -196,4 +256,8 @@ EventTile.propTypes = {
   description: PropTypes.string.isRequired,
   eventStage: PropTypes.string.isRequired,
   eventRelation: PropTypes.number.isRequired,
+  testID: PropTypes.string.isRequired,
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
 };

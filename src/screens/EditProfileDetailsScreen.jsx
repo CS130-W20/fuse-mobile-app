@@ -5,12 +5,17 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { useQuery, useMutation } from '@apollo/react-hooks';
-import { USER_PROFILE_DETAILS_QUERY, PROFILE_DETAILS_MUTATION } from '../graphql/GeneralQueries';
+import { useQuery, useMutation, useApolloClient } from '@apollo/react-hooks';
+import {
+  USER_PROFILE_DETAILS_QUERY,
+  PROFILE_DETAILS_MUTATION,
+  USER_QUERY,
+} from '../graphql/GeneralQueries';
 import MaterialUnderlineTextbox from '../components/fields/MaterialUnderlineTextbox';
 import Spacer from '../helpers/Spacer';
 
 import styles from './styles/EditProfileDetailsScreenStyles';
+import screenIds from '../navigation/ScreenIds';
 
 export const editProfileHeaderOptions = {
   headerShown: true,
@@ -18,16 +23,23 @@ export const editProfileHeaderOptions = {
 };
 
 // eslint-disable-next-line no-unused-vars
-export default function EditProfileDetailsScreen({ navigation }) {
+export default function EditProfileDetailsScreen({ navigation, testID }) {
   const [name, setName] = useState(null);
   const [bio, setBio] = useState(null);
+
+  const client = useApolloClient();
+  const { me: currentUser } = client.readQuery({ query: USER_QUERY });
 
   const {
     data: detailsQueryData,
     loading: detailsQueryLoading,
     // eslint-disable-next-line no-unused-vars
     error: detailsQueryError,
-  } = useQuery(USER_PROFILE_DETAILS_QUERY);
+  } = useQuery(USER_PROFILE_DETAILS_QUERY, {
+    variables: {
+      id: currentUser.id,
+    },
+  });
 
   const [
     detailsMutation,
@@ -49,6 +61,7 @@ export default function EditProfileDetailsScreen({ navigation }) {
     }).then(() => {
       // eslint-disable-next-line no-console
       console.log('Updated details!');
+      navigation.navigate(screenIds.myProfile);
     });
   };
 
@@ -56,7 +69,7 @@ export default function EditProfileDetailsScreen({ navigation }) {
     <View style={styles.wrapper}>
       <View style={styles.fieldWrapper}>
         <View style={styles.fieldLabelWrapper}>
-          <Text style={styles.fieldLabel}>Name</Text>
+          <Text style={styles.fieldLabel} testID="editProfileScreen">Name</Text>
         </View>
         <View style={styles.fieldInputWrapper}>
           <MaterialUnderlineTextbox
@@ -65,6 +78,7 @@ export default function EditProfileDetailsScreen({ navigation }) {
             value={name}
             style={styles.fieldInput}
             multiline
+            testID="editProfileName"
           />
         </View>
       </View>
@@ -79,6 +93,7 @@ export default function EditProfileDetailsScreen({ navigation }) {
             value={bio}
             style={styles.fieldInput}
             multiline
+            testID="editProfileBio"
           />
         </View>
       </View>
@@ -87,6 +102,7 @@ export default function EditProfileDetailsScreen({ navigation }) {
         <TouchableOpacity
           style={styles.saveButton}
           onPress={onPressSave}
+          testID="editProfileSaveButton"
         >
           <Text style={styles.saveButtonText}>Save</Text>
         </TouchableOpacity>
@@ -100,4 +116,5 @@ EditProfileDetailsScreen.propTypes = {
     navigate: PropTypes.func.isRequired,
     goBack: PropTypes.func.isRequired,
   }).isRequired,
+  testID: PropTypes.string.isRequired,
 };

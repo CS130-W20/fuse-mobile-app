@@ -22,7 +22,7 @@ export default function Multiselect({
         showChips={false}
         onConfirm={confirmFunc}
         colors={{ primary: '#ed5c45' }}
-        styles={{container: {maxHeight: '60%'} }}
+        styles={{ container: { maxHeight: '60%' } }}
         // confirmFontFamily="alata-regular"
         // searchTextFontFamily="alata-regular"
         // subItemFontFamily="alata-regular"

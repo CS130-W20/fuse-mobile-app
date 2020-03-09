@@ -5,23 +5,28 @@ import {
   ScrollView,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useApolloClient } from '@apollo/react-hooks';
 
+// eslint-disable-next-line import/no-named-as-default
 import ProfileHeader from '../components/ProfileHeader';
+import FriendButton, { onPressFriendButtonControl } from '../components/FriendButton';
 import NewFuseButton from '../components/NewFuseButton';
 import ViewToggle from '../components/ViewToggle';
 import Spacer from '../helpers/Spacer';
+import EventTile from '../components/EventTile';
 import {
   USER_EVENTS_QUERY,
   USER_PROFILE_DETAILS_QUERY,
   FRIENDS_COUNT,
   COMPLETED_EVENTS_COUNT,
+  USER_QUERY,
+  FRIEND_PROFILE_EVENTS,
 } from '../graphql/GeneralQueries';
 
+import { FriendStatus } from '../constants';
 import styles from './styles/ProfileContainerStyles';
-import EventTile from '../components/EventTile';
 
-export default function ProfileContainer({ navigation }) {
+export default function ProfileContainer({ profileId, navigation }) {
   const [focusedView, setFocusedView] = useState(0);
   const [profileData, setProfileData] = useState({
     name: '',
@@ -29,52 +34,91 @@ export default function ProfileContainer({ navigation }) {
     score: 0,
     friendCount: 0,
     completedEventCount: 0,
+    userId: '',
   });
   const [profileFuses, setProfileFuses] = useState({
     set: [],
     lit: [],
     completed: [],
   });
+  const [friendStatus, setFriendStatus] = useState(FriendStatus.loading);
 
-  // TODO handle error
+  // Read from cache
+  const client = useApolloClient();
+  // eslint-disable-next-line no-unused-vars
+  const { me: currentUser } = client.readQuery({ query: USER_QUERY });
+
+  const isCurrentUser = currentUser.id === profileId;
+  const isFriend = true; // TODO actually check for friend validity
+
+  // Fetch using Fuse API
   const {
-    data: eventQueryData,
-    loading: eventQueryLoading,
-  } = useQuery(USER_EVENTS_QUERY);
+    data: userEventQueryData,
+    loading: userEventQueryLoading,
+  } = useQuery(USER_EVENTS_QUERY, {
+    skip: !isCurrentUser,
+  });
+  const {
+    data: friendEventQueryData,
+    loading: friendEventQueryLoading,
+  } = useQuery(FRIEND_PROFILE_EVENTS, {
+    variables: {
+      friendUserId: profileId,
+    },
+    skip: !isFriend,
+  });
   const {
     data: profileDetailsQueryData,
     loading: profileDetailsQueryLoading,
     // eslint-disable-next-line no-unused-vars
     error: profileDetailsQueryError,
-  } = useQuery(USER_PROFILE_DETAILS_QUERY);
+  } = useQuery(USER_PROFILE_DETAILS_QUERY, {
+    variables: {
+      id: profileId,
+    },
+  });
   const {
     data: friendCountQueryData,
     loading: friendCountQueryLoading,
     // eslint-disable-next-line no-unused-vars
     error: friendCountQueryError,
-  } = useQuery(FRIENDS_COUNT);
+  } = useQuery(FRIENDS_COUNT, {
+    variables: {
+      userId: profileId,
+    },
+  });
   const {
     data: completedEventCountQueryData,
     loading: completedEventCountQueryLoading,
     // eslint-disable-next-line no-unused-vars
     error: completedEventCountQueryError,
-  } = useQuery(COMPLETED_EVENTS_COUNT);
+  } = useQuery(COMPLETED_EVENTS_COUNT, {
+    variables: {
+      userId: profileId,
+    },
+  });
 
   // eslint-disable-next-line no-unused-vars
-  const getProfileData = async (profileId) => {
-    const { me } = profileDetailsQueryData;
+  const getProfileData = async () => {
+    const { user } = profileDetailsQueryData;
     setProfileData({
-      name: me.name,
-      bio: me.bio,
-      score: me.score,
+      name: user.name,
+      bio: user.bio,
+      score: user.score,
       friendCount: friendCountQueryData.friendsCount,
       completedEventCount: completedEventCountQueryData.completedEventsCount,
+      userId: user.id,
     });
   };
 
   // eslint-disable-next-line no-unused-vars
-  const getProfileFuses = async (profileId) => {
-    const parsedFuseData = eventQueryData.me.events;
+  const getProfileFuses = async () => {
+    let parsedFuseData;
+    if (isCurrentUser) {
+      parsedFuseData = userEventQueryData.me.events;
+    } else if (isFriend) {
+      parsedFuseData = friendEventQueryData.friendProfileEvents;
+    }
 
     const setFuses = [];
     const litFuses = [];
@@ -131,7 +175,10 @@ export default function ProfileContainer({ navigation }) {
     }
 
     return fuseListToShow.map((fuse) => (
-      <View style={styles.tileWrapper}>
+      <View
+        style={styles.tileWrapper}
+        key={fuse.title}
+      >
         <EventTile
           eventName={fuse.title}
           eventCreator={fuse.owner.name}
@@ -139,17 +186,31 @@ export default function ProfileContainer({ navigation }) {
           eventStage={fuse.status}
           eventView={0}
           eventRelation={0}
-          key={fuse.title}
         />
       </View>
     ));
   };
 
+  const onPressFriendButton = () => (
+    onPressFriendButtonControl(friendStatus, setFriendStatus, profileId)
+  );
+
   useEffect(() => {
-    if (eventQueryData && !eventQueryLoading) {
+    // TODO make official request to check friend status;
+    setFriendStatus(FriendStatus.friend);
+  }, []);
+
+  useEffect(() => {
+    if (userEventQueryData && !userEventQueryLoading) {
       getProfileFuses();
     }
-  }, [eventQueryData, eventQueryLoading]);
+  }, [userEventQueryData, userEventQueryLoading]);
+
+  useEffect(() => {
+    if (friendEventQueryData && !friendEventQueryLoading) {
+      getProfileFuses();
+    }
+  }, [friendEventQueryData, friendEventQueryLoading]);
 
   useEffect(() => {
     if (
@@ -166,7 +227,7 @@ export default function ProfileContainer({ navigation }) {
   ]);
 
   return (
-    <View style={styles.wrapper}>
+    <View style={styles.wrapper} testID="userProfile">
       <ScrollView style={styles.scrollView}>
         <ProfileHeader
           name={profileData.name}
@@ -174,20 +235,36 @@ export default function ProfileContainer({ navigation }) {
           score={profileData.score}
           friendCount={profileData.friendCount}
           completedEventCount={profileData.completedEventCount}
+          testID="userProfileName"
+          userId={profileData.userId}
         />
         <Spacer padding={20} />
+        {
+          isCurrentUser
+            ? null
+            : (
+              <>
+                <View style={styles.friendButtonWrapper}>
+                  <FriendButton friendStatus={friendStatus} onPress={onPressFriendButton} />
+                </View>
+                <Spacer padding={20} />
+              </>
+            )
+        }
         <ViewToggle
           viewToggler={setFocusedView}
+          testID="userEvents"
         />
         <Spacer padding={5} />
         {showToggledView()}
       </ScrollView>
-      <NewFuseButton navigation={navigation} />
+      <NewFuseButton navigation={navigation} testID="addEventButton" />
     </View>
   );
 }
 
 ProfileContainer.propTypes = {
+  profileId: PropTypes.string.isRequired,
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
     goBack: PropTypes.func.isRequired,
