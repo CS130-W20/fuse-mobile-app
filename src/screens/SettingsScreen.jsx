@@ -35,7 +35,7 @@ export default function SettingsScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.wrapper}>
+    <View style={styles.wrapper} testID="settingsScreen">
       <Text style={styles.sectionHeaderText}>ACCOUNT</Text>
       <SettingsTile
         title="Edit profile"

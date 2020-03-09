@@ -172,7 +172,7 @@ export default function ProfileContainer({ navigation }) {
   ]);
 
   return (
-    <View style={styles.wrapper}>
+    <View style={styles.wrapper} testID="userProfile">
       <ScrollView style={styles.scrollView}>
         <ProfileHeader
           name={profileData.name}
@@ -184,11 +184,12 @@ export default function ProfileContainer({ navigation }) {
         <Spacer padding={20} />
         <ViewToggle
           viewToggler={setFocusedView}
+          testID="userEvents"
         />
         <Spacer padding={5} />
         {showToggledView()}
       </ScrollView>
-      <NewFuseButton navigation={navigation} />
+      <NewFuseButton navigation={navigation} testID="addEventButton" />
     </View>
   );
 }
