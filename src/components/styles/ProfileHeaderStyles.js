@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
   profileImage: {
     backgroundColor: 'grey',
-    // flex: 1,
+    flex: 1,
     width: '100%',
     resizeMode: 'contain',
     borderRadius: 70,
