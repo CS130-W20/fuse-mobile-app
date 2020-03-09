@@ -217,6 +217,7 @@ export default function LightFuse({ navigation }) {
         text="Schedule"
         style={styles.button}
         onPress={() => toggleIsEditing(false)}
+        testID="litFuseScheduleButton"
       />
       <Image
         source={fuseLogo}
@@ -230,7 +231,7 @@ export default function LightFuse({ navigation }) {
     <ImageBackground source={gradient} style={styles.trim}>
       <View style={styles.container}>
         <View style={styles.container2}>
-          <Text style={styles.loremIpsum} onPress={navigation.goBack}>&lt;</Text>
+          <Text style={styles.loremIpsum} onPress={navigation.goBack} testID="litFuseBackButton">&lt;</Text>
           <Text style={styles.light}>LIGHT</Text>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.description}>
@@ -294,6 +295,13 @@ export default function LightFuse({ navigation }) {
               },
             }}
             onDateChange={setDate}
+          />
+          <MaterialUnderlineTextbox
+            style={styles.nameInput}
+            placeholder="Event Location"
+            onChangeText={setLocation}
+            editable={isEditing}
+            testID="litFuseEventLocationField"
           />
         </View>
         { isEditing ? scheduleButton() : null }

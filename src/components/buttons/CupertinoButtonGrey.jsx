@@ -21,10 +21,12 @@ const styles = StyleSheet.create({
   },
 });
 
-function CupertinoButtonGrey({ style, text, onPress }) {
+function CupertinoButtonGrey({
+  style, text, onPress, testID,
+}) {
   return (
     <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
-      <Text style={styles.caption}>{text}</Text>
+      <Text style={styles.caption} testID={testID}>{text}</Text>
     </TouchableOpacity>
   );
 }
@@ -32,6 +34,7 @@ function CupertinoButtonGrey({ style, text, onPress }) {
 CupertinoButtonGrey.defaultProps = {
   style: styles,
   text: 'button',
+  testID: '',
   // eslint-disable-next-line no-console
   onPress: () => { console.log('button pressed'); },
 };
@@ -40,6 +43,7 @@ CupertinoButtonGrey.propTypes = {
   style: ViewPropTypes.style,
   text: PropTypes.string,
   onPress: PropTypes.func,
+  testID: PropTypes.string,
 };
 
 
