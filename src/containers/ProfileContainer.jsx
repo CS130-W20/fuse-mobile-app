@@ -8,9 +8,11 @@ import PropTypes from 'prop-types';
 import { useQuery, useApolloClient } from '@apollo/react-hooks';
 
 import ProfileHeader from '../components/ProfileHeader';
+import FriendButton, { onPressFriendButtonControl } from '../components/FriendButton';
 import NewFuseButton from '../components/NewFuseButton';
 import ViewToggle from '../components/ViewToggle';
 import Spacer from '../helpers/Spacer';
+import EventTile from '../components/EventTile';
 import {
   USER_EVENTS_QUERY,
   USER_PROFILE_DETAILS_QUERY,
@@ -20,8 +22,8 @@ import {
   FRIEND_PROFILE_EVENTS,
 } from '../graphql/GeneralQueries';
 
+import { FriendStatus } from '../constants';
 import styles from './styles/ProfileContainerStyles';
-import EventTile from '../components/EventTile';
 
 export default function ProfileContainer({ profileId, navigation }) {
   const [focusedView, setFocusedView] = useState(0);
@@ -37,6 +39,7 @@ export default function ProfileContainer({ profileId, navigation }) {
     lit: [],
     completed: [],
   });
+  const [friendStatus, setFriendStatus] = useState(FriendStatus.loading);
 
   // Read from cache
   const client = useApolloClient();
@@ -185,8 +188,13 @@ export default function ProfileContainer({ profileId, navigation }) {
     ));
   };
 
+  const onPressFriendButton = () => (
+    onPressFriendButtonControl(friendStatus, setFriendStatus, profileId)
+  );
+
   useEffect(() => {
-    // TODO make different call to fetch friend events if not personal id
+    // TODO make official request to check friend status;
+    setFriendStatus(FriendStatus.friend);
   }, []);
 
   useEffect(() => {
@@ -226,6 +234,18 @@ export default function ProfileContainer({ profileId, navigation }) {
           completedEventCount={profileData.completedEventCount}
         />
         <Spacer padding={20} />
+        {
+          isCurrentUser
+            ? null
+            : (
+              <>
+                <View style={styles.friendButtonWrapper}>
+                  <FriendButton friendStatus={friendStatus} onPress={onPressFriendButton} />
+                </View>
+                <Spacer padding={20} />
+              </>
+            )
+        }
         <ViewToggle
           viewToggler={setFocusedView}
         />
