@@ -232,6 +232,7 @@ export default function ProfileContainer({ profileId, navigation }) {
           score={profileData.score}
           friendCount={profileData.friendCount}
           completedEventCount={profileData.completedEventCount}
+          testID="userProfileName"
         />
         <Spacer padding={20} />
         {

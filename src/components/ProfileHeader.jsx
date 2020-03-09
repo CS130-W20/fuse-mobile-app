@@ -18,6 +18,7 @@ export default class ProfileHeader extends PureComponent {
       score,
       friendCount,
       completedEventCount,
+      testID,
     } = this.props;
 
     // TODO: write a helper function to convert scores/counts to a renderable version
@@ -41,7 +42,14 @@ export default class ProfileHeader extends PureComponent {
           </View>
           <View style={styles.textColumn}>
             <View style={styles.nameWrapper}>
-              <Text numberOfLines={1} adjustsFontSizeToFit style={styles.name}>{name}</Text>
+              <Text
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                style={styles.name}
+                testID={testID}
+              >
+                {name}
+              </Text>
             </View>
             <Spacer padding={10} />
             <View style={styles.bioWrapper}>
@@ -71,4 +79,5 @@ ProfileHeader.propTypes = {
   score: PropTypes.number.isRequired,
   friendCount: PropTypes.number.isRequired,
   completedEventCount: PropTypes.number.isRequired,
+  testID: PropTypes.string.isRequired,
 };
