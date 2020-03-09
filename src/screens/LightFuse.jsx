@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   },
   attHeader: {
     justifyContent: 'center',
-    fontSize: 30,
+    fontSize: 25,
     width: '100%',
     textAlign: 'center',
     position: 'absolute',
@@ -218,10 +218,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   modalText: {
-    fontSize: 20,
+    fontSize: 18,
     alignSelf: 'center',
     textAlign: 'center',
-    top: 20,
+    top: 10,
     position: 'relative',
     color: 'rgba(129,129,129,1)',
   },
