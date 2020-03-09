@@ -78,6 +78,31 @@ export const USER_EVENTS_QUERY = gql`
   }
 `;
 
+export const FRIEND_PROFILE_EVENTS = gql`
+  query friendProfileEvents ($friendUserId: ID!) {
+    friendProfileEvents(friendUserId: $friendUserId) {
+      id
+      title
+      description
+      owner {
+        id
+        name
+      }
+      status
+      invited {
+        id
+        name
+      }
+      joined {
+        id
+        name
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
 export const NEWS_FEED_QUERY = gql`
   query newsFeed {
     newsFeed {
