@@ -11,6 +11,7 @@ export default class FriendTile extends PureComponent {
   render() {
     const {
       userName,
+      userId,
     } = this.props;
     return (
       <TouchableOpacity style={styles.outerTile}>
@@ -22,4 +23,5 @@ export default class FriendTile extends PureComponent {
 
 FriendTile.propTypes = {
   userName: PropTypes.string.isRequired,
+  userId: PropTypes.string.isRequired,
 };

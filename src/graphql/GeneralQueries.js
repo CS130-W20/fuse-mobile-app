@@ -132,3 +132,12 @@ export const PROFILE_DETAILS_MUTATION = gql`
     }
   }
 `;
+
+export const FRIEND_SEARCH = gql`
+  query ($prefix: String!){
+    users (prefix: $prefix){
+      name
+      id
+    }
+  }
+`;
