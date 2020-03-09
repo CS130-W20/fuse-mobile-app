@@ -6,8 +6,16 @@ import { PropTypes } from 'prop-types';
 
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import styles from './styles/FriendTileStyles';
+import screenIds from '../navigation/ScreenIds';
 
 export default class FriendTile extends PureComponent {
+  onPress() {
+    const { navigation, userId } = this.props;
+    navigation.push(screenIds.userProfile, {
+      profileId: userId,
+    });
+  }
+
   render() {
     const {
       userName,
@@ -15,7 +23,10 @@ export default class FriendTile extends PureComponent {
       userId,
     } = this.props;
     return (
-      <TouchableOpacity style={styles.outerTile}>
+      <TouchableOpacity
+        style={styles.outerTile}
+        onPress={() => this.onPress()}
+      >
         <Text style={styles.username}>{userName}</Text>
       </TouchableOpacity>
     );
@@ -25,4 +36,8 @@ export default class FriendTile extends PureComponent {
 FriendTile.propTypes = {
   userName: PropTypes.string.isRequired,
   userId: PropTypes.string.isRequired,
+  navigation: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired,
+  }).isRequired,
 };

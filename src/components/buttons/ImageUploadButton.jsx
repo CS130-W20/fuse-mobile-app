@@ -57,6 +57,7 @@ async function uploadToS3(imageUri, name, imagePath, incrementer, numAttempts) {
   RNS3.put(file, options)
     .then((response) => {
       if (response.status !== 201) {
+        console.log(response);
         throw new Error('Failed to upload image to S3');
       }
       // eslint-disable-next-line no-console
