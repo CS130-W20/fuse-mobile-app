@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import {
-  StyleSheet, View, Text, Image, Switch, ImageBackground, ScrollView,
+  StyleSheet, View, Text, Image, Switch, ImageBackground, ScrollView, Dimensions,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/react-hooks';
-import DatePicker from 'react-native-datepicker';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import Multiselect from '../components/fields/Multiselect';
 import CupertinoButtonGrey from '../components/buttons/CupertinoButtonGrey';
 import MaterialUnderlineTextbox from '../components/fields/MaterialUnderlineTextbox';
@@ -13,6 +13,11 @@ import { CREATE_EVENT_MUTATION } from '../graphql/GeneralQueries';
 import screenIds from '../navigation/ScreenIds';
 
 const gradient = require('../../src/assets/images/Gradient_LIswryi.png');
+
+const isPortrait = () => {
+  const dim = Dimensions.get('screen');
+  return dim.height >= dim.width;
+};
 
 const styles = StyleSheet.create({
   trim: {
@@ -29,7 +34,12 @@ const styles = StyleSheet.create({
   },
   container2: {
     margin: '5%',
-    height: '70%',
+    height: '100%',
+    flex: 1,
+    paddingBottom: 100,
+  },
+  container3: {
+    height: 600,
   },
   loremIpsum: {
     width: 34,
@@ -41,14 +51,13 @@ const styles = StyleSheet.create({
   set: {
     color: 'rgba(218,209,209,1)',
     fontSize: 30,
-    height: 40,
     alignSelf: 'center',
     position: 'absolute',
     // fontFamily: "alata-regular"
   },
   nameInput: {
     height: 80,
-    top: 40,
+    top: 10,
     width: '95%',
     position: 'relative',
     alignItems: 'flex-end',
@@ -69,16 +78,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '95%',
     justifyContent: 'space-between',
-    top: 120,
-    height: 80,
-    position: 'relative',
-  },
-  deadline: {
-    flexDirection: 'row',
-    width: '95%',
     top: 80,
     height: 50,
     position: 'relative',
+  },
+  deadline: {
+    position: 'relative',
+    top: 100,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '90%',
+  },
+  dateBox: {
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: 'gray',
+    fontSize: 15,
+    padding: 10,
   },
   submit: {
     top: 300,
@@ -202,12 +221,15 @@ const selectedText = (selectedItems) => {
 
 export default function NewFuse({ navigation }) {
   const isOwner = true;
+  const currDate = 'March 8, 2020';
+
   const [isSet, updateSet] = useState(false);
   const [isEditing, updateEditing] = useState(isOwner);
 
   const [eventName, setEventName] = useState('');
   const [eventDescription, setEventDescription] = useState('');
-  const [date, setDate] = useState('03-04-2020');
+  const [datePicker, toggleDatePicker] = useState(false);
+  const [date, setDate] = useState(currDate);
   const [selectedItems, onSelectedItemsChange] = useState([]);
   const [notifications, setNotifications] = useState(false);
   const [friendList, friendListChange] = useState('No friends invited');
@@ -244,7 +266,6 @@ export default function NewFuse({ navigation }) {
     <View style={styles.switch}>
       <Text style={{ color: 'rgba(129,129,129,1)' }}>Send Notifications?</Text>
       <Switch
-        disabled={!isEditing}
         trackColor={{ true: 'green' }}
         onValueChange={setNotifications}
         value={notifications}
@@ -269,6 +290,26 @@ export default function NewFuse({ navigation }) {
       )
     );
     return b;
+  };
+
+  const dateConfirm = (dateIn) => {
+    const options = {
+      weekday: 'long',
+      month: 'short',
+      year: 'numeric',
+      day: 'numeric',
+    };
+    const d = new Intl.DateTimeFormat('en-US', options).format(dateIn);
+    setDate(d);
+    toggleDatePicker(false);
+  };
+
+  const pressDate = () => {
+    if (isEditing) {
+      if (isPortrait()) {
+        toggleDatePicker(true);
+      }
+    }
   };
 
   const ownerButtons = () => {
@@ -296,7 +337,7 @@ export default function NewFuse({ navigation }) {
   return (
     <ImageBackground source={gradient} style={styles.trim}>
       <View style={styles.container}>
-        <ScrollView style={styles.container2}>
+        <ScrollView style={styles.container2} contentContainerStyle={styles.container3}>
           <Text style={styles.loremIpsum} onPress={navigation.goBack}>&lt;</Text>
           <Text style={styles.set}>SET</Text>
           <MaterialUnderlineTextbox
@@ -312,7 +353,7 @@ export default function NewFuse({ navigation }) {
             editable={isEditing}
             multiline
           />
-          <View style={{ top: 60 }}>
+          <View style={{ top: 20 }}>
             {isEditing ? friendSelector() : (
               <Text>
                 Invited Friends:
@@ -322,33 +363,20 @@ export default function NewFuse({ navigation }) {
             <Text>{friendList}</Text>
           </View>
           {isOwner ? notifSwitch() : null}
-          <Text style={styles.deadline}>Deadline:</Text>
           <View style={styles.deadline}>
-            <DatePicker
-              style={{ width: 280 }}
-              date={date}
+            <Text>Set a deadline: </Text>
+            <Text style={styles.dateBox} onPress={pressDate}>
+              {date}
+            </Text>
+          </View>
+          <View>
+            <DateTimePickerModal
+              isVisible={datePicker}
               mode="date"
-              placeholder="select date"
-              format="MM-DD-YYYY"
-              minDate="01-01-2020"
-              confirmBtnText="Confirm"
-              cancelBtnText="Cancel"
-              customStyles={{
-                dateIcon: {
-                  position: 'absolute',
-                  left: 0,
-                  top: 4,
-                  marginLeft: 0,
-                },
-                dateInput: {
-                  marginLeft: 36,
-                },
-                // ... You can check the source to find the other keys.
-              }}
-              onDateChange={setDate}
+              onConfirm={dateConfirm}
+              onCancel={() => toggleDatePicker(false)}
             />
           </View>
-          <View style={{ height: 150 }} />
         </ScrollView>
         {isOwner ? ownerButtons() : null }
         <Image

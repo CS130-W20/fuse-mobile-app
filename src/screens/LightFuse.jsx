@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import {
-  StyleSheet, View, Text, Image, ImageBackground, Modal, ScrollView,
+  StyleSheet, View, Text, Image, ImageBackground, Modal, ScrollView, Dimensions,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import DatePicker from 'react-native-datepicker';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import CupertinoButtonGrey from '../components/buttons/CupertinoButtonGrey';
 import MaterialUnderlineTextbox from '../components/fields/MaterialUnderlineTextbox';
 
 
 const gradient = require('../../src/assets/images/setombre.png');
+
+const isPortrait = () => {
+  const dim = Dimensions.get('screen');
+  return dim.height >= dim.width;
+};
 
 const example = [
   {
@@ -105,7 +110,9 @@ const styles = StyleSheet.create({
   },
   container2: {
     margin: '5%',
-    height: '80%',
+    height: '100%',
+    flex: 1,
+    paddingBottom: 100,
   },
   loremIpsum: {
     height: 50,
@@ -181,14 +188,33 @@ const styles = StyleSheet.create({
     ],
   },
   deadline: {
-    width: 280,
-    top: 110,
-    height: 50,
     position: 'relative',
+    top: 100,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '90%',
+  },
+  dateBox: {
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: 'gray',
+    fontSize: 15,
+    padding: 10,
   },
   button: {
     width: '72%',
     height: 50,
+    alignSelf: 'center',
+    backgroundColor: 'rgba(247,116,33,1)',
+  },
+  dateButton: {
+    top: 100,
+    width: '72%',
+    height: 50,
+    position: 'absolute',
     alignSelf: 'center',
     backgroundColor: 'rgba(247,116,33,1)',
   },
@@ -212,10 +238,15 @@ const fuseLogo = require('../../src/assets/images/logo-fuse1.png');
 
 export default function LightFuse({ navigation }) {
   const isOwner = true;
+  const currDate = 'Sunday, March 8, 2020';
+
   const [isEditing, toggleIsEditing] = useState(isOwner);
   const title = 'Event Name';
   const description = 'Insert random text about event right here.\n This is super fun!\nBlah blah blah blah blah blah blah,\n';
-  const [date, setDate] = useState('03-04-2020');
+  const [datePicker, toggleDatePicker] = useState(false);
+  const [timePicker, toggleTimePicker] = useState(false);
+  const [time, setTime] = useState('12:00 pm');
+  const [date, setDate] = useState(currDate);
   const [location, setLocation] = useState('Event Location');
   const [expandFriends, toggleFriends] = useState(false);
 
@@ -234,10 +265,43 @@ export default function LightFuse({ navigation }) {
     </View>
   );
 
+  const pressDate = () => {
+    if (isEditing) {
+      if (isPortrait) {
+        toggleDatePicker(true);
+      }
+    }
+  };
+  const pressTime = () => {
+    if (isEditing) {
+      if (isPortrait) {
+        toggleTimePicker(true);
+      }
+    }
+  };
+
+  const dateConfirm = (dateIn) => {
+    const options = {
+      weekday: 'long',
+      month: 'short',
+      year: 'numeric',
+      day: 'numeric',
+    };
+    const d = new Intl.DateTimeFormat('en-US', options).format(dateIn);
+    setDate(d);
+    toggleDatePicker(false);
+  };
+  const timeConfirm = (timeIn) => {
+    const options = { hour: 'numeric', minute: 'numeric' };
+    const t = new Intl.DateTimeFormat('en-US', options).format(timeIn);
+    setTime(t);
+    toggleTimePicker(false);
+  };
+
   return (
     <ImageBackground source={gradient} style={styles.trim}>
       <View style={styles.container}>
-        <ScrollView style={styles.container2}>
+        <ScrollView style={styles.container2} contentContainerStyle={{ height: 550 }}>
           <Text style={styles.loremIpsum} onPress={navigation.goBack}>&lt;</Text>
           <Text style={styles.light}>LIGHT</Text>
           <Text style={styles.title}>{title}</Text>
@@ -279,30 +343,34 @@ export default function LightFuse({ navigation }) {
             onChangeText={setLocation}
             editable={isEditing}
           />
-          <Text style={styles.deadline}>Event Date:</Text>
-          <DatePicker
-            style={styles.deadline}
-            date={date}
-            mode="date"
-            placeholder="select date"
-            format="MM-DD-YYYY"
-            minDate="01-01-2020"
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                position: 'absolute',
-                left: 0,
-                top: 4,
-                marginLeft: 0,
-              },
-              dateInput: {
-                marginLeft: 36,
-              },
-            }}
-            onDateChange={setDate}
-          />
-          <View style={{ height: 100 }} />
+          <View style={styles.deadline}>
+            <Text>Event date: </Text>
+            <Text style={styles.dateBox} onPress={pressDate}>
+              {date}
+            </Text>
+          </View>
+          <View style={styles.deadline}>
+            <Text>Event time: </Text>
+            <Text style={styles.dateBox} onPress={pressTime}>
+              {time}
+            </Text>
+          </View>
+          <View>
+            <DateTimePickerModal
+              isVisible={datePicker}
+              mode="date"
+              onConfirm={dateConfirm}
+              onCancel={() => toggleDatePicker(false)}
+            />
+          </View>
+          <View>
+            <DateTimePickerModal
+              isVisible={timePicker}
+              mode="time"
+              onConfirm={timeConfirm}
+              onCancel={() => toggleTimePicker(false)}
+            />
+          </View>
         </ScrollView>
         { isEditing ? scheduleButton() : null }
       </View>
