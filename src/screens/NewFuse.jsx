@@ -97,7 +97,21 @@ const styles = StyleSheet.create({
   deadline: {
     color: colors.black,
     fontSize: 16,
+  },
+  dateWrapper: {
+    color: colors.black,
+    fontSize: 14,
+    borderWidth: 2,
+    borderRadius: 5,
+    borderColor: 'rgba(220,220,230,1)',
+    padding: 10,
+  },
+  deadlineWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     margin: 11,
+    alignItems: 'center',
   },
   lowerHeader: {
     flex: 1,
@@ -368,30 +382,13 @@ export default function NewFuse({ navigation }) {
             <Text style={styles.nameInput}>{friendList}</Text>
           </View>
           {isOwner ? notifSwitch() : null}
-          <View style={styles.deadline}>
-            <DatePicker
-              style={{ width: 280, alignSelf: 'center' }}
-              date={date}
-              mode="date"
-              placeholder="select date"
-              format="MM-DD-YYYY"
-              minDate="01-01-2020"
-              confirmBtnText="Confirm"
-              cancelBtnText="Cancel"
-              customStyles={{
-                dateIcon: {
-                  position: 'absolute',
-                  left: 0,
-                  top: 4,
-                  marginLeft: 0,
-                },
-                dateInput: {
-                  marginLeft: 36,
-                },
-                // ... You can check the source to find the other keys.
-              }}
-              onDateChange={setDate}
-            />
+          <View>
+            <View style={styles.deadlineWrapper}>
+              <Text style={styles.deadline}>Set a Deadline: </Text>
+              <Text style={styles.dateWrapper} onPress={pressDate}>
+                {date}
+              </Text>
+            </View>
             <DateTimePickerModal
               isVisible={datePicker}
               mode="date"
