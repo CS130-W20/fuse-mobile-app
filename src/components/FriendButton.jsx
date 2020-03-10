@@ -11,24 +11,59 @@ import styles from './styles/FriendButtonStyles';
 
 export function onPressFriendButtonControl(
   currentFriendStatus, friendStatusStateModifier, targetProfileId,
+  requestFriendMutator, confirmFriendMutator, removeFriendMutator,
 ) {
   switch (currentFriendStatus) {
-    case FriendStatus.friend: {
+    case FriendStatus.confirmed: {
       // eslint-disable-next-line no-console
-      console.log('Unfriended... fake ass friend... TODO make real mutation', targetProfileId);
-      friendStatusStateModifier(FriendStatus.notFriend);
+      removeFriendMutator({
+        variables: {
+          userId: targetProfileId,
+        },
+      }).then((message) => {
+        // eslint-disable-next-line no-console
+        console.log('friend request response: ', message);
+        friendStatusStateModifier(FriendStatus.none);
+      }).catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err);
+      });
       break;
     }
-    case FriendStatus.notFriend: {
-      // eslint-disable-next-line no-console
-      console.log('Yayy added friend... TODO make real mutation', targetProfileId);
-      friendStatusStateModifier(FriendStatus.requested);
+    case FriendStatus.none: {
+      requestFriendMutator({
+        variables: {
+          userId: targetProfileId,
+        },
+      }).then((message) => {
+        // eslint-disable-next-line no-console
+        console.log('friend request response: ', message);
+        friendStatusStateModifier(FriendStatus.sentRequest);
+      }).catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err);
+      });
       break;
     }
-    case FriendStatus.requested: {
+    case FriendStatus.sentRequest: {
       // eslint-disable-next-line no-console
       console.log('Prompt to unreqeust... TODO make real implementation', targetProfileId);
-      friendStatusStateModifier(FriendStatus.friend);
+      // friendStatusStateModifier(FriendStatus.friend);
+      break;
+    }
+    case FriendStatus.receivedRequest: {
+      confirmFriendMutator({
+        variables: {
+          userId: targetProfileId,
+        },
+      }).then((message) => {
+        // eslint-disable-next-line no-console
+        console.log('friend accept response: ', message);
+        friendStatusStateModifier(FriendStatus.confirmed);
+      }).catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err);
+      });
       break;
     }
     default:
@@ -42,20 +77,25 @@ export default function FriendButton({ friendStatus, onPress }) {
   let buttonStateStyles;
 
   switch (friendStatus) {
-    case FriendStatus.friend: {
+    case FriendStatus.confirmed: {
       buttonText = 'Friends';
       iconName = 'check';
       break;
     }
-    case FriendStatus.notFriend: {
+    case FriendStatus.none: {
       buttonText = 'Add Friend';
       iconName = 'plus';
       break;
     }
-    case FriendStatus.requested: {
+    case FriendStatus.sentRequest: {
       buttonText = 'Requested';
       iconName = 'arrow-right';
       buttonStateStyles = styles.requestedButton;
+      break;
+    }
+    case FriendStatus.receivedRequest: {
+      buttonText = 'Accept Request';
+      iconName = 'plus';
       break;
     }
     case FriendStatus.loading: {
