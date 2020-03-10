@@ -37,8 +37,7 @@ export default function NewsFeedContainer({ navigation }) {
         description={event.description}
         eventStage={event.status}
         // TODO add appropriate relation, profile pic etc
-        eventRelation={2}
-        eventView={0}
+        eventRelation={0}
         key={event.id}
         testID="newsfeedTile"
         navigation={navigation}
