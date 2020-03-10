@@ -31,6 +31,7 @@ export default function NewsFeedContainer({ navigation }) {
 
     const eventTiles = newsFeedQueryData.newsFeed.map((event) => (
       <EventTile
+        eventId={event.id}
         eventName={event.title}
         eventCreator={event.owner.name}
         description={event.description}

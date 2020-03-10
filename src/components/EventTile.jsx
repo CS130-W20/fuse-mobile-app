@@ -23,9 +23,11 @@ export default class EventTile extends PureComponent {
     let button2 = '';
     // eslint-disable-next-line no-unused-vars
     const { testID } = this.props;
-    const { eventStage } = this.props;
-    const { eventRelation } = this.props;
-    const { navigation } = this.props;
+    const {
+      eventId, eventStage, eventRelation,
+      navigation,
+    } = this.props;
+
     switch (eventStage) {
       case EVENTSTATUS.set: // set tiles
         switch (eventRelation) {
@@ -35,11 +37,13 @@ export default class EventTile extends PureComponent {
             return (
               <View style={styles.bottomHeader}>
                 <FuseTileButton
+                  eventId={eventId}
                   navigation={navigation}
                   screenId="join"
                   buttonName={button1}
                 />
                 <FuseTileButton
+                  eventId={eventId}
                   navigation={navigation}
                   screenId={screenIds.newFuse}
                   buttonName={button2}
@@ -51,6 +55,7 @@ export default class EventTile extends PureComponent {
             return (
               <View style={styles.bottomHeader}>
                 <FuseTileButton
+                  eventId={eventId}
                   navigation={navigation}
                   screenId={screenIds.newFuse}
                   buttonName={button1}
@@ -63,11 +68,13 @@ export default class EventTile extends PureComponent {
             return (
               <View style={styles.bottomHeader}>
                 <FuseTileButton
+                  eventId={eventId}
                   navigation={navigation}
                   screenId="join"
                   buttonName={button1}
                 />
                 <FuseTileButton
+                  eventId={eventId}
                   navigation={navigation}
                   screenId={screenIds.newFuse}
                   buttonName={button2}
@@ -79,6 +86,7 @@ export default class EventTile extends PureComponent {
             return (
               <View style={styles.bottomHeader}>
                 <FuseTileButton
+                  eventId={eventId}
                   navigation={navigation}
                   screenId={screenIds.newFuse}
                   buttonName={button1}
@@ -97,11 +105,13 @@ export default class EventTile extends PureComponent {
             return (
               <View style={styles.bottomHeader}>
                 <FuseTileButton
+                  eventId={eventId}
                   navigation={navigation}
                   screenId={screenIds.lightFuse}
                   buttonName={button1}
                 />
                 <FuseTileButton
+                  eventId={eventId}
                   navigation={navigation}
                   screenId={screenIds.lightFuse}
                   buttonName={button2}
@@ -115,6 +125,7 @@ export default class EventTile extends PureComponent {
             return (
               <View style={styles.bottomHeader}>
                 <FuseTileButton
+                  eventId={eventId}
                   navigation={navigation}
                   screenId={screenIds.lightFuse}
                   buttonName={button1}
@@ -133,11 +144,13 @@ export default class EventTile extends PureComponent {
             return (
               <View style={styles.bottomHeader}>
                 <FuseTileButton
+                  eventId={eventId}
                   navigation={navigation}
                   screenId={screenIds.sizzleFuse}
                   buttonName={button1}
                 />
                 <FuseTileButton
+                  eventId={eventId}
                   navigation={navigation}
                   screenId="like"
                   buttonName={button2}
@@ -151,11 +164,13 @@ export default class EventTile extends PureComponent {
             return (
               <View style={styles.bottomHeader}>
                 <FuseTileButton
+                  eventId={eventId}
                   navigation={navigation}
                   screenId={screenIds.sizzleFuse}
                   buttonName={button1}
                 />
                 <FuseTileButton
+                  eventId={eventId}
                   navigation={navigation}
                   screenId="like"
                   buttonName={button2}
@@ -251,6 +266,7 @@ export default class EventTile extends PureComponent {
 }
 
 EventTile.propTypes = {
+  eventId: PropTypes.string.isRequired,
   eventName: PropTypes.string.isRequired,
   eventCreator: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,

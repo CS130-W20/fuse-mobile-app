@@ -13,6 +13,8 @@ const screenIds = {
   newFuse: 'NewFuse',
   lightFuse: 'LightFuse',
   sizzleFuse: 'SizzleFuse',
+
+  setFuseDetailsTest: 'SetFuseDetailsTest',
 };
 
 export default screenIds;
