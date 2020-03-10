@@ -1,12 +1,13 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import {
-  StyleSheet, View, Text, Image, Switch, ImageBackground, ScrollView, Dimensions,
+  View, Text, Image, Switch, ImageBackground, ScrollView, Dimensions,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/react-hooks';
-import DatePicker from 'react-native-datepicker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { Feather } from '@expo/vector-icons';
+
 import Multiselect from '../components/fields/Multiselect';
 import CupertinoButtonGrey from '../components/buttons/CupertinoButtonGrey';
 import MaterialUnderlineTextbox from '../components/fields/MaterialUnderlineTextbox';
@@ -14,6 +15,7 @@ import { CREATE_EVENT_MUTATION } from '../graphql/GeneralQueries';
 import screenIds from '../navigation/ScreenIds';
 import colors from '../styles/colors/index';
 import FuseSubmitButton from '../components/FuseSubmitButton';
+import styles from './styles/NewFuseStyles';
 
 const gradient = require('../../src/assets/images/Gradient_LIswryi.png');
 
@@ -21,120 +23,6 @@ const isPortrait = () => {
   const dim = Dimensions.get('screen');
   return dim.height >= dim.width;
 };
-
-const styles = StyleSheet.create({
-  trim: {
-    width: '100%',
-    height: '100%',
-  },
-  container: {
-    flex: 1,
-    margin: '5%',
-    height: '100%',
-    backgroundColor: colors.background,
-    borderRadius: 30,
-    display: 'flex',
-  },
-  upperheader: {
-    flex: 1,
-    // backgroundColor: 'black',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  backWrapper: {
-    width: 34,
-    height: 50,
-    color: colors.black,
-    fontSize: 40,
-    flex: 1,
-    textAlign: 'center',
-    fontWeight: '500',
-    // backgroundColor: 'red',
-    //  fontFamily: "courier-regular"
-  },
-  set: {
-    color: colors.black,
-    fontSize: 50,
-    height: 50,
-    flex: 2,
-    textAlign: 'center',
-    fontWeight: '500',
-  },
-  middleHeader: {
-    flex: 4,
-    // backgroundColor: 'red',
-    justifyContent: 'center',
-  },
-  nameInput: {
-    margin: 11,
-  },
-  image: {
-    bottom: 40,
-    left: '85%',
-    width: 88,
-    height: 78,
-    transform: [
-      {
-        rotate: '15.00deg',
-      },
-    ],
-  },
-  friendContainer: {
-    top: 20,
-    borderBottomWidth: 2,
-    paddingBottom: 15,
-    borderBottomColor: 'rgba(220,220,230,1)',
-    width: '95%',
-  },
-  switch: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    height: 80,
-    margin: 11,
-    alignItems: 'center',
-  },
-  deadline: {
-    color: colors.black,
-    fontSize: 16,
-  },
-  dateWrapper: {
-    color: colors.black,
-    fontSize: 14,
-    borderWidth: 2,
-    borderRadius: 5,
-    borderColor: 'rgba(220,220,230,1)',
-    padding: 10,
-  },
-  deadlineWrapper: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    margin: 11,
-    alignItems: 'center',
-  },
-  lowerHeader: {
-    flex: 1,
-    // backgroundColor: 'green',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  button: {
-    alignSelf: 'center',
-  },
-  light: {
-    width: '80%',
-    height: 50,
-    alignSelf: 'center',
-    backgroundColor: 'rgba(247,116,33,1)',
-  },
-  edit: {
-    width: '80%',
-    height: 50,
-    alignSelf: 'center',
-    backgroundColor: '#ed5c45',
-  },
-});
 
 const fuseLogo = require('../../src/assets/images/logo-fuse1.png');
 const calendarIcon = require('../../src/assets/images/calendar.png');
@@ -352,8 +240,18 @@ export default function NewFuse({ navigation }) {
     <ImageBackground source={gradient} style={styles.trim}>
       <View style={styles.container}>
         <View style={styles.upperheader}>
-          <Text style={styles.backWrapper} onPress={navigation.goBack} testID="newFuseBackButton">&lt;</Text>
-          <Text style={styles.set}>SET</Text>
+          <View style={styles.leftHeaderWrapper}>
+            <Feather
+              name="chevron-left"
+              style={styles.back}
+              onPress={navigation.goBack}
+              testID="newFuseBackButton"
+            />
+          </View>
+          <View style={styles.centerHeaderWrapper}>
+            <Text style={styles.set}>SET</Text>
+          </View>
+          <View style={styles.rightHeaderWrapper} />
           <View style={styles.backWrapper} />
         </View>
         <View style={styles.middleHeader}>

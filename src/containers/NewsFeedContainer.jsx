@@ -31,6 +31,7 @@ export default function NewsFeedContainer({ navigation }) {
 
     const eventTiles = newsFeedQueryData.newsFeed.map((event) => (
       <EventTile
+        eventId={event.id}
         eventName={event.title}
         eventCreator={event.owner.name}
         description={event.description}
@@ -47,7 +48,7 @@ export default function NewsFeedContainer({ navigation }) {
 
   return (
     <View style={styles.wrapper} testID="newsfeed">
-      <ScrollView style={styles.scrollView}>
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollViewContainer}>
         {eventTilesToRender()}
         <Spacer padding={20} />
       </ScrollView>

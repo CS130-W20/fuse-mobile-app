@@ -5,14 +5,18 @@ import {
 } from 'react-native';
 
 import { PropTypes } from 'prop-types';
+import screenIds from '../navigation/ScreenIds';
 import styles from './styles/FuseTileButtonStyles';
 
 export default class FuseTileButton extends PureComponent {
   changeScreen() {
-    const { navigation } = this.props;
-    const { screenId } = this.props;
+    const { navigation, screenId, eventId } = this.props;
     switch (screenId) {
       case 'NewFuse':
+        navigation.push(screenIds.setFuseDetailsTest, {
+          eventId,
+        });
+        break;
       case 'LightFuse':
       case 'SizzleFuse':
         navigation.navigate(screenId);
@@ -42,8 +46,10 @@ export default class FuseTileButton extends PureComponent {
 }
 
 FuseTileButton.propTypes = {
+  eventId: PropTypes.string.isRequired,
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
+    push: PropTypes.func.isRequired,
   }).isRequired,
   screenId: PropTypes.string.isRequired,
   buttonName: PropTypes.string.isRequired,

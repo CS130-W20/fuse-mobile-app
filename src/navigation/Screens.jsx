@@ -7,9 +7,15 @@ import SettingsScreen, { settingsHeaderOptions } from '../screens/SettingsScreen
 import EditProfileDetailsScreen, { editProfileHeaderOptions } from '../screens/EditProfileDetailsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 
+import SetFuseDetailsTest from '../components/testers/SetFuseDetailsTest';
+
 import screenIds from './ScreenIds';
 
 const Screens = {
+  setFuseDetailsTest: {
+    name: screenIds.setFuseDetailsTest,
+    component: SetFuseDetailsTest,
+  },
   newFuse: {
     name: screenIds.newFuse,
     component: NewFuse,

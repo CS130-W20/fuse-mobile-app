@@ -42,6 +42,31 @@ export const SIGNUP_MUTATION = gql`
     }
 `;
 
+export const EVENT = gql`
+  query ($eventId: ID!) {
+    event(eventId: $eventId) {
+      id
+      title
+      description
+      owner {
+        id
+        name
+      }
+      status
+      invited {
+        id
+        name
+      }
+      joined {
+        id
+        name
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
 export const CREATE_EVENT_MUTATION = gql`
     mutation createEvent($title: String!) {
         createEvent(title: $title) {
