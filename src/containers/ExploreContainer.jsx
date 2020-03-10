@@ -48,9 +48,9 @@ export default function ExploreContainer({ navigation }) {
   };
 
   return (
-    <View>
-      <SearchBar onChangeText={friendTilesToRender} />
-      <ScrollView>
+    <View testID="exploreScreen">
+      <SearchBar onChangeText={friendTilesToRender} testID="exploreSearchBar" />
+      <ScrollView testID="friendTiles">
         {friendTiles}
       </ScrollView>
     </View>
