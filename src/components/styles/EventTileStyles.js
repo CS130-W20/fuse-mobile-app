@@ -4,13 +4,13 @@ import colors from '../../styles/colors';
 const styles = StyleSheet.create({
   eventName: {
     textAlign: 'center',
-    fontSize: 30,
-    color: colors.titlegrey,
-    fontWeight: '500',
+    fontSize: 20,
+    color: 'black',
+    fontWeight: '600',
   },
   eventCreator: {
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 15,
     color: colors.textgrey,
   },
   description: {
@@ -30,18 +30,22 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1,
     justifyContent: 'center',
+
   },
   profileImage: {
     // backgroundColor: 'grey',
     flex: 1,
     width: '100%',
     resizeMode: 'contain',
+    margin: 5,
   },
   titleColumn: {
     // backgroundColor: 'green',
     display: 'flex',
     flex: 2,
     justifyContent: 'center',
+    // backgroundColor: 'red',
+    margin: 5,
   },
   middleHeader: {
     // backgroundColor: 'grey',
@@ -58,11 +62,12 @@ const styles = StyleSheet.create({
     height: 50,
     flexDirection: 'row',
     flex: 2,
+    justifyContent: 'space-evenly',
   },
   innterTile: {
     display: 'flex',
     height: 190,
-    width: 330,
+    width: 280,
     borderRadius: 18,
     backgroundColor: colors.background,
 
@@ -70,7 +75,7 @@ const styles = StyleSheet.create({
   outerTile: {
     display: 'flex',
     height: 200,
-    width: 350,
+    width: 300,
     borderRadius: 18,
     // backgroundColor: 'blue',
     alignItems: 'center',
