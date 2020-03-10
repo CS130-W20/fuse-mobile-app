@@ -36,7 +36,7 @@ export default class EventTile extends PureComponent {
               <View style={styles.bottomHeader}>
                 <FuseTileButton
                   navigation={navigation}
-                  screenId="join"
+                  screenId="light"
                   buttonName={button1}
                 />
                 <FuseTileButton
@@ -204,13 +204,13 @@ export default class EventTile extends PureComponent {
     switch (eventStage) {
       case EVENTSTATUS.set:
         return (
-          <ImageBackground source={litOmbre} style={styles.backgroundOmbre} resizeMode="cover" borderRadius={18}>
+          <ImageBackground source={setOmbre} style={styles.backgroundOmbre} resizeMode="cover" borderRadius={18}>
             {this.showTileContents()}
           </ImageBackground>
         );
       case EVENTSTATUS.lit:
         return (
-          <ImageBackground source={setOmbre} style={styles.backgroundOmbre} resizeMode="cover" borderRadius={18}>
+          <ImageBackground source={litOmbre} style={styles.backgroundOmbre} resizeMode="cover" borderRadius={18}>
             {this.showTileContents()}
           </ImageBackground>
         );

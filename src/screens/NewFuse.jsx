@@ -11,6 +11,8 @@ import CupertinoButtonGrey from '../components/buttons/CupertinoButtonGrey';
 import MaterialUnderlineTextbox from '../components/fields/MaterialUnderlineTextbox';
 import { CREATE_EVENT_MUTATION } from '../graphql/GeneralQueries';
 import screenIds from '../navigation/ScreenIds';
+import colors from '../styles/colors/index';
+import FuseSubmitButton from '../components/FuseSubmitButton';
 
 const gradient = require('../../src/assets/images/Gradient_LIswryi.png');
 
@@ -23,36 +25,43 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: '5%',
     height: '100%',
-    backgroundColor: 'white',
-    borderRadius: 10,
-    flexDirection: 'column',
+    backgroundColor: colors.background,
+    borderRadius: 30,
+    display: 'flex',
   },
-  container2: {
-    margin: '5%',
-    height: '70%',
+  upperheader: {
+    flex: 1,
+    // backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
-  loremIpsum: {
+  backWrapper: {
     width: 34,
     height: 50,
-    color: 'rgba(218,209,209,1)',
+    color: colors.black,
     fontSize: 40,
+    flex: 1,
+    textAlign: 'center',
+    fontWeight: '500',
+    // backgroundColor: 'red',
     //  fontFamily: "courier-regular"
   },
   set: {
-    color: 'rgba(218,209,209,1)',
-    fontSize: 30,
+    color: colors.black,
+    fontSize: 50,
     height: 50,
-    alignSelf: 'center',
-    position: 'absolute',
-    // fontFamily: "alata-regular"
+    flex: 2,
+    textAlign: 'center',
+    fontWeight: '500',
+  },
+  middleHeader: {
+    flex: 4,
+    // backgroundColor: 'red',
+    justifyContent: 'center',
   },
   nameInput: {
-    height: 80,
-    top: 40,
-    width: '95%',
-    position: 'relative',
-    alignItems: 'flex-end',
-    borderBottomWidth: 2,
+    margin: 11,
   },
   image: {
     bottom: 40,
@@ -67,36 +76,28 @@ const styles = StyleSheet.create({
   },
   switch: {
     flexDirection: 'row',
-    width: '95%',
     justifyContent: 'space-between',
-    top: 120,
     height: 80,
-    position: 'relative',
+    margin: 11,
+    alignItems: 'center',
   },
   deadline: {
-    flexDirection: 'row',
-    width: '95%',
-    top: 80,
-    height: 50,
-    position: 'relative',
+    color: colors.black,
+    fontSize: 16,
+    margin: 11,
   },
-  submit: {
-    top: 300,
+  lowerHeader: {
+    flex: 1,
+    // backgroundColor: 'green',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   button: {
-    width: '80%',
-    height: 50,
-    top: 5,
-    bottom: 0,
-    position: 'absolute',
     alignSelf: 'center',
-    backgroundColor: '#ed5c45',
   },
   light: {
     width: '80%',
     height: 50,
-    top: 60,
-    position: 'absolute',
     alignSelf: 'center',
     backgroundColor: 'rgba(247,116,33,1)',
   },
@@ -197,7 +198,7 @@ const selectedText = (selectedItems) => {
   if (str.length > 0) {
     return str.join(', ');
   }
-  return 'No friends invited yet.';
+  return 'No Friend Invited';
 };
 
 export default function NewFuse({ navigation }) {
@@ -210,7 +211,7 @@ export default function NewFuse({ navigation }) {
   const [date, setDate] = useState('03-04-2020');
   const [selectedItems, onSelectedItemsChange] = useState([]);
   const [notifications, setNotifications] = useState(false);
-  const [friendList, friendListChange] = useState('No friends invited');
+  const [friendList, friendListChange] = useState('No Friends Invited');
 
   const [createEventMutation] = useMutation(CREATE_EVENT_MUTATION);
 
@@ -242,10 +243,10 @@ export default function NewFuse({ navigation }) {
 
   const notifSwitch = () => (
     <View style={styles.switch}>
-      <Text style={{ color: 'rgba(129,129,129,1)' }}>Send Notifications?</Text>
+      <Text style={{ color: colors.black, fontSize: 16 }}>Send Notifications?</Text>
       <Switch
         disabled={false}
-        trackColor={{ true: 'green' }}
+        trackColor={{ true: colors.grey }}
         onValueChange={setNotifications}
         value={notifications}
       />
@@ -255,15 +256,15 @@ export default function NewFuse({ navigation }) {
   const submissionButton = () => {
     const b = (isSet
       ? (
-        <CupertinoButtonGrey
-          text="Save"
+        <FuseSubmitButton
+          buttonName="SAVE"
           style={styles.button}
           onPress={() => updateEditing(false)}
           testID="newFuseSaveButton"
         />
       ) : (
-        <CupertinoButtonGrey
-          text="Submit"
+        <FuseSubmitButton
+          buttonName="SUBMIT"
           style={styles.button}
           onPress={createEvent}
           testID="newFuseSubmitButton"
@@ -280,13 +281,13 @@ export default function NewFuse({ navigation }) {
       </View>
     ) : (
       <View>
-        <CupertinoButtonGrey
+        <FuseSubmitButton
           text="Edit"
           style={styles.edit}
           onPress={() => updateEditing(true)}
           testID="newFuseEditButton"
         />
-        <CupertinoButtonGrey
+        <FuseSubmitButton
           style={styles.light}
           text="Light"
           onPress={() => navigation.navigate(screenIds.lightFuse)}
@@ -300,9 +301,12 @@ export default function NewFuse({ navigation }) {
   return (
     <ImageBackground source={gradient} style={styles.trim}>
       <View style={styles.container}>
-        <View style={styles.container2}>
-          <Text style={styles.loremIpsum} onPress={navigation.goBack} testID="newFuseBackButton">&lt;</Text>
+        <View style={styles.upperheader}>
+          <Text style={styles.backWrapper} onPress={navigation.goBack} testID="newFuseBackButton">&lt;</Text>
           <Text style={styles.set}>SET</Text>
+          <View style={styles.backWrapper} />
+        </View>
+        <View style={styles.middleHeader}>
           <MaterialUnderlineTextbox
             style={styles.nameInput}
             placeholder="Event Name"
@@ -317,20 +321,20 @@ export default function NewFuse({ navigation }) {
             editable={isEditing}
             testID="newFuseEventDescriptionField"
           />
-          <View style={{ top: 60 }} testID="newFuseFriendSelector">
+          <View testID="newFuseFriendSelector">
             {isEditing ? friendSelector() : (
               <Text>
                 Invited Friends:
                 {'\n'}
               </Text>
             )}
-            <Text>{friendList}</Text>
+            <Text style={styles.nameInput}>{friendList}</Text>
           </View>
           {isOwner ? notifSwitch() : null}
           <Text style={styles.deadline}>Deadline:</Text>
           <View style={styles.deadline}>
             <DatePicker
-              style={{ width: 280 }}
+              style={{ width: 280, alignSelf: 'center' }}
               date={date}
               mode="date"
               placeholder="select date"
@@ -354,12 +358,9 @@ export default function NewFuse({ navigation }) {
             />
           </View>
         </View>
-        {isOwner ? ownerButtons() : null }
-        <Image
-          source={fuseLogo}
-          resizeMode="contain"
-          style={styles.image}
-        />
+        <View style={styles.lowerHeader}>
+          {isOwner ? ownerButtons() : null }
+        </View>
       </View>
     </ImageBackground>
   );

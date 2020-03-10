@@ -15,7 +15,7 @@ export default function Multiselect({
         uniqueKey="id"
         subKey="children"
         displayKey="title"
-        selectText="Invite friends:"
+        selectText="Invite Friends:"
         showDropDowns={false}
         onSelectedItemsChange={onSelectedItemsChange}
         selectedItems={selectedItems}
@@ -23,10 +23,10 @@ export default function Multiselect({
         onConfirm={confirmFunc}
         colors={{ primary: '#ed5c45' }}
         styles={{ container: { maxHeight: '60%' } }}
-        // confirmFontFamily="alata-regular"
-        // searchTextFontFamily="alata-regular"
-        // subItemFontFamily="alata-regular"
-        // itemFontFamily="alata-regular"
+        confirmFontFamily="alata-regular"
+        searchTextFontFamily="alata-regular"
+        subItemFontFamily="alata-regular"
+        itemFontFamily="alata-regular"
         searchPlaceholderText="Search friends..."
       />
     </View>

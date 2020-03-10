@@ -4,11 +4,12 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-native-datepicker';
+import Spacer from '../helpers/Spacer';
 import CupertinoButtonGrey from '../components/buttons/CupertinoButtonGrey';
 import MaterialUnderlineTextbox from '../components/fields/MaterialUnderlineTextbox';
 
 
-const gradient = require('../../src/assets/images/setombre.png');
+const gradient = require('../../src/assets/images/litombre.png');
 
 const example = [
   {
@@ -119,14 +120,16 @@ const styles = StyleSheet.create({
     height: 50,
     alignSelf: 'center',
     position: 'absolute',
+    top: 8,
     // fontFamily: "alata-regular"
   },
   title: {
-    fontSize: 40,
+    fontSize: 30,
     alignSelf: 'center',
     top: 20,
     position: 'relative',
     color: 'rgba(129,129,129,1)',
+    fontWeight: '500',
   },
   description: {
     textAlign: 'center',
@@ -183,6 +186,7 @@ const styles = StyleSheet.create({
     height: 50,
     alignSelf: 'center',
     backgroundColor: 'rgba(247,116,33,1)',
+    borderRadius: 20,
   },
   modal: {
     top: '30%',
@@ -196,7 +200,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     top: 20,
     position: 'relative',
-    color: 'rgba(129,129,129,1)',
+    color: 'rgba(12,129,129,1)',
+  },
+  nameInput: {
+    top: 95,
   },
 });
 
@@ -205,9 +212,10 @@ const fuseLogo = require('../../src/assets/images/logo-fuse1.png');
 export default function LightFuse({ navigation }) {
   const isOwner = true;
   const [isEditing, toggleIsEditing] = useState(isOwner);
-  const title = 'Event Name';
-  const description = 'Insert random text about event right here.\n This is super fun!\nBlah blah blah blah blah blah blah,\n';
+  const title = 'Rocco\'s for lunch';
+  const description = 'Heard of a sick sports bar down Gayley. Looks like a hoot.\n';
   const [date, setDate] = useState('03-04-2020');
+  // eslint-disable-next-line no-unused-vars
   const [location, setLocation] = useState('Event Location');
   const [expandFriends, toggleFriends] = useState(false);
 
@@ -268,11 +276,13 @@ export default function LightFuse({ navigation }) {
             </View>
           </Modal>
           <MaterialUnderlineTextbox
-            style={styles.locInput}
-            placeholder={location}
+            style={styles.nameInput}
+            placeholder="Event Location"
             onChangeText={setLocation}
             editable={isEditing}
+            testID="litFuseEventLocationField"
           />
+          <Spacer padding={20} />
           <Text style={styles.deadline}>Event Date:</Text>
           <DatePicker
             style={styles.deadline}
@@ -295,13 +305,6 @@ export default function LightFuse({ navigation }) {
               },
             }}
             onDateChange={setDate}
-          />
-          <MaterialUnderlineTextbox
-            style={styles.nameInput}
-            placeholder="Event Location"
-            onChangeText={setLocation}
-            editable={isEditing}
-            testID="litFuseEventLocationField"
           />
         </View>
         { isEditing ? scheduleButton() : null }
