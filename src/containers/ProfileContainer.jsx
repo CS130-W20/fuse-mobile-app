@@ -5,7 +5,7 @@ import {
   ScrollView,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { useQuery, useApolloClient } from '@apollo/react-hooks';
+import { useQuery, useMutation, useApolloClient } from '@apollo/react-hooks';
 
 // eslint-disable-next-line import/no-named-as-default
 import ProfileHeader from '../components/ProfileHeader';
@@ -21,6 +21,10 @@ import {
   COMPLETED_EVENTS_COUNT,
   USER_QUERY,
   FRIEND_PROFILE_EVENTS,
+  GET_FRIEND_STATUS,
+  REQUEST_FRIEND,
+  CONFIRM_FRIEND,
+  REMOVE_FRIEND,
 } from '../graphql/GeneralQueries';
 
 import { FriendStatus } from '../constants';
@@ -53,6 +57,17 @@ export default function ProfileContainer({ profileId, navigation }) {
 
   // Fetch using Fuse API
   const {
+    data: friendStatusQueryData,
+    loading: friendStatusQueryLoading,
+    error: friendStatusQueryError,
+    refetch: refetchFriendStatus,
+  } = useQuery(GET_FRIEND_STATUS, {
+    skip: isCurrentUser,
+    variables: {
+      friendUserId: profileId,
+    },
+  });
+  const {
     data: userEventQueryData,
     loading: userEventQueryLoading,
   } = useQuery(USER_EVENTS_QUERY, {
@@ -82,6 +97,7 @@ export default function ProfileContainer({ profileId, navigation }) {
     loading: friendCountQueryLoading,
     // eslint-disable-next-line no-unused-vars
     error: friendCountQueryError,
+    refetch: refetchFriendCount,
   } = useQuery(FRIENDS_COUNT, {
     variables: {
       userId: profileId,
@@ -97,6 +113,17 @@ export default function ProfileContainer({ profileId, navigation }) {
       userId: profileId,
     },
   });
+
+  // Mutators
+  const [
+    requestFriendMutator,
+  ] = useMutation(REQUEST_FRIEND);
+  const [
+    confirmFriendMutator,
+  ] = useMutation(CONFIRM_FRIEND);
+  const [
+    removeFriendMutator,
+  ] = useMutation(REMOVE_FRIEND);
 
   // eslint-disable-next-line no-unused-vars
   const getProfileData = async () => {
@@ -186,19 +213,30 @@ export default function ProfileContainer({ profileId, navigation }) {
           eventStage={fuse.status}
           eventView={0}
           eventRelation={0}
+          navigation={navigation}
         />
       </View>
     ));
   };
 
   const onPressFriendButton = () => (
-    onPressFriendButtonControl(friendStatus, setFriendStatus, profileId)
+    onPressFriendButtonControl(
+      friendStatus, setFriendStatus, profileId,
+      requestFriendMutator, confirmFriendMutator, removeFriendMutator,
+    )
   );
 
   useEffect(() => {
-    // TODO make official request to check friend status;
-    setFriendStatus(FriendStatus.friend);
+    // Refetch queries on page refresh
+    refetchFriendStatus();
+    refetchFriendCount();
   }, []);
+
+  useEffect(() => {
+    if (friendStatusQueryData && !friendStatusQueryLoading) {
+      setFriendStatus(friendStatusQueryData.friendshipStatus);
+    }
+  }, [friendStatusQueryData, friendStatusQueryLoading, friendStatusQueryError]);
 
   useEffect(() => {
     if (userEventQueryData && !userEventQueryLoading) {

@@ -5,7 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import styles from './styles/SearchBarStyles';
 
-function SearchBar({ onChangeText }) {
+function SearchBar({ onChangeText, testID }) {
   // eslint-disable-next-line no-unused-vars
   const [searchText, setText] = useState(null);
   return (
@@ -15,7 +15,14 @@ function SearchBar({ onChangeText }) {
           <View style={styles.leftIconButton}>
             <MaterialIcons name="search" size={30} color="grey" />
           </View>
-          <TextInput placeholder="Search" keyboardAppearance="light" style={styles.inputStyle} onChangeText={(text) => { onChangeText(text); }} clearButtonMode="while-editing" />
+          <TextInput
+            placeholder="Search"
+            keyboardAppearance="light"
+            style={styles.inputStyle}
+            onChangeText={(text) => { onChangeText(text); }}
+            clearButtonMode="while-editing"
+            testID={testID}
+          />
         </View>
       </View>
     </View>
@@ -23,5 +30,6 @@ function SearchBar({ onChangeText }) {
 }
 SearchBar.propTypes = {
   onChangeText: PropTypes.func.isRequired,
+  testID: PropTypes.string.isRequired,
 };
 export default SearchBar;

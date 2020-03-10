@@ -93,7 +93,7 @@ function Notifications() {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} testID="notificationScreen">
       {showNotifications()}
     </ScrollView>
   );

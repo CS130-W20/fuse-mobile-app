@@ -166,3 +166,27 @@ export const FRIEND_SEARCH = gql`
     }
   }
 `;
+
+export const GET_FRIEND_STATUS = gql`
+  query ($friendUserId: ID!) {
+    friendshipStatus(friendUserId: $friendUserId)
+  }
+`;
+
+export const REQUEST_FRIEND = gql`
+  mutation ($userId: ID!) {
+    requestFriend(userId: $userId)
+  }
+`;
+
+export const CONFIRM_FRIEND = gql`
+  mutation ($userId: ID!) {
+    confirmFriend(userId: $userId)
+  }
+`;
+
+export const REMOVE_FRIEND = gql`
+  mutation ($userId: ID!) {
+    removeFriend(userId: $userId)
+  }
+`;

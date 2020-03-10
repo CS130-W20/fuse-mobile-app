@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import {
-  StyleSheet, View, Text, Image, ImageBackground, Modal, ScrollView,
+  StyleSheet, View, Text, Image, ImageBackground, Modal, ScrollView, Dimensions,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import DatePicker from 'react-native-datepicker';
-import Spacer from '../helpers/Spacer';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import CupertinoButtonGrey from '../components/buttons/CupertinoButtonGrey';
 import MaterialUnderlineTextbox from '../components/fields/MaterialUnderlineTextbox';
 
 
 const gradient = require('../../src/assets/images/litombre.png');
+
+const isPortrait = () => {
+  const dim = Dimensions.get('screen');
+  return dim.height >= dim.width;
+};
 
 const example = [
   {
@@ -87,9 +91,9 @@ const listFriends = (trim) => {
     if (trim) {
       return (`${str.join('\n')}\n and more...`);
     }
-    return str.join('\n');
+    return (`${str.join('\n')}\n`);
   }
-  return 'No friends invited yet.';
+  return 'No friends joined yet.';
 };
 
 const styles = StyleSheet.create({
@@ -106,7 +110,9 @@ const styles = StyleSheet.create({
   },
   container2: {
     margin: '5%',
-    height: '80%',
+    height: '100%',
+    flex: 1,
+    paddingBottom: 100,
   },
   loremIpsum: {
     height: 50,
@@ -149,6 +155,14 @@ const styles = StyleSheet.create({
     top: 80,
     position: 'relative',
   },
+  attHeader: {
+    justifyContent: 'center',
+    fontSize: 25,
+    width: '100%',
+    textAlign: 'center',
+    position: 'absolute',
+    color: 'rgba(129,129,129,1)',
+  },
   attList: {
     textAlign: 'center',
     top: 10,
@@ -157,7 +171,7 @@ const styles = StyleSheet.create({
   },
   locInput: {
     height: 80,
-    top: 80,
+    top: 100,
     width: '95%',
     position: 'relative',
     alignItems: 'flex-end',
@@ -176,10 +190,22 @@ const styles = StyleSheet.create({
     ],
   },
   deadline: {
-    width: 280,
-    top: 110,
-    height: 50,
     position: 'relative',
+    top: 140,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '90%',
+    paddingBottom: 10,
+  },
+  dateBox: {
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    borderWidth: 2,
+    borderRadius: 5,
+    borderColor: 'rgba(220,220,230,1)',
+    fontSize: 15,
+    padding: 10,
   },
   button: {
     width: '72%',
@@ -195,10 +221,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   modalText: {
-    fontSize: 20,
+    fontSize: 18,
     alignSelf: 'center',
     textAlign: 'center',
-    top: 20,
+    top: 10,
     position: 'relative',
     color: 'rgba(12,129,129,1)',
   },
@@ -211,10 +237,15 @@ const fuseLogo = require('../../src/assets/images/logo-fuse1.png');
 
 export default function LightFuse({ navigation }) {
   const isOwner = true;
+  const currDate = 'Sunday, March 8, 2020';
+
   const [isEditing, toggleIsEditing] = useState(isOwner);
-  const title = 'Rocco\'s for lunch';
-  const description = 'Heard of a sick sports bar down Gayley. Looks like a hoot.\n';
-  const [date, setDate] = useState('03-04-2020');
+  const title = 'Event Name';
+  const description = 'Insert random text about event right here.\n This is super fun!\nBlah blah blah blah blah blah blah,\n';
+  const [datePicker, toggleDatePicker] = useState(false);
+  const [timePicker, toggleTimePicker] = useState(false);
+  const [time, setTime] = useState('12:00 pm');
+  const [date, setDate] = useState(currDate);
   // eslint-disable-next-line no-unused-vars
   const [location, setLocation] = useState('Event Location');
   const [expandFriends, toggleFriends] = useState(false);
@@ -235,10 +266,43 @@ export default function LightFuse({ navigation }) {
     </View>
   );
 
+  const pressDate = () => {
+    if (isEditing) {
+      if (isPortrait) {
+        toggleDatePicker(true);
+      }
+    }
+  };
+  const pressTime = () => {
+    if (isEditing) {
+      if (isPortrait) {
+        toggleTimePicker(true);
+      }
+    }
+  };
+
+  const dateConfirm = (dateIn) => {
+    const options = {
+      weekday: 'long',
+      month: 'short',
+      year: 'numeric',
+      day: 'numeric',
+    };
+    const d = new Intl.DateTimeFormat('en-US', options).format(dateIn);
+    setDate(d);
+    toggleDatePicker(false);
+  };
+  const timeConfirm = (timeIn) => {
+    const options = { hour: 'numeric', minute: 'numeric' };
+    const t = new Intl.DateTimeFormat('en-US', options).format(timeIn);
+    setTime(t);
+    toggleTimePicker(false);
+  };
+
   return (
     <ImageBackground source={gradient} style={styles.trim}>
       <View style={styles.container}>
-        <View style={styles.container2}>
+        <ScrollView style={styles.container2} contentContainerStyle={{ height: 550 }}>
           <Text style={styles.loremIpsum} onPress={navigation.goBack} testID="litFuseBackButton">&lt;</Text>
           <Text style={styles.light}>LIGHT</Text>
           <Text style={styles.title}>{title}</Text>
@@ -263,10 +327,9 @@ export default function LightFuse({ navigation }) {
                 borderRadius={10}
               >
                 <View style={styles.container}>
-                  <Text style={styles.loremIpsum} onPress={() => toggleFriends(false)}>
-                    X   Attendees
-                  </Text>
-                  <ScrollView style={{ height: '90%' }}>
+                  <Text style={styles.attHeader}>Attendees</Text>
+                  <Text style={styles.loremIpsum} onPress={() => toggleFriends(false)}>X</Text>
+                  <ScrollView>
                     <Text style={styles.modalText}>
                       {listFriends(false)}
                     </Text>
@@ -282,31 +345,35 @@ export default function LightFuse({ navigation }) {
             editable={isEditing}
             testID="litFuseEventLocationField"
           />
-          <Spacer padding={20} />
-          <Text style={styles.deadline}>Event Date:</Text>
-          <DatePicker
-            style={styles.deadline}
-            date={date}
-            mode="date"
-            placeholder="select date"
-            format="MM-DD-YYYY"
-            minDate="01-01-2020"
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                position: 'absolute',
-                left: 0,
-                top: 4,
-                marginLeft: 0,
-              },
-              dateInput: {
-                marginLeft: 36,
-              },
-            }}
-            onDateChange={setDate}
-          />
-        </View>
+          <View style={styles.deadline}>
+            <Text>Event date: </Text>
+            <Text style={styles.dateBox} onPress={pressDate}>
+              {date}
+            </Text>
+          </View>
+          <View style={styles.deadline}>
+            <Text>Event time: </Text>
+            <Text style={styles.dateBox} onPress={pressTime}>
+              {time}
+            </Text>
+          </View>
+          <View>
+            <DateTimePickerModal
+              isVisible={datePicker}
+              mode="date"
+              onConfirm={dateConfirm}
+              onCancel={() => toggleDatePicker(false)}
+            />
+          </View>
+          <View>
+            <DateTimePickerModal
+              isVisible={timePicker}
+              mode="time"
+              onConfirm={timeConfirm}
+              onCancel={() => toggleTimePicker(false)}
+            />
+          </View>
+        </ScrollView>
         { isEditing ? scheduleButton() : null }
       </View>
     </ImageBackground>

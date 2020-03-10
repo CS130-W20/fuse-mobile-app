@@ -1,11 +1,12 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import {
-  StyleSheet, View, Text, Image, Switch, ImageBackground,
+  StyleSheet, View, Text, Image, Switch, ImageBackground, ScrollView, Dimensions,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/react-hooks';
 import DatePicker from 'react-native-datepicker';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import Multiselect from '../components/fields/Multiselect';
 import CupertinoButtonGrey from '../components/buttons/CupertinoButtonGrey';
 import MaterialUnderlineTextbox from '../components/fields/MaterialUnderlineTextbox';
@@ -15,6 +16,11 @@ import colors from '../styles/colors/index';
 import FuseSubmitButton from '../components/FuseSubmitButton';
 
 const gradient = require('../../src/assets/images/Gradient_LIswryi.png');
+
+const isPortrait = () => {
+  const dim = Dimensions.get('screen');
+  return dim.height >= dim.width;
+};
 
 const styles = StyleSheet.create({
   trim: {
@@ -73,6 +79,13 @@ const styles = StyleSheet.create({
         rotate: '15.00deg',
       },
     ],
+  },
+  friendContainer: {
+    top: 20,
+    borderBottomWidth: 2,
+    paddingBottom: 15,
+    borderBottomColor: 'rgba(220,220,230,1)',
+    width: '95%',
   },
   switch: {
     flexDirection: 'row',
@@ -203,12 +216,15 @@ const selectedText = (selectedItems) => {
 
 export default function NewFuse({ navigation }) {
   const isOwner = true;
+  const currDate = 'March 8, 2020';
+
   const [isSet, updateSet] = useState(false);
   const [isEditing, updateEditing] = useState(isOwner);
 
   const [eventName, setEventName] = useState('');
   const [eventDescription, setEventDescription] = useState('');
-  const [date, setDate] = useState('03-04-2020');
+  const [datePicker, toggleDatePicker] = useState(false);
+  const [date, setDate] = useState(currDate);
   const [selectedItems, onSelectedItemsChange] = useState([]);
   const [notifications, setNotifications] = useState(false);
   const [friendList, friendListChange] = useState('No Friends Invited');
@@ -274,6 +290,26 @@ export default function NewFuse({ navigation }) {
     return b;
   };
 
+  const dateConfirm = (dateIn) => {
+    const options = {
+      weekday: 'long',
+      month: 'short',
+      year: 'numeric',
+      day: 'numeric',
+    };
+    const d = new Intl.DateTimeFormat('en-US', options).format(dateIn);
+    setDate(d);
+    toggleDatePicker(false);
+  };
+
+  const pressDate = () => {
+    if (isEditing) {
+      if (isPortrait()) {
+        toggleDatePicker(true);
+      }
+    }
+  };
+
   const ownerButtons = () => {
     const b = (isEditing ? (
       <View>
@@ -319,6 +355,7 @@ export default function NewFuse({ navigation }) {
             placeholder="Event Description"
             onChangeText={setEventDescription}
             editable={isEditing}
+            multiline
             testID="newFuseEventDescriptionField"
           />
           <View testID="newFuseFriendSelector">
@@ -331,7 +368,6 @@ export default function NewFuse({ navigation }) {
             <Text style={styles.nameInput}>{friendList}</Text>
           </View>
           {isOwner ? notifSwitch() : null}
-          <Text style={styles.deadline}>Deadline:</Text>
           <View style={styles.deadline}>
             <DatePicker
               style={{ width: 280, alignSelf: 'center' }}
@@ -355,6 +391,12 @@ export default function NewFuse({ navigation }) {
                 // ... You can check the source to find the other keys.
               }}
               onDateChange={setDate}
+            />
+            <DateTimePickerModal
+              isVisible={datePicker}
+              mode="date"
+              onConfirm={dateConfirm}
+              onCancel={() => toggleDatePicker(false)}
             />
           </View>
         </View>

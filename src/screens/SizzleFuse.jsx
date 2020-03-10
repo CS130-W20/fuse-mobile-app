@@ -111,8 +111,8 @@ const fuseLogo = require('../../src/assets/images/logo-fuse1.png');
 
 
 export default function SizzleFuse({ navigation }) {
-  const isOwner = true;
-  const [isEditing, toggleIsEditing] = useState(isOwner);
+  const isParticipant = true;
+  const [isEditing, toggleIsEditing] = useState(isParticipant);
   const [popup, togglePopUp] = useState(false);
   const title = 'Event Name';
   const description = 'Insert random text about event right here.\n This is super fun!\nBlah blah blah blah blah blah blah,\n';
@@ -153,6 +153,7 @@ export default function SizzleFuse({ navigation }) {
           <MaterialUnderlineTextbox
             style={styles.nameInput}
             placeholder="Event Memories"
+            editable={isEditing}
           />
           <Modal
             animationType="slide"
