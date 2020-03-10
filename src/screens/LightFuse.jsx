@@ -8,7 +8,7 @@ import CupertinoButtonGrey from '../components/buttons/CupertinoButtonGrey';
 import MaterialUnderlineTextbox from '../components/fields/MaterialUnderlineTextbox';
 
 
-const gradient = require('../../src/assets/images/setombre.png');
+const gradient = require('../../src/assets/images/litombre.png');
 
 const isPortrait = () => {
   const dim = Dimensions.get('screen');
@@ -126,14 +126,16 @@ const styles = StyleSheet.create({
     height: 50,
     alignSelf: 'center',
     position: 'absolute',
+    top: 8,
     // fontFamily: "alata-regular"
   },
   title: {
-    fontSize: 40,
+    fontSize: 30,
     alignSelf: 'center',
     top: 20,
     position: 'relative',
     color: 'rgba(129,129,129,1)',
+    fontWeight: '500',
   },
   description: {
     textAlign: 'center',
@@ -210,6 +212,7 @@ const styles = StyleSheet.create({
     height: 50,
     alignSelf: 'center',
     backgroundColor: 'rgba(247,116,33,1)',
+    borderRadius: 20,
   },
   modal: {
     top: '30%',
@@ -223,7 +226,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     top: 10,
     position: 'relative',
-    color: 'rgba(129,129,129,1)',
+    color: 'rgba(12,129,129,1)',
+  },
+  nameInput: {
+    top: 95,
   },
 });
 
@@ -240,6 +246,7 @@ export default function LightFuse({ navigation }) {
   const [timePicker, toggleTimePicker] = useState(false);
   const [time, setTime] = useState('12:00 pm');
   const [date, setDate] = useState(currDate);
+  // eslint-disable-next-line no-unused-vars
   const [location, setLocation] = useState('Event Location');
   const [expandFriends, toggleFriends] = useState(false);
 
@@ -332,8 +339,8 @@ export default function LightFuse({ navigation }) {
             </View>
           </Modal>
           <MaterialUnderlineTextbox
-            style={styles.locInput}
-            placeholder={location}
+            style={styles.nameInput}
+            placeholder="Event Location"
             onChangeText={setLocation}
             editable={isEditing}
             testID="litFuseEventLocationField"
