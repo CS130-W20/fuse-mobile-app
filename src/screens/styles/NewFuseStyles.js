@@ -84,7 +84,6 @@ const styles = StyleSheet.create({
   deadline: {
     color: colors.black,
     fontSize: 16,
-    margin: 11,
   },
   dateWrapper: {
     color: colors.black,
