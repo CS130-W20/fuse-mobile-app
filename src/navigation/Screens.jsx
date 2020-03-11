@@ -8,10 +8,16 @@ import EditProfileDetailsScreen, { editProfileHeaderOptions } from '../screens/E
 import ProfileScreen from '../screens/ProfileScreen';
 
 import SetFuseDetailsTest from '../components/testers/SetFuseDetailsTest';
+import FriendListTest, { friendsListHeaderOptions } from '../components/testers/FriendsListTest';
 
 import screenIds from './ScreenIds';
 
 const Screens = {
+  friendListTest: {
+    name: screenIds.friendListTest,
+    component: FriendListTest,
+    options: friendsListHeaderOptions,
+  },
   setFuseDetailsTest: {
     name: screenIds.setFuseDetailsTest,
     component: SetFuseDetailsTest,

@@ -215,3 +215,17 @@ export const REMOVE_FRIEND = gql`
     removeFriend(userId: $userId)
   }
 `;
+
+export const GET_FRIENDS = gql`
+  query ($userId: ID!) {
+    user(id: $userId) {
+      id
+      friends {
+        friend {
+          id
+          name
+        }
+      }
+    }
+  }
+`;

@@ -64,24 +64,18 @@ export default function SetFuseDetailsTest({ route }) {
         <Text style={styles.boldText}>Owner: </Text>
         {eventQueryData.event.owner.name}
       </Text>
-      <Text>
-        <Text style={styles.boldText}>Invited: </Text>
-        {eventQueryData.event.invited.map((invitee) => (
-          <Text key={invitee.id}>
-            {invitee.name}
-            {', '}
-          </Text>
-        ))}
-      </Text>
-      <Text>
-        <Text style={styles.boldText}>Joined: </Text>
-        {eventQueryData.event.joined.map((joinee) => (
-          <Text key={joinee.id}>
-            {joinee.name}
-            {', '}
-          </Text>
-        ))}
-      </Text>
+      <Text style={styles.boldText}>Invited: </Text>
+      {eventQueryData.event.invited.map((invitee) => (
+        <Text key={invitee.id}>
+          {invitee.name}
+        </Text>
+      ))}
+      <Text style={styles.boldText}>Joined: </Text>
+      {eventQueryData.event.joined.map((joinee) => (
+        <Text key={joinee.id}>
+          {joinee.name}
+        </Text>
+      ))}
       <Text>
         <Text style={styles.boldText}>Created At: </Text>
         {Date(eventQueryData.event.createdAt)}
