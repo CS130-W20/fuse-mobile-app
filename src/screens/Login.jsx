@@ -3,11 +3,11 @@ import {
   View, StyleSheet, Text, Dimensions, AsyncStorage,
 } from 'react-native';
 
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
 import Logo from '../components/login/Logo';
 import MaterialUnderlineTextbox from '../components/fields/MaterialUnderlineTextbox';
-import loginFB from '../components/login/FbLogin';
+import CupertinoButtonInfo from '../components/login/CupertinoButtonInfo';
 import CupertinoButtonGrey from '../components/buttons/CupertinoButtonGrey';
 import { AUTH_TOKEN, EMAIL, NAME } from '../constants';
 import screenIds from '../navigation/ScreenIds';
@@ -44,15 +44,6 @@ const styles = StyleSheet.create({
     width: 165,
     height: 45,
     position: 'absolute',
-    color: 'grey',
-  },
-  materialUnderlineTextbox4: {
-    top: 70,
-    left: 0,
-    width: 280,
-    height: 45,
-    position: 'absolute',
-    textAlign: 'center',
     color: 'grey',
   },
   cupertinoButtonInfoStack: {
@@ -92,44 +83,25 @@ const updateCache = (cache, { data: { login } }) => {
   const { token, user } = login;
   cache.writeQuery({
     query: USER_QUERY,
-    data: { me: { ...user }, token },
+    data: { user, token },
   });
 };
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [invalidEmailPasswordCombo, setInvalidEmailPasswordCombo] = useState(false);
 
-  const [loginMutation, { data, error }] = useMutation(LOGIN_MUTATION);
+  const [loginMutation, loginResult] = useMutation(LOGIN_MUTATION);
+  const { data } = useQuery(USER_QUERY);
 
   useEffect(() => {
     const confirmLogin = async () => {
-      if (error) {
-        if (error.message.startsWith('GraphQL error: Email is not associated with a user')
-            || error.message.startsWith('GraphQL error: Invalid password')) {
-          setInvalidEmailPasswordCombo(true);
-        }
-      }
-      if (data) await confirm(data);
+      const loginData = loginResult.data;
+      if (loginData) await confirm(loginData);
     };
     confirmLogin();
-  }, [data, error]);
-
-  const attemptLogin = (fbToken) => {
-    loginMutation({
-      variables: { email, password, fbToken },
-      update: updateCache,
-    }).catch((err) => {
-      // eslint-disable-next-line no-console
-      console.log(err);
-    });
-  };
-
-  const loginFBAndSaveToken = async () => {
-    loginFB()
-      .then(async (token) => attemptLogin(token));
-  };
+    if (data) navigation.navigate(screenIds.appTabNavigator);
+  }, [loginResult]);
 
   return (
     <View style={styles.container}>
@@ -137,8 +109,7 @@ export default function Login({ navigation }) {
         placeholder="Email"
         textContentType="emailAddress"
         style={styles.materialUnderlineTextbox1}
-        onChangeText={(text) => { setInvalidEmailPasswordCombo(false); setEmail(text); }}
-        testID="loginEmail"
+        onChangeText={(text) => setEmail(text)}
       />
 
       <MaterialUnderlineTextbox
@@ -146,39 +117,22 @@ export default function Login({ navigation }) {
         textContentType="password"
         style={styles.materialUnderlineTextbox2}
         secureTextEntry
-        onChangeText={(text) => { setInvalidEmailPasswordCombo(false); setPassword(text); }}
-        testID="loginPassword"
+        onChangeText={(text) => setPassword(text)}
       />
 
       <View style={styles.cupertinoButtonInfoStack}>
-        <CupertinoButtonGrey
-          text="login with facebook"
+        <CupertinoButtonInfo
+          text1="login with facebook"
           style={styles.cupertinoButtonInfo}
-          onPress={loginFBAndSaveToken}
-          testID="loginFacebookButton"
         />
         <Text
           style={styles.materialUnderlineTextbox3}
             // eslint-disable-next-line no-console
           onPress={() => navigation.navigate(screenIds.signUp)}
-          testID="loginNoAccount"
         >
           dont have an account?
 
         </Text>
-        {
-          invalidEmailPasswordCombo
-          && (
-          <Text
-            style={styles.materialUnderlineTextbox4}
-            // eslint-disable-next-line no-console
-            onPress={() => navigation.navigate(screenIds.signUp)}
-            testID="loginWrongCombo"
-          >
-            Invalid email/password combo
-          </Text>
-          )
-        }
       </View>
 
       <Logo style={styles.logo} />
@@ -186,8 +140,12 @@ export default function Login({ navigation }) {
       <CupertinoButtonGrey
         text="login"
         style={styles.cupertinoButtonGrey1}
-        onPress={attemptLogin}
-        testID="loginButton"
+        onPress={() => {
+          loginMutation({
+            variables: { email, password },
+            update: updateCache,
+          });
+        }}
       />
     </View>
   );

@@ -25,10 +25,9 @@ export default class ViewToggle extends PureComponent {
 
   render() {
     const { focusedView } = this.state;
-    const { testID } = this.props;
 
     return (
-      <View style={styles.wrapper} testID={testID}>
+      <View style={styles.wrapper}>
         <View style={styles.selectorWrapper}>
           <TouchableOpacity
             style={
@@ -68,5 +67,4 @@ export default class ViewToggle extends PureComponent {
 
 ViewToggle.propTypes = {
   viewToggler: PropTypes.func.isRequired,
-  testID: PropTypes.string.isRequired,
 };

@@ -3,16 +3,17 @@ import colors from '../../styles/colors';
 
 const styles = StyleSheet.create({
   buttonText: {
-    color: colors.grey,
+    color: colors.white,
     fontSize: 14,
   },
   buttonWrapper: {
     height: 30,
-    width: 130,
+    width: 120,
     borderRadius: 30,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.white,
+    backgroundColor: colors.buttongrey,
   },
 });
 

@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
   wrapper: {
     // backgroundColor: 'lightgrey',
     flex: 1,
-    alignItems: 'center',
   },
 });
 

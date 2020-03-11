@@ -1,6 +1,5 @@
 node_modules/**/*
 .expo/*
-bin/**/*
 npm-debug.*
 *.jks
 *.p8
@@ -10,8 +9,6 @@ npm-debug.*
 *.orig.*
 web-build/
 web-report/
-*.env
-package-lock.json
 
 # macOS
 .DS_Store

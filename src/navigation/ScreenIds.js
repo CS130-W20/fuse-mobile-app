@@ -3,18 +3,10 @@ const screenIds = {
   newsFeed: 'NewsFeed',
   explore: 'Explore',
   notifications: 'Notifications',
-  editProfile: 'EditProfile',
-  myProfile: 'MyProfile',
-  userProfile: 'UserProfile',
+  profile: 'Profile',
   login: 'Login',
   appTabNavigator: 'AppTabNavigator',
-  settings: 'Settings',
   signUp: 'SignUp',
-  newFuse: 'NewFuse',
-  lightFuse: 'LightFuse',
-  sizzleFuse: 'SizzleFuse',
-
-  setFuseDetailsTest: 'SetFuseDetailsTest',
 };
 
 export default screenIds;
