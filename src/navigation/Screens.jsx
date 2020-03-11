@@ -1,6 +1,7 @@
 import React from 'react';
 
 import NewFuse from '../screens/NewFuse';
+import CreateFuse from '../screens/CreateFuse';
 import LightFuse from '../screens/LightFuse';
 import SizzleFuse from '../screens/SizzleFuse';
 import SettingsScreen, { settingsHeaderOptions } from '../screens/SettingsScreen';
@@ -21,6 +22,10 @@ const Screens = {
   setFuseDetailsTest: {
     name: screenIds.setFuseDetailsTest,
     component: SetFuseDetailsTest,
+  },
+  createFuse: {
+    name: screenIds.createFuse,
+    component: CreateFuse,
   },
   newFuse: {
     name: screenIds.newFuse,

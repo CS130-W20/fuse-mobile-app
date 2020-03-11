@@ -1,15 +1,24 @@
 import React from 'react';
 import {
   View,
+  StyleSheet,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
+
+const styles = StyleSheet.create({
+  wrapper: {
+    // display: 'flex',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+  },
+});
 
 export default function Multiselect({
   itemlist, confirmFunc, selectedItems, onSelectedItemsChange,
 }) {
   return (
-    <View>
+    <View style={styles.wrapper}>
       <SectionedMultiSelect
         items={itemlist}
         uniqueKey="id"
@@ -22,7 +31,7 @@ export default function Multiselect({
         showChips={false}
         onConfirm={confirmFunc}
         colors={{ primary: '#ed5c45' }}
-        styles={{ container: { maxHeight: '60%' } }}
+        styles={{ container: { maxHeight: '80%', marginTop: 100 } }}
         confirmFontFamily="alata-regular"
         searchTextFontFamily="alata-regular"
         subItemFontFamily="alata-regular"

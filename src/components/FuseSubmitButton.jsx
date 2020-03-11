@@ -6,7 +6,6 @@ import {
 } from 'react-native';
 
 import { PropTypes } from 'prop-types';
-import screenIds from '../navigation/ScreenIds';
 import colors from '../styles/colors';
 
 const styles = StyleSheet.create({
@@ -25,22 +24,15 @@ const styles = StyleSheet.create({
 });
 
 export default class FuseSubmitButton extends PureComponent {
-  changeScreen() {
-    const { navigation } = this.props;
-    navigation.navigate(screenIds.NewsFeed);
-  }
-
   render() {
     const {
       buttonName,
-      // eslint-disable-next-line no-unused-vars
-      navigation,
-      // eslint-disable-next-line no-unused-vars
+      onPress,
     } = this.props;
     return (
       <TouchableOpacity
         style={styles.buttonWrapper}
-        onPress={() => this.changeScreen()}
+        onPress={() => onPress()}
       >
         <Text style={styles.buttonText}>{buttonName}</Text>
       </TouchableOpacity>
@@ -49,8 +41,6 @@ export default class FuseSubmitButton extends PureComponent {
 }
 
 FuseSubmitButton.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired,
-  }).isRequired,
+  onPress: PropTypes.func.isRequired,
   buttonName: PropTypes.string.isRequired,
 };
