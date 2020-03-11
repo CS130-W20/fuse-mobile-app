@@ -6,10 +6,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import screenIds from './ScreenIds';
 
-// Import screens or containers you need from the screen/container directory
-import HelloWorld from '../screens/HelloWorld';
-import ProfileContainer from '../containers/ProfileContainer';
+// Import screens, containers, header styles you need from the screen/container directory
+import ProfileScreen, { profileHeaderOptions } from '../screens/ProfileScreen';
 import NewsFeedContainer from '../containers/NewsFeedContainer';
+import ExploreContainer from '../containers/ExploreContainer';
 import Notification from '../screens/Notification';
 
 // Stack ids. Each tab in our tab navigation has a stack
@@ -36,21 +36,31 @@ const Screens = {
     name: screenIds.newsFeed,
     component: NewsFeedContainer,
     stack: NavigationStackIds.feed,
+    options: {
+      headerTitle: 'fuse',
+    },
   },
   explore: {
     name: screenIds.explore,
-    component: HelloWorld,
+    component: ExploreContainer,
     stack: NavigationStackIds.explore,
+    options: {
+      headerTitle: 'fuse',
+    },
   },
   notifications: {
     name: screenIds.notifications,
     component: Notification,
     stack: NavigationStackIds.notifications,
+    options: {
+      headerTitle: 'fuse',
+    },
   },
   profile: {
-    name: screenIds.profile,
-    component: ProfileContainer,
+    name: screenIds.myProfile,
+    component: ProfileScreen,
     stack: NavigationStackIds.profile,
+    options: profileHeaderOptions,
   },
 };
 
@@ -79,19 +89,12 @@ const createNavigationStacks = () => {
     const targetStackId = screen.stack;
     const TargetStack = stackToScreenRef[targetStackId].stackNavigator;
 
-    // TODO we need a better way for people to customize their headers if they need to
-    const screenOptions = {};
-    screenOptions.headerTitle = screen.customHeaderTitle || 'fuse';
-    // screenOptions.headerTitle = screen.customHeaderTitle != null
-    //   ? screen.customHeaderTitle
-    //   : 'fuse';
-
     const screenComponent = (
       <TargetStack.Screen
         name={screen.name}
         component={screen.component}
         key={screen.name}
-        options={screenOptions}
+        options={screen.options}
       />
     );
 
@@ -127,6 +130,7 @@ const tabScreenOptions = {
         ? <MaterialCommunityIcons name="home-outline" size={30} color={focusedTabColor} />
         : <MaterialCommunityIcons name="home-outline" size={30} color={unfocusedTabColor} />
     ),
+    tabBarTestID: 'goToNewsfeed',
   },
   explore: {
     // eslint-disable-next-line react/prop-types
@@ -135,6 +139,7 @@ const tabScreenOptions = {
         ? <MaterialIcons name="search" size={30} color={focusedTabColor} />
         : <MaterialIcons name="search" size={30} color={unfocusedTabColor} />
     ),
+    tabBarTestID: 'goToExplore',
   },
   notifications: {
     // eslint-disable-next-line react/prop-types
@@ -143,6 +148,7 @@ const tabScreenOptions = {
         ? <MaterialIcons name="notifications-none" size={30} color={focusedTabColor} />
         : <MaterialIcons name="notifications-none" size={30} color={unfocusedTabColor} />
     ),
+    tabBarTestID: 'goToNotifications',
   },
   profile: {
     // eslint-disable-next-line react/prop-types
@@ -151,11 +157,15 @@ const tabScreenOptions = {
         ? <MaterialCommunityIcons name="account-outline" size={30} color={focusedTabColor} />
         : <MaterialCommunityIcons name="account-outline" size={30} color={unfocusedTabColor} />
     ),
+    tabBarTestID: 'goToProfile',
   },
 };
 
 const tabBarOptions = {
-  showLabel: false, // hides text labels for navigation bar
+  showLabel: true, // hides text labels for navigation bar
+  labelStyle: {
+    color: 'grey',
+  },
 };
 
 // Create the tab navigator using react navigation
@@ -168,6 +178,7 @@ export function AppTabNavigator() {
   return (
     <Tab.Navigator
       tabBarOptions={tabBarOptions}
+      initialRouteName={NavigationStackIds.newsFeed}
     >
       <Tab.Screen
         name={NavigationStackIds.feed}

@@ -6,6 +6,7 @@ export default {
   setfuseorange: 'rbga(247, 116, 33, 100)',
   sizzlefuseyellow: 'rgba(247, 177, 33, 100)',
   grey: 'rgba(158,158,158,100)',
+  lightgrey: 'lightgrey',
   titlegrey: 'rgba(158,158,158,100)',
   textgrey: 'rgba(98,98,98,100)',
   buttongrey: 'rgba(204,204,204,100)',

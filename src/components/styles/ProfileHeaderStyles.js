@@ -40,12 +40,14 @@ const styles = StyleSheet.create({
     flex: 2,
     padding: 5,
     paddingTop: 20,
+    justifyContent: 'center',
   },
   profileImage: {
-    // backgroundColor: 'grey',
+    backgroundColor: 'grey',
     flex: 1,
     width: '100%',
     resizeMode: 'contain',
+    borderRadius: 70,
   },
   // container for where the image will go
   profilePicWrapper: {
@@ -58,14 +60,14 @@ const styles = StyleSheet.create({
     width: 60,
     height: 30,
     borderRadius: 25,
-    shadowColor: 'black',
+    shadowColor: colors.black,
     shadowOpacity: 0.41,
     shadowOffset: {
       height: 1,
       width: 1,
     },
     shadowRadius: 6,
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
     justifyContent: 'center',
   },
   scoreText: {

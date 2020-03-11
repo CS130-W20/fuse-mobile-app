@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
 
 function MaterialUnderlineTextbox({
   style, placeholder, onChangeText, secureTextEntry, textContentType,
+  editable, value, multiline, testID,
 }) {
   return (
     <View style={[styles.container, style]}>
@@ -36,6 +37,10 @@ function MaterialUnderlineTextbox({
         onChangeText={onChangeText}
         secureTextEntry={secureTextEntry}
         textContentType={textContentType}
+        editable={editable}
+        value={value}
+        multiline={multiline}
+        testID={testID}
       />
     </View>
   );
@@ -49,6 +54,10 @@ MaterialUnderlineTextbox.defaultProps = {
   onChangeText: () => { console.log('text changed'); },
   secureTextEntry: false,
   textContentType: 'none',
+  editable: true,
+  value: null,
+  multiline: false,
+  testID: '',
 };
 
 MaterialUnderlineTextbox.propTypes = {
@@ -57,6 +66,10 @@ MaterialUnderlineTextbox.propTypes = {
   onChangeText: PropTypes.func,
   secureTextEntry: PropTypes.bool,
   textContentType: PropTypes.string,
+  editable: PropTypes.bool,
+  value: PropTypes.string,
+  multiline: PropTypes.bool,
+  testID: PropTypes.string,
 };
 
 
