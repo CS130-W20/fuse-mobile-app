@@ -74,6 +74,9 @@ const styles = StyleSheet.create({
     borderBottomColor: 'rgba(220,220,230,1)',
     width: '95%',
   },
+  friendListWrapper: {
+    padding: 11,
+  },
   switch: {
     flexDirection: 'row',
     justifyContent: 'space-between',

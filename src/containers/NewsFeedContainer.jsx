@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   ScrollView,
@@ -19,7 +19,13 @@ export default function NewsFeedContainer({ navigation }) {
     loading: newsFeedQueryLoading,
     error: newsFeedQueryError,
     data: newsFeedQueryData,
+    refetch: refetchNewsFeed,
   } = useQuery(NEWS_FEED_QUERY);
+
+  useEffect(() => {
+    refetchNewsFeed();
+  }, []);
+
   const eventTilesToRender = () => {
     if (newsFeedQueryLoading) {
       return <Text testID="newsfeedTile">Loading</Text>;

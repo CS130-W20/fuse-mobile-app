@@ -12,7 +12,7 @@ export default function NewFuseButton({ navigation, testID }) {
   return (
     <TouchableOpacity
       style={styles.newFuseWrapper}
-      onPress={() => navigation.navigate(screenIds.newFuse)}
+      onPress={() => navigation.navigate(screenIds.createFuse)}
       testID={testID}
     >
       <Feather name="plus" style={styles.newFuseIcon} />
