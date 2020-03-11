@@ -9,6 +9,7 @@ import Spacer from '../helpers/Spacer';
 import styles from './styles/ProfileHeaderStyles';
 import { PHOTO_BUCKET } from '../constants';
 import ImageUploadButton from './buttons/ImageUploadButton';
+import screenIds from '../navigation/ScreenIds';
 
 // const sampleImage = require('../assets/peter.png');
 
@@ -20,6 +21,7 @@ export default function ProfileHeader({
   completedEventCount,
   userId,
   testID,
+  navigation,
 }) {
   // TODO: write a helper function to convert scores/counts to a renderable version
   // e.g. 1,100,000 -> 1.1m
@@ -85,7 +87,12 @@ export default function ProfileHeader({
           <Text style={styles.friendsAndEventsLabels}>
             <Text style={styles.friendsAndEventsBold}>{completedEventCountText}</Text>
             {' Completed Events\t'}
-            <Text style={styles.friendsAndEventsBold}>{friendCountText}</Text>
+            <Text
+              style={styles.friendsAndEventsBold}
+              onPress={() => navigation.push(screenIds.friendListTest, { userId })}
+            >
+              {friendCountText}
+            </Text>
             {' Friends'}
           </Text>
           {/* <Text style={styles.friendsAndEvents}>{friendAndEventsText}</Text> */}
@@ -103,4 +110,8 @@ ProfileHeader.propTypes = {
   completedEventCount: PropTypes.number.isRequired,
   testID: PropTypes.string.isRequired,
   userId: PropTypes.string.isRequired,
+  navigation: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired,
+  }).isRequired,
 };

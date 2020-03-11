@@ -15,6 +15,7 @@ const screenIds = {
   sizzleFuse: 'SizzleFuse',
 
   setFuseDetailsTest: 'SetFuseDetailsTest',
+  friendListTest: 'FriendListTest',
 };
 
 export default screenIds;
