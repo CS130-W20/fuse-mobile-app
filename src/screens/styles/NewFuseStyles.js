@@ -86,6 +86,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
     margin: 11,
   },
+  dateWrapper: {
+    color: colors.black,
+    fontSize: 14,
+    borderWidth: 2,
+    borderRadius: 5,
+    borderColor: 'rgba(220,220,230,1)',
+    padding: 10,
+  },
+  deadlineWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    margin: 11,
+    alignItems: 'center',
+  },
   lowerHeader: {
     flex: 1,
     // backgroundColor: 'green',
