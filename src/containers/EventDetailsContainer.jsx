@@ -7,9 +7,11 @@ import {
 import { useQuery } from '@apollo/react-hooks';
 
 import SetFuseDetails from '../components/SetFuseDetails';
+import LitFuseDetails from '../components/LitFuseDetails';
 import {
   EVENT,
 } from '../graphql/GeneralQueries';
+import { EVENTSTATUS } from '../constants';
 
 export default function EventDetailsContainer({ route, navigation }) {
   const { eventId } = route.params;
@@ -63,19 +65,42 @@ export default function EventDetailsContainer({ route, navigation }) {
     );
   }
 
-  return (
-    <SetFuseDetails
-      eventId={eventId}
-      title={eventQueryData.event.title}
-      description={eventQueryData.event.description}
-      owner={eventQueryData.event.owner}
-      createdAt={eventQueryData.event.createdAt}
-      invitedUsers={invitedUsers}
-      joinedUsers={joinedUsers}
-      refetchEvent={() => refetchEventQuery()}
-      navigation={navigation}
-    />
-  );
+  switch (eventQueryData.event.status) {
+    case EVENTSTATUS.set: {
+      return (
+        <SetFuseDetails
+          eventId={eventId}
+          title={eventQueryData.event.title}
+          description={eventQueryData.event.description}
+          owner={eventQueryData.event.owner}
+          createdAt={eventQueryData.event.createdAt}
+          invitedUsers={invitedUsers}
+          joinedUsers={joinedUsers}
+          refetchEvent={() => refetchEventQuery()}
+          navigation={navigation}
+        />
+      );
+    }
+    case EVENTSTATUS.lit: {
+      return (
+        <LitFuseDetails
+          eventId={eventId}
+          title={eventQueryData.event.title}
+          description={eventQueryData.event.description}
+          owner={eventQueryData.event.owner}
+          createdAt={eventQueryData.event.createdAt}
+          joinedUsers={joinedUsers}
+          refetchEvent={() => refetchEventQuery()}
+          navigation={navigation}
+        />
+      );
+    }
+    case EVENTSTATUS.completed: {
+      break;
+    }
+    default:
+      return null;
+  }
 }
 
 EventDetailsContainer.propTypes = {

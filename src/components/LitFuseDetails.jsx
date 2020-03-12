@@ -12,8 +12,9 @@ import { Feather } from '@expo/vector-icons';
 
 import UserList from './UserList';
 import FuseSubmitButton from './FuseSubmitButton';
+import CalendarDate from './datetime/CalendarDate';
 import {
-  JOIN_EVENT, LEAVE_EVENT, USER_QUERY,
+  LEAVE_EVENT, USER_QUERY,
 } from '../graphql/GeneralQueries';
 import Spacer from '../helpers/Spacer';
 import Divider from '../helpers/Divider';
@@ -22,8 +23,8 @@ import screenIds from '../navigation/ScreenIds';
 
 const defaultSpacing = 30;
 
-export default function SetFuseDetails({
-  eventId, title, description, owner, createdAt, invitedUsers,
+export default function LitFuseDetails({
+  eventId, title, description, owner, createdAt,
   joinedUsers, refetchEvent, navigation,
 }) {
   const client = useApolloClient();
@@ -37,11 +38,6 @@ export default function SetFuseDetails({
   }
   const userIsJoined = userFoundInJoined;
 
-  const [joinEventMutator] = useMutation(JOIN_EVENT, {
-    variables: {
-      eventId,
-    },
-  });
   const [leaveEventMutator] = useMutation(LEAVE_EVENT, {
     variables: {
       eventId,
@@ -54,20 +50,6 @@ export default function SetFuseDetails({
     });
   };
 
-  const onPressJoin = () => {
-    joinEventMutator()
-      .then((msg) => {
-        // eslint-disable-next-line no-console
-        console.log(msg);
-        // TODO disable when testing to enable fast reload
-        refetchEvent();
-      })
-      .catch((err) => {
-        // eslint-disable-next-line no-console
-        console.log(err);
-      });
-  };
-
   const onPressLeave = () => {
     leaveEventMutator()
       .then((msg) => {
@@ -75,6 +57,7 @@ export default function SetFuseDetails({
         console.log(msg);
         // TODO disable when testing to enable fast reload
         refetchEvent();
+        navigation.goBack();
       })
       .catch((err) => {
         // eslint-disable-next-line no-console
@@ -82,17 +65,17 @@ export default function SetFuseDetails({
       });
   };
 
-  const onPressLight = () => {
+  const onPressComplete = () => {
     // eslint-disable-next-line no-console
-    console.log('ITS LITTTTT');
+    console.log('DONE');
   };
 
   const showActionButtons = () => {
     if (userIsOwner) {
       return (
         <FuseSubmitButton
-          buttonName="Light Fuse"
-          onPress={() => onPressLight()}
+          buttonName="Complete"
+          onPress={() => onPressComplete()}
           accented
         />
       );
@@ -103,18 +86,11 @@ export default function SetFuseDetails({
         <FuseSubmitButton
           buttonName="Leave Fuse"
           onPress={() => onPressLeave()}
-          accented
         />
       );
     }
 
-    return (
-      <FuseSubmitButton
-        buttonName="Join Fuse"
-        onPress={() => onPressJoin()}
-        accented
-      />
-    );
+    return null;
   };
 
   return (
@@ -137,6 +113,7 @@ export default function SetFuseDetails({
           <View style={styles.rightHeaderWrapper} />
           <View style={styles.backWrapper} />
         </View>
+
         {/* Body */}
         <View style={styles.bodyWrapper}>
           {/* Event title */}
@@ -164,7 +141,7 @@ export default function SetFuseDetails({
             <Image
               style={styles.profileImage}
             />
-            <Text style={styles.fieldLabel}>Set by </Text>
+            <Text style={styles.fieldLabel}>Lit by </Text>
             <Text style={styles.ownerText}>
               {owner.name}
             </Text>
@@ -181,19 +158,23 @@ export default function SetFuseDetails({
           <Divider />
           <Spacer padding={defaultSpacing} />
 
-          {/* Joined list */}
-          <Text style={styles.sectionHeader}>Joined</Text>
+          {/* Scheduled for */}
+          <Text style={styles.sectionHeader}>Scheduled for</Text>
           <Spacer padding={15} />
-          <UserList users={joinedUsers} navigation={navigation} />
+          <View style={styles.scheduleWrapper}>
+            <CalendarDate month={1} day={22} />
+            <Text style={styles.scheduleTimeText}>4:20 PM</Text>
+          </View>
+
 
           <Spacer padding={defaultSpacing} />
           <Divider />
           <Spacer padding={defaultSpacing} />
 
-          {/* Invited list */}
-          <Text style={styles.sectionHeader}>Invited</Text>
+          {/* Joined list */}
+          <Text style={styles.sectionHeader}>Participants</Text>
           <Spacer padding={15} />
-          <UserList users={invitedUsers} navigation={navigation} />
+          <UserList users={joinedUsers} navigation={navigation} />
 
           <Spacer padding={defaultSpacing * 2} />
           {/* Action button: join/leave event */}
@@ -207,7 +188,7 @@ export default function SetFuseDetails({
   );
 }
 
-SetFuseDetails.propTypes = {
+LitFuseDetails.propTypes = {
   eventId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
@@ -216,12 +197,6 @@ SetFuseDetails.propTypes = {
     name: PropTypes.string.isRequired,
   }).isRequired,
   createdAt: PropTypes.string.isRequired,
-  invitedUsers: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
   joinedUsers: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,

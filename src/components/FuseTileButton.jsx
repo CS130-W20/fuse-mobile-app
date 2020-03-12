@@ -13,11 +13,11 @@ export default class FuseTileButton extends PureComponent {
     const { navigation, screenId, eventId } = this.props;
     switch (screenId) {
       case 'NewFuse':
+      case 'LightFuse':
         navigation.push(screenIds.eventDetails, {
           eventId,
         });
         break;
-      case 'LightFuse':
       case 'SizzleFuse':
         navigation.navigate(screenId);
         break;

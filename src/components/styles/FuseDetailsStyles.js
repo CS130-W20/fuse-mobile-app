@@ -70,6 +70,16 @@ const styles = StyleSheet.create({
   rightHeaderWrapper: {
     width: 40,
   },
+  scheduleTimeText: {
+    marginLeft: 20,
+    fontSize: 20,
+    fontWeight: '400',
+    color: colors.black,
+  },
+  scheduleWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   sectionHeader: {
     fontSize: 24,
     fontWeight: '700',
