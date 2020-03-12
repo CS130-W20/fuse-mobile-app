@@ -10,6 +10,7 @@ const screenIds = {
   appTabNavigator: 'AppTabNavigator',
   settings: 'Settings',
   signUp: 'SignUp',
+  eventDetails: 'EventDetails',
   createFuse: 'CreateFuse',
   setFuseDetails: 'SetFuseDetails',
   newFuse: 'NewFuse',

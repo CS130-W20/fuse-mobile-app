@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
   },
   ownerText: {
     fontSize: 16,
+    fontWeight: '500',
   },
   ownerWrapper: {
     flexDirection: 'row',

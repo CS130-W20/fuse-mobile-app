@@ -8,6 +8,7 @@ import SettingsScreen, { settingsHeaderOptions } from '../screens/SettingsScreen
 import EditProfileDetailsScreen, { editProfileHeaderOptions } from '../screens/EditProfileDetailsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 
+import EventDetailsContainer from '../containers/EventDetailsContainer';
 import SetFuseDetails from '../components/SetFuseDetails';
 import FriendListTest, { friendsListHeaderOptions } from '../components/testers/FriendsListTest';
 
@@ -22,6 +23,10 @@ const Screens = {
   setFuseDetails: {
     name: screenIds.setFuseDetails,
     component: SetFuseDetails,
+  },
+  EventDetailsContainer: {
+    name: screenIds.eventDetails,
+    component: EventDetailsContainer,
   },
   createFuse: {
     name: screenIds.createFuse,
