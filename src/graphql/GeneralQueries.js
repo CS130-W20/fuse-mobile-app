@@ -48,6 +48,8 @@ export const EVENT = gql`
       id
       title
       description
+      deadline
+      scheduledFor
       owner {
         id
         name
@@ -99,6 +101,18 @@ export const UPDATE_EVENT_STATUS = gql`
       newEventStatus: $newStatus,
     ) {
       status
+    }
+  }
+`;
+
+export const UPDATE_EVENT_SCHEDULEDFOR = gql`
+  mutation ($eventId: ID!, $scheduledFor: DateTime!) {
+    updateEventScheduledFor(
+      eventId: $eventId,
+      scheduledFor: $scheduledFor,
+    ) {
+      id
+      scheduledFor
     }
   }
 `;
