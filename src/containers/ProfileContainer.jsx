@@ -207,6 +207,7 @@ export default function ProfileContainer({ profileId, navigation }) {
         key={fuse.title}
       >
         <EventTile
+          eventId={fuse.id}
           eventName={fuse.title}
           eventCreator={fuse.owner.name}
           description={fuse.description}
@@ -214,6 +215,7 @@ export default function ProfileContainer({ profileId, navigation }) {
           eventView={0}
           eventRelation={0}
           navigation={navigation}
+          testID="profileEventTile"
         />
       </View>
     ));

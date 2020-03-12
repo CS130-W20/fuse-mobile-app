@@ -21,6 +21,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.white,
   },
+  buttonWrapperAccentStyle: {
+    backgroundColor: colors.accentred,
+  },
+  buttonTextAccentStyle: {
+    color: colors.white,
+  },
 });
 
 export default class FuseSubmitButton extends PureComponent {
@@ -28,19 +34,34 @@ export default class FuseSubmitButton extends PureComponent {
     const {
       buttonName,
       onPress,
+      accented,
     } = this.props;
+
+    let accentWrapperStyles = {};
+    let accentTextStyles = {};
+
+    if (accented) {
+      accentWrapperStyles = styles.buttonWrapperAccentStyle;
+      accentTextStyles = styles.buttonTextAccentStyle;
+    }
+
     return (
       <TouchableOpacity
-        style={styles.buttonWrapper}
+        style={[styles.buttonWrapper, accentWrapperStyles]}
         onPress={() => onPress()}
       >
-        <Text style={styles.buttonText}>{buttonName}</Text>
+        <Text style={[styles.buttonText, accentTextStyles]}>{buttonName}</Text>
       </TouchableOpacity>
     );
   }
 }
 
+FuseSubmitButton.defaultProps = {
+  accented: false,
+};
+
 FuseSubmitButton.propTypes = {
   onPress: PropTypes.func.isRequired,
   buttonName: PropTypes.string.isRequired,
+  accented: PropTypes.bool,
 };

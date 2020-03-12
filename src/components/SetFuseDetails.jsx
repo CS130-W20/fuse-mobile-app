@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   View,
@@ -8,40 +8,35 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import { useQuery, useMutation, useApolloClient } from '@apollo/react-hooks';
+import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import { Feather } from '@expo/vector-icons';
 
 import UserList from './UserList';
 import FuseSubmitButton from './FuseSubmitButton';
 import {
-  EVENT, JOIN_EVENT, LEAVE_EVENT, USER_QUERY,
+  JOIN_EVENT, LEAVE_EVENT, USER_QUERY,
 } from '../graphql/GeneralQueries';
 import Spacer from '../helpers/Spacer';
 import Divider from '../helpers/Divider';
 import styles from './styles/SetFuseDetailsStyles';
+import screenIds from '../navigation/ScreenIds';
 
 const defaultSpacing = 20;
 
-export default function SetFuseDetails({ route, navigation }) {
-  const { eventId } = route.params;
+export default function SetFuseDetails({
+  eventId, title, description, owner, createdAt, invitedUsers,
+  joinedUsers, refetchEvent, navigation,
+}) {
   const client = useApolloClient();
-
-  const [invitedUsers, setInvitedUsers] = useState([]);
-  const [joinedUsers, setJoinedUsers] = useState([]);
-  const [userIsJoined, setUserIsJoined] = useState(null);
-  const [userIsOwner, setUserIsOwner] = useState(null);
-
   const { me: selfUser } = client.readQuery({ query: USER_QUERY });
-  const {
-    data: eventQueryData,
-    loading: eventQueryLoading,
-    refetch: refetchEventQuery,
-  } = useQuery(EVENT,
-    {
-      variables: {
-        eventId,
-      },
-    });
+
+  const userIsOwner = selfUser.id === owner.id;
+
+  let userFoundInJoined = false;
+  if (selfUser) {
+    userFoundInJoined = joinedUsers.filter((user) => user.id === selfUser.id).length > 0;
+  }
+  const userIsJoined = userFoundInJoined;
 
   const [joinEventMutator] = useMutation(JOIN_EVENT, {
     variables: {
@@ -54,42 +49,11 @@ export default function SetFuseDetails({ route, navigation }) {
     },
   });
 
-  useEffect(() => {
-    // TODO disable when testing to enable fast reload
-    refetchEventQuery();
-  }, []);
-
-  useEffect(() => {
-    if (eventQueryData && !eventQueryLoading) {
-      // eslint-disable-next-line no-console
-      console.log(eventQueryData);
-
-      setUserIsOwner(selfUser.id === eventQueryData.event.owner.id);
-
-      setInvitedUsers(
-        eventQueryData.event.invited.map((invitee) => ({
-          id: invitee.id,
-          name: invitee.name,
-        })),
-      );
-      setJoinedUsers(
-        eventQueryData.event.joined.map((joinee) => ({
-          id: joinee.id,
-          name: joinee.name,
-        })),
-      );
-    }
-  }, [
-    eventQueryData, eventQueryLoading,
-  ]);
-
-  useEffect(() => {
-    let userFoundInJoined = false;
-    if (selfUser) {
-      userFoundInJoined = joinedUsers.filter((user) => user.id === selfUser.id).length > 0;
-    }
-    setUserIsJoined(userFoundInJoined);
-  }, [joinedUsers, invitedUsers]);
+  const onPressOwner = () => {
+    navigation.push(screenIds.userProfile, {
+      profileId: owner.id,
+    });
+  };
 
   const onPressJoin = () => {
     joinEventMutator()
@@ -97,7 +61,7 @@ export default function SetFuseDetails({ route, navigation }) {
         // eslint-disable-next-line no-console
         console.log(msg);
         // TODO disable when testing to enable fast reload
-        refetchEventQuery();
+        refetchEvent();
       })
       .catch((err) => {
         // eslint-disable-next-line no-console
@@ -111,7 +75,7 @@ export default function SetFuseDetails({ route, navigation }) {
         // eslint-disable-next-line no-console
         console.log(msg);
         // TODO disable when testing to enable fast reload
-        refetchEventQuery();
+        refetchEvent();
       })
       .catch((err) => {
         // eslint-disable-next-line no-console
@@ -130,6 +94,7 @@ export default function SetFuseDetails({ route, navigation }) {
         <FuseSubmitButton
           buttonName="Light Fuse"
           onPress={() => onPressLight()}
+          accented
         />
       );
     }
@@ -150,14 +115,6 @@ export default function SetFuseDetails({ route, navigation }) {
       />
     );
   };
-
-  if (!eventQueryData) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
 
   return (
     <View style={styles.container}>
@@ -184,7 +141,7 @@ export default function SetFuseDetails({ route, navigation }) {
           {/* Event title */}
           <View style={styles.titleWrapper}>
             <Text style={styles.titleText}>
-              {eventQueryData.event.title}
+              {title}
             </Text>
           </View>
 
@@ -193,7 +150,7 @@ export default function SetFuseDetails({ route, navigation }) {
           {/* Event description */}
           <View style={styles.descriptionWrapper}>
             <Text style={styles.descriptionText}>
-              {eventQueryData.event.description}
+              {description}
             </Text>
           </View>
 
@@ -202,21 +159,21 @@ export default function SetFuseDetails({ route, navigation }) {
           <Spacer padding={defaultSpacing} />
 
           {/* Event owner */}
-          <View style={styles.ownerWrapper}>
+          <TouchableOpacity style={styles.ownerWrapper} onPress={() => onPressOwner()}>
             <Image
               style={styles.profileImage}
             />
-            <Text style={styles.fieldLabel}>Set by: </Text>
+            <Text style={styles.fieldLabel}>Set by </Text>
             <Text style={styles.ownerText}>
-              {eventQueryData.event.owner.name}
+              {owner.name}
             </Text>
-          </View>
+          </TouchableOpacity>
 
           <Spacer padding={defaultSpacing} />
 
           {/* Created at */}
           <Text style={styles.timeText}>
-            {Date(eventQueryData.event.createdAt)}
+            {Date(createdAt)}
           </Text>
 
           <Spacer padding={defaultSpacing} />
@@ -249,12 +206,29 @@ export default function SetFuseDetails({ route, navigation }) {
 }
 
 SetFuseDetails.propTypes = {
-  route: PropTypes.shape({
-    params: PropTypes.shape({
-      eventId: PropTypes.string.isRequired,
-    }).isRequired,
+  eventId: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  owner: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
   }).isRequired,
+  createdAt: PropTypes.string.isRequired,
+  invitedUsers: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  joinedUsers: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  refetchEvent: PropTypes.func.isRequired,
   navigation: PropTypes.shape({
+    push: PropTypes.func.isRequired,
     navigate: PropTypes.func.isRequired,
     goBack: PropTypes.func.isRequired,
   }).isRequired,
