@@ -14,12 +14,13 @@ import UserList from './UserList';
 import FuseSubmitButton from './FuseSubmitButton';
 import CalendarDate from './datetime/CalendarDate';
 import {
-  LEAVE_EVENT, USER_QUERY,
+  LEAVE_EVENT, USER_QUERY, UPDATE_EVENT_STATUS,
 } from '../graphql/GeneralQueries';
 import Spacer from '../helpers/Spacer';
 import Divider from '../helpers/Divider';
 import styles from './styles/FuseDetailsStyles';
 import screenIds from '../navigation/ScreenIds';
+import { EVENTSTATUS } from '../constants';
 
 const defaultSpacing = 30;
 
@@ -41,6 +42,13 @@ export default function LitFuseDetails({
   const [leaveEventMutator] = useMutation(LEAVE_EVENT, {
     variables: {
       eventId,
+    },
+  });
+  const [undoLightFuseMutator] = useMutation(UPDATE_EVENT_STATUS, {
+    variables: {
+      eventId,
+      currentStatus: EVENTSTATUS.lit,
+      newStatus: EVENTSTATUS.set,
     },
   });
 
@@ -70,14 +78,35 @@ export default function LitFuseDetails({
     console.log('DONE');
   };
 
+  const onPressUnlight = () => {
+    undoLightFuseMutator()
+      .then((msg) => {
+        // eslint-disable-next-line no-console
+        console.log(msg);
+        // TODO disable when testing to enable fast reload
+        refetchEvent();
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err);
+      });
+  };
+
   const showActionButtons = () => {
     if (userIsOwner) {
       return (
-        <FuseSubmitButton
-          buttonName="Complete"
-          onPress={() => onPressComplete()}
-          accented
-        />
+        <>
+          <FuseSubmitButton
+            buttonName="Unlight Fuse"
+            onPress={() => onPressUnlight()}
+          />
+          <Spacer padding={20} />
+          <FuseSubmitButton
+            buttonName="Complete"
+            onPress={() => onPressComplete()}
+            accented
+          />
+        </>
       );
     }
 
