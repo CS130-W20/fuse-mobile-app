@@ -2,6 +2,21 @@
 Fuse is a mobile application that allows users to tackle the high importance, low urgency bucket list items in their life. Users will be able to propose, plan, and complete the events through the platform.
 
 ## Directory Structure
+We decided to create two separate repositories for our frontend and backend. This repository contains the source code for the front end of our app. 
+
+`node_modules` - Contains all relevant node modules used by our application.
+`src` - Contains all source code for application frontend. 
+    `assets` - Contains images uses within frontend display.
+    `components` - Contains small front end components such as buttons and input lines used within larger components and screens.
+    `constants.js` - Contains constants for frontend development.
+    `containers` - Contains code for large frontend components such as contents of main pages.
+    `graphql` - Contains queries and mutators.
+    `helpers` - Contains small helper functions and auxilary objects.
+    `navigation` - Contains setup for app navigation between main screens and bottom toolbar. Builds react navigator for app.
+    `screens` - Contains frontend logic for many of the main screens within the app. 
+    `styles` - Contains application styling such as color requirements.
+`e2e` - Contains code related to our end to end frontend testing with detox.
+`tests` - 
 
 ## Installation/Build Instructions
 1. Clone the repository onto your local computer
