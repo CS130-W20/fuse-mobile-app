@@ -13,12 +13,13 @@ import { Feather } from '@expo/vector-icons';
 import UserList from './UserList';
 import FuseSubmitButton from './FuseSubmitButton';
 import {
-  JOIN_EVENT, LEAVE_EVENT, USER_QUERY,
+  JOIN_EVENT, LEAVE_EVENT, USER_QUERY, UPDATE_EVENT_STATUS,
 } from '../graphql/GeneralQueries';
 import Spacer from '../helpers/Spacer';
 import Divider from '../helpers/Divider';
 import styles from './styles/FuseDetailsStyles';
 import screenIds from '../navigation/ScreenIds';
+import { EVENTSTATUS } from '../constants';
 
 const defaultSpacing = 30;
 
@@ -45,6 +46,13 @@ export default function SetFuseDetails({
   const [leaveEventMutator] = useMutation(LEAVE_EVENT, {
     variables: {
       eventId,
+    },
+  });
+  const [lightFuseMutator] = useMutation(UPDATE_EVENT_STATUS, {
+    variables: {
+      eventId,
+      currentStatus: EVENTSTATUS.set,
+      newStatus: EVENTSTATUS.lit,
     },
   });
 
@@ -83,8 +91,17 @@ export default function SetFuseDetails({
   };
 
   const onPressLight = () => {
-    // eslint-disable-next-line no-console
-    console.log('ITS LITTTTT');
+    lightFuseMutator()
+      .then((msg) => {
+        // eslint-disable-next-line no-console
+        console.log(msg);
+        // TODO disable when testing to enable fast reload
+        refetchEvent();
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err);
+      });
   };
 
   const showActionButtons = () => {

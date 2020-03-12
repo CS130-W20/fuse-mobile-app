@@ -91,6 +91,18 @@ export const LEAVE_EVENT = gql`
   }
 `;
 
+export const UPDATE_EVENT_STATUS = gql`
+  mutation ($eventId: ID!, $currentStatus: EventStatus!, $newStatus: EventStatus!) {
+    updateEventStatus (
+      eventId: $eventId,
+      currentEventStatus: $currentStatus,
+      newEventStatus: $newStatus,
+    ) {
+      status
+    }
+  }
+`;
+
 export const USER_EVENTS_QUERY = gql`
   query userQuery {
     me {
