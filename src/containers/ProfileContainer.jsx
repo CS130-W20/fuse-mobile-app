@@ -70,12 +70,14 @@ export default function ProfileContainer({ profileId, navigation }) {
   const {
     data: userEventQueryData,
     loading: userEventQueryLoading,
+    refetch: refetchUserEvents,
   } = useQuery(USER_EVENTS_QUERY, {
     skip: !isCurrentUser,
   });
   const {
     data: friendEventQueryData,
     loading: friendEventQueryLoading,
+    refetch: refetchFriendEvents,
   } = useQuery(FRIEND_PROFILE_EVENTS, {
     variables: {
       friendUserId: profileId,
@@ -87,6 +89,7 @@ export default function ProfileContainer({ profileId, navigation }) {
     loading: profileDetailsQueryLoading,
     // eslint-disable-next-line no-unused-vars
     error: profileDetailsQueryError,
+    refetch: refetchProfileDetails,
   } = useQuery(USER_PROFILE_DETAILS_QUERY, {
     variables: {
       id: profileId,
@@ -108,6 +111,7 @@ export default function ProfileContainer({ profileId, navigation }) {
     loading: completedEventCountQueryLoading,
     // eslint-disable-next-line no-unused-vars
     error: completedEventCountQueryError,
+    refetch: refetchCompletedEvents,
   } = useQuery(COMPLETED_EVENTS_COUNT, {
     variables: {
       userId: profileId,
@@ -124,6 +128,18 @@ export default function ProfileContainer({ profileId, navigation }) {
   const [
     removeFriendMutator,
   ] = useMutation(REMOVE_FRIEND);
+
+
+  // Refresh on page view
+  useEffect(() => {
+    // Refetch queries on page refresh
+    refetchProfileDetails();
+    refetchFriendStatus();
+    refetchFriendCount();
+    refetchCompletedEvents();
+    refetchUserEvents();
+    refetchFriendEvents();
+  }, []);
 
   // eslint-disable-next-line no-unused-vars
   const getProfileData = async () => {
@@ -223,16 +239,10 @@ export default function ProfileContainer({ profileId, navigation }) {
 
   const onPressFriendButton = () => (
     onPressFriendButtonControl(
-      friendStatus, setFriendStatus, profileId,
+      friendStatus, () => refetchFriendStatus(), profileId,
       requestFriendMutator, confirmFriendMutator, removeFriendMutator,
     )
   );
-
-  useEffect(() => {
-    // Refetch queries on page refresh
-    refetchFriendStatus();
-    refetchFriendCount();
-  }, []);
 
   useEffect(() => {
     if (friendStatusQueryData && !friendStatusQueryLoading) {

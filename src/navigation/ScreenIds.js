@@ -17,7 +17,7 @@ const screenIds = {
   lightFuse: 'LightFuse',
   sizzleFuse: 'SizzleFuse',
 
-  friendListTest: 'FriendListTest',
+  friendList: 'FriendList',
 };
 
 export default screenIds;
