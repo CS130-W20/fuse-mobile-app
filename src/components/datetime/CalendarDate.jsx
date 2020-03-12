@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
+  TouchableOpacity,
   StyleSheet,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import { Feather } from '@expo/vector-icons';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import colors from '../../styles/colors';
 
 const styles = StyleSheet.create({
@@ -29,6 +32,15 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: '500',
   },
+  icon: {
+    fontSize: 30,
+    color: colors.white,
+  },
+  iconWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   monthWrapper: {
     // backgroundColor: 'lightgreen',
     flex: 1,
@@ -48,36 +60,90 @@ const monthNumToStr = [
   'SEPT', 'OCT', 'NOV', 'DEC',
 ];
 
-export default function CalendarDate({ month, day }) {
+export default function CalendarDate({
+  date, canEdit, onDateChange,
+}) {
   let monthText;
   let dayText;
 
-  if (month === -1 && day === -1) {
+  if (!date) {
     monthText = '';
     dayText = '-';
   } else {
-    monthText = monthNumToStr[month - 1];
-    dayText = day;
+    const parsedDate = new Date(date);
+    monthText = monthNumToStr[parsedDate.getMonth()];
+    dayText = parsedDate.getDate();
   }
 
-  return (
-    <View style={styles.container}>
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (selectedDate) => {
+    onDateChange(selectedDate);
+    hideDatePicker();
+  };
+
+  const onPress = () => {
+    showDatePicker();
+  };
+
+  const monthDateView = () => (
+    <>
       <View style={styles.monthWrapper}>
         <Text style={styles.monthText}>{monthText}</Text>
       </View>
       <View style={styles.dayWrapper}>
         <Text style={styles.dayText}>{dayText}</Text>
       </View>
-    </View>
+    </>
+  );
+
+  if (!canEdit) {
+    return (
+      <View style={styles.container}>
+        {monthDateView()}
+      </View>
+    );
+  }
+
+  return (
+    <TouchableOpacity style={styles.container} onPress={() => onPress()}>
+      {/* If there is no date, then show the + symbol which requires a
+      different container style */}
+      {
+        date != null
+          ? monthDateView()
+          : (
+            <View style={styles.iconWrapper}>
+              <Feather name="plus" style={styles.icon} />
+            </View>
+          )
+      }
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="date"
+        onConfirm={(selectedDate) => handleConfirm(selectedDate)}
+        onCancel={() => hideDatePicker()}
+      />
+    </TouchableOpacity>
   );
 }
 
 CalendarDate.defaultProps = {
-  month: -1,
-  day: -1,
+  date: null,
+  canEdit: false,
+  onDateChange: () => {},
 };
 
 CalendarDate.propTypes = {
-  month: PropTypes.number,
-  day: PropTypes.number,
+  date: PropTypes.string,
+  canEdit: PropTypes.bool,
+  onDateChange: PropTypes.func,
 };

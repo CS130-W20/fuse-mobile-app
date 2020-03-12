@@ -24,7 +24,9 @@ import { EVENTSTATUS } from '../constants';
 const defaultSpacing = 30;
 
 export default function SetFuseDetails({
-  eventId, title, description, owner, createdAt, invitedUsers,
+  // eslint-disable-next-line no-unused-vars
+  eventId, title, description, deadline,
+  owner, createdAt, invitedUsers,
   joinedUsers, refetchEvent, navigation,
 }) {
   const client = useApolloClient();
@@ -224,10 +226,15 @@ export default function SetFuseDetails({
   );
 }
 
+SetFuseDetails.defaultProps = {
+  deadline: null,
+};
+
 SetFuseDetails.propTypes = {
   eventId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  deadline: PropTypes.string,
   owner: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,

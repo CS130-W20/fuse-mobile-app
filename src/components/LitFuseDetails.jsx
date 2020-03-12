@@ -14,7 +14,7 @@ import UserList from './UserList';
 import FuseSubmitButton from './FuseSubmitButton';
 import CalendarDate from './datetime/CalendarDate';
 import {
-  LEAVE_EVENT, USER_QUERY, UPDATE_EVENT_STATUS,
+  LEAVE_EVENT, USER_QUERY, UPDATE_EVENT_STATUS, UPDATE_EVENT_SCHEDULEDFOR,
 } from '../graphql/GeneralQueries';
 import Spacer from '../helpers/Spacer';
 import Divider from '../helpers/Divider';
@@ -25,8 +25,8 @@ import { EVENTSTATUS } from '../constants';
 const defaultSpacing = 30;
 
 export default function LitFuseDetails({
-  eventId, title, description, owner, createdAt,
-  joinedUsers, refetchEvent, navigation,
+  eventId, title, description, scheduledFor, owner,
+  createdAt, joinedUsers, refetchEvent, navigation,
 }) {
   const client = useApolloClient();
   const { me: selfUser } = client.readQuery({ query: USER_QUERY });
@@ -51,6 +51,7 @@ export default function LitFuseDetails({
       newStatus: EVENTSTATUS.set,
     },
   });
+  const [scheduledForMutator] = useMutation(UPDATE_EVENT_SCHEDULEDFOR);
 
   const onPressOwner = () => {
     navigation.push(screenIds.userProfile, {
@@ -90,6 +91,16 @@ export default function LitFuseDetails({
         // eslint-disable-next-line no-console
         console.log(err);
       });
+  };
+
+  const onDateChange = (selectedDate) => {
+    scheduledForMutator({
+      variables: {
+        eventId,
+        scheduledFor: selectedDate,
+      },
+    });
+    refetchEvent();
   };
 
   const showActionButtons = () => {
@@ -191,8 +202,12 @@ export default function LitFuseDetails({
           <Text style={styles.sectionHeader}>Scheduled for</Text>
           <Spacer padding={15} />
           <View style={styles.scheduleWrapper}>
-            <CalendarDate month={1} day={22} />
-            <Text style={styles.scheduleTimeText}>4:20 PM</Text>
+            <CalendarDate
+              date={scheduledFor}
+              canEdit={userIsOwner}
+              onDateChange={(selectedDate) => onDateChange(selectedDate)}
+            />
+            {/* <Text style={styles.scheduleTimeText}>4:20 PM</Text> */}
           </View>
 
 
@@ -217,10 +232,15 @@ export default function LitFuseDetails({
   );
 }
 
+LitFuseDetails.defaultProps = {
+  scheduledFor: null,
+};
+
 LitFuseDetails.propTypes = {
   eventId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  scheduledFor: PropTypes.string,
   owner: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,

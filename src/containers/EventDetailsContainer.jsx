@@ -72,6 +72,7 @@ export default function EventDetailsContainer({ route, navigation }) {
           eventId={eventId}
           title={eventQueryData.event.title}
           description={eventQueryData.event.description}
+          deadline={eventQueryData.event.deadline}
           owner={eventQueryData.event.owner}
           createdAt={eventQueryData.event.createdAt}
           invitedUsers={invitedUsers}
@@ -87,6 +88,7 @@ export default function EventDetailsContainer({ route, navigation }) {
           eventId={eventId}
           title={eventQueryData.event.title}
           description={eventQueryData.event.description}
+          scheduledFor={eventQueryData.event.scheduledFor}
           owner={eventQueryData.event.owner}
           createdAt={eventQueryData.event.createdAt}
           joinedUsers={joinedUsers}
