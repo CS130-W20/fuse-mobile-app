@@ -10,14 +10,14 @@ import ProfileScreen from '../screens/ProfileScreen';
 
 import EventDetailsContainer from '../containers/EventDetailsContainer';
 import SetFuseDetails from '../components/SetFuseDetails';
-import FriendListTest, { friendsListHeaderOptions } from '../components/testers/FriendsListTest';
+import FriendList, { friendsListHeaderOptions } from '../components/FriendsList';
 
 import screenIds from './ScreenIds';
 
 const Screens = {
-  friendListTest: {
-    name: screenIds.friendListTest,
-    component: FriendListTest,
+  friendList: {
+    name: screenIds.friendList,
+    component: FriendList,
     options: friendsListHeaderOptions,
   },
   setFuseDetails: {

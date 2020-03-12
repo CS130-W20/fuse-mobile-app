@@ -10,7 +10,7 @@ import { FriendStatus } from '../constants';
 import styles from './styles/FriendButtonStyles';
 
 export function onPressFriendButtonControl(
-  currentFriendStatus, friendStatusStateModifier, targetProfileId,
+  currentFriendStatus, refreshFriendStatus, targetProfileId,
   requestFriendMutator, confirmFriendMutator, removeFriendMutator,
 ) {
   switch (currentFriendStatus) {
@@ -23,7 +23,7 @@ export function onPressFriendButtonControl(
       }).then((message) => {
         // eslint-disable-next-line no-console
         console.log('friend request response: ', message);
-        friendStatusStateModifier(FriendStatus.none);
+        refreshFriendStatus();
       }).catch((err) => {
         // eslint-disable-next-line no-console
         console.log(err);
@@ -38,7 +38,7 @@ export function onPressFriendButtonControl(
       }).then((message) => {
         // eslint-disable-next-line no-console
         console.log('friend request response: ', message);
-        friendStatusStateModifier(FriendStatus.sentRequest);
+        refreshFriendStatus();
       }).catch((err) => {
         // eslint-disable-next-line no-console
         console.log(err);
@@ -59,7 +59,7 @@ export function onPressFriendButtonControl(
       }).then((message) => {
         // eslint-disable-next-line no-console
         console.log('friend accept response: ', message);
-        friendStatusStateModifier(FriendStatus.confirmed);
+        refreshFriendStatus();
       }).catch((err) => {
         // eslint-disable-next-line no-console
         console.log(err);

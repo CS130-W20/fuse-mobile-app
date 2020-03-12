@@ -89,7 +89,7 @@ export default function ProfileHeader({
             {' Completed Events\t'}
             <Text
               style={styles.friendsAndEventsBold}
-              onPress={() => navigation.push(screenIds.friendListTest, { userId })}
+              onPress={() => navigation.push(screenIds.friendList, { userId })}
             >
               {friendCountText}
             </Text>

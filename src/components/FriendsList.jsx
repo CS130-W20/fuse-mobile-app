@@ -1,14 +1,16 @@
 /* eslint-disable no-use-before-define */
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   View,
   Text,
+  ScrollView,
   StyleSheet,
 } from 'react-native';
 import { useQuery } from '@apollo/react-hooks';
 
-import { GET_FRIENDS } from '../../graphql/GeneralQueries';
+import UserList from './UserList';
+import { GET_FRIENDS } from '../graphql/GeneralQueries';
 
 export const friendsListHeaderOptions = {
   headerShown: true,
@@ -16,8 +18,11 @@ export const friendsListHeaderOptions = {
   headerBackTitle: ' ',
 };
 
-export default function FriendsListTest({ route }) {
+export default function FriendsList({ route, navigation }) {
   const { userId } = route.params;
+
+  const [friends, setFriends] = useState([]);
+
   const {
     data: friendsQueryData,
     loading: friendsQueryLoading,
@@ -37,6 +42,13 @@ export default function FriendsListTest({ route }) {
     if (friendsQueryData && !friendsQueryLoading) {
       // eslint-disable-next-line no-console
       console.log(friendsQueryData);
+
+      const parsedFriends = friendsQueryData.user.friends.map((friend) => ({
+        id: friend.friend.id,
+        name: friend.friend.name,
+      }));
+
+      setFriends(parsedFriends);
     }
   }, [
     friendsQueryData, friendsQueryLoading,
@@ -51,33 +63,32 @@ export default function FriendsListTest({ route }) {
   }
 
   return (
-    <View style={styles.container}>
-      <Text>
-        <Text style={styles.boldText}>ID: </Text>
-        {userId}
-      </Text>
-      {friendsQueryData.user.friends.map((friend) => (
-        <Text key={friend.friend.id}>
-          {friend.friend.name}
-        </Text>
-      ))}
-    </View>
+    <ScrollView style={styles.container}>
+      <UserList
+        users={friends}
+        navigation={navigation}
+      />
+    </ScrollView>
   );
 }
 
-FriendsListTest.propTypes = {
+FriendsList.propTypes = {
   route: PropTypes.shape({
     params: PropTypes.shape({
       userId: PropTypes.string.isRequired,
     }).isRequired,
+  }).isRequired,
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+    push: PropTypes.func.isRequired,
   }).isRequired,
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    // justifyContent: 'center',
+    // alignItems: 'center',
   },
   boldText: {
     fontWeight: '700',
