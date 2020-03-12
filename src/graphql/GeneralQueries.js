@@ -75,6 +75,22 @@ export const CREATE_EVENT_MUTATION = gql`
     }
 `;
 
+export const JOIN_EVENT = gql`
+  mutation ($eventId: ID!) {
+    joinEvent(eventId: $eventId) {
+      id
+    }
+  }
+`;
+
+export const LEAVE_EVENT = gql`
+  mutation ($eventId: ID!) {
+    leaveEvent(eventId: $eventId) {
+      id
+    }
+  }
+`;
+
 export const USER_EVENTS_QUERY = gql`
   query userQuery {
     me {
