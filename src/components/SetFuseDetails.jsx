@@ -130,6 +130,7 @@ export default function SetFuseDetails({ route, navigation }) {
         <FuseSubmitButton
           buttonName="Light Fuse"
           onPress={() => onPressLight()}
+          accented
         />
       );
     }
@@ -206,7 +207,7 @@ export default function SetFuseDetails({ route, navigation }) {
             <Image
               style={styles.profileImage}
             />
-            <Text style={styles.fieldLabel}>Set by: </Text>
+            <Text style={styles.fieldLabel}>Set by </Text>
             <Text style={styles.ownerText}>
               {eventQueryData.event.owner.name}
             </Text>

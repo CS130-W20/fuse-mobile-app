@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   header: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.background,
     height: 100,
     paddingTop: 30,
     // justifyContent: 'center',
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
   },
   leftHeaderWrapper: {
     width: 40,
+    paddingLeft: 10,
   },
   ownerText: {
     fontSize: 16,
