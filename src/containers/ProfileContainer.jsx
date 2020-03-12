@@ -275,6 +275,7 @@ export default function ProfileContainer({ profileId, navigation }) {
           completedEventCount={profileData.completedEventCount}
           testID="userProfileName"
           userId={profileData.userId}
+          navigation={navigation}
         />
         <Spacer padding={20} />
         {

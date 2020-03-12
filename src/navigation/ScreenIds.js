@@ -10,11 +10,13 @@ const screenIds = {
   appTabNavigator: 'AppTabNavigator',
   settings: 'Settings',
   signUp: 'SignUp',
+  createFuse: 'CreateFuse',
   newFuse: 'NewFuse',
   lightFuse: 'LightFuse',
   sizzleFuse: 'SizzleFuse',
 
   setFuseDetailsTest: 'SetFuseDetailsTest',
+  friendListTest: 'FriendListTest',
 };
 
 export default screenIds;

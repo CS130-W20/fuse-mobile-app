@@ -1,6 +1,7 @@
 import React from 'react';
 
 import NewFuse from '../screens/NewFuse';
+import CreateFuse from '../screens/CreateFuse';
 import LightFuse from '../screens/LightFuse';
 import SizzleFuse from '../screens/SizzleFuse';
 import SettingsScreen, { settingsHeaderOptions } from '../screens/SettingsScreen';
@@ -8,13 +9,23 @@ import EditProfileDetailsScreen, { editProfileHeaderOptions } from '../screens/E
 import ProfileScreen from '../screens/ProfileScreen';
 
 import SetFuseDetailsTest from '../components/testers/SetFuseDetailsTest';
+import FriendListTest, { friendsListHeaderOptions } from '../components/testers/FriendsListTest';
 
 import screenIds from './ScreenIds';
 
 const Screens = {
+  friendListTest: {
+    name: screenIds.friendListTest,
+    component: FriendListTest,
+    options: friendsListHeaderOptions,
+  },
   setFuseDetailsTest: {
     name: screenIds.setFuseDetailsTest,
     component: SetFuseDetailsTest,
+  },
+  createFuse: {
+    name: screenIds.createFuse,
+    component: CreateFuse,
   },
   newFuse: {
     name: screenIds.newFuse,

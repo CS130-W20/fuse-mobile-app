@@ -7,9 +7,9 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 
-import { EVENT } from '../../graphql/GeneralQueries';
+import { EVENT, JOIN_EVENT, LEAVE_EVENT } from '../../graphql/GeneralQueries';
 import Spacer from '../../helpers/Spacer';
 
 export default function SetFuseDetailsTest({ route }) {
@@ -25,6 +25,17 @@ export default function SetFuseDetailsTest({ route }) {
       },
     });
 
+  const [joinEventMutator] = useMutation(JOIN_EVENT, {
+    variables: {
+      eventId,
+    },
+  });
+  const [leaveEventMutator] = useMutation(LEAVE_EVENT, {
+    variables: {
+      eventId,
+    },
+  });
+
   useEffect(() => {
     refetchEventQuery();
   }, []);
@@ -37,6 +48,28 @@ export default function SetFuseDetailsTest({ route }) {
   }, [
     eventQueryData, eventQueryLoading,
   ]);
+
+  const onPressJoin = () => {
+    joinEventMutator()
+      .then((msg) => {
+        console.log(msg);
+        refetchEventQuery();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const onPressLeave = () => {
+    leaveEventMutator()
+      .then((msg) => {
+        console.log(msg);
+        refetchEventQuery();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   if (!eventQueryData) {
     return (
@@ -64,31 +97,29 @@ export default function SetFuseDetailsTest({ route }) {
         <Text style={styles.boldText}>Owner: </Text>
         {eventQueryData.event.owner.name}
       </Text>
-      <Text>
-        <Text style={styles.boldText}>Invited: </Text>
-        {eventQueryData.event.invited.map((invitee) => (
-          <Text key={invitee.id}>
-            {invitee.name}
-            {', '}
-          </Text>
-        ))}
-      </Text>
-      <Text>
-        <Text style={styles.boldText}>Joined: </Text>
-        {eventQueryData.event.joined.map((joinee) => (
-          <Text key={joinee.id}>
-            {joinee.name}
-            {', '}
-          </Text>
-        ))}
-      </Text>
+      <Text style={styles.boldText}>Invited: </Text>
+      {eventQueryData.event.invited.map((invitee) => (
+        <Text key={invitee.id}>
+          {invitee.name}
+        </Text>
+      ))}
+      <Text style={styles.boldText}>Joined: </Text>
+      {eventQueryData.event.joined.map((joinee) => (
+        <Text key={joinee.id}>
+          {joinee.name}
+        </Text>
+      ))}
       <Text>
         <Text style={styles.boldText}>Created At: </Text>
         {Date(eventQueryData.event.createdAt)}
       </Text>
       <Spacer padding={40} />
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => onPressJoin()}>
         <Text>Join event</Text>
+      </TouchableOpacity>
+      <Spacer padding={40} />
+      <TouchableOpacity onPress={() => onPressLeave()}>
+        <Text>Leave event</Text>
       </TouchableOpacity>
     </View>
   );

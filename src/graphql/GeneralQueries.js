@@ -68,11 +68,27 @@ export const EVENT = gql`
 `;
 
 export const CREATE_EVENT_MUTATION = gql`
-    mutation createEvent($title: String!) {
-        createEvent(title: $title) {
+    mutation createEvent($title: String!, $description: String!, $invitees: [ID!]!) {
+        createEvent(title: $title, description: $description, invitees: $invitees ) {
             id
         }
     }
+`;
+
+export const JOIN_EVENT = gql`
+  mutation ($eventId: ID!) {
+    joinEvent(eventId: $eventId) {
+      id
+    }
+  }
+`;
+
+export const LEAVE_EVENT = gql`
+  mutation ($eventId: ID!) {
+    leaveEvent(eventId: $eventId) {
+      id
+    }
+  }
 `;
 
 export const USER_EVENTS_QUERY = gql`
@@ -213,5 +229,33 @@ export const CONFIRM_FRIEND = gql`
 export const REMOVE_FRIEND = gql`
   mutation ($userId: ID!) {
     removeFriend(userId: $userId)
+  }
+`;
+
+export const GET_SELF_FRIENDS = gql`
+  query {
+    me {
+      id
+      friends {
+        friend {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const GET_FRIENDS = gql`
+  query ($userId: ID!) {
+    user(id: $userId) {
+      id
+      friends {
+        friend {
+          id
+          name
+        }
+      }
+    }
   }
 `;
