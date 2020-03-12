@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import {
   Text,
+  View,
+  Image,
 } from 'react-native';
 import { PropTypes } from 'prop-types';
 
@@ -22,11 +24,21 @@ export default class FriendTile extends PureComponent {
       // eslint-disable-next-line no-unused-vars
       userId,
     } = this.props;
+
+    if (userId === '') {
+      return (
+        <View style={styles.outerTile}>
+          <Text style={styles.username}>-</Text>
+        </View>
+      );
+    }
+
     return (
       <TouchableOpacity
         style={styles.outerTile}
         onPress={() => this.onPress()}
       >
+        <Image style={styles.profileImage} />
         <Text style={styles.username}>{userName}</Text>
       </TouchableOpacity>
     );

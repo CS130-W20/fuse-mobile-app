@@ -183,7 +183,7 @@ export default function CreateFuse({ navigation }) {
               {/* <Text style={styles.nameInput}>{friendListText()}</Text> */}
             </View>
             <View style={styles.friendListWrapper}>
-              <UserList userMap={getUserListFriendMap()} navigation={navigation} />
+              <UserList users={getUserListFriendMap()} navigation={navigation} />
             </View>
 
             {isOwner ? notifSwitch() : null}

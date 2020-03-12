@@ -11,11 +11,11 @@ const screenIds = {
   settings: 'Settings',
   signUp: 'SignUp',
   createFuse: 'CreateFuse',
+  setFuseDetails: 'SetFuseDetails',
   newFuse: 'NewFuse',
   lightFuse: 'LightFuse',
   sizzleFuse: 'SizzleFuse',
 
-  setFuseDetailsTest: 'SetFuseDetailsTest',
   friendListTest: 'FriendListTest',
 };
 
