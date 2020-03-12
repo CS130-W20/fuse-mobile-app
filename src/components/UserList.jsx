@@ -1,15 +1,38 @@
 import React from 'react';
 import {
   View,
+  StyleSheet,
 } from 'react-native';
 import { PropTypes } from 'prop-types';
 
 import FriendTile from './FriendTile';
 
-export default function UserList({ userMap, navigation }) {
+const styles = StyleSheet.create({
+  container: {
+    padding: 5,
+    // borderWidth: 2,
+    // borderColor: 'black',
+    borderRadius: 10,
+    backgroundColor: 'white',
+  },
+});
+
+export default function UserList({ users, navigation }) {
+  if (users.length === 0) {
+    return (
+      <View style={styles.container}>
+        <FriendTile
+          userName=""
+          userId=""
+          navigation={navigation}
+        />
+      </View>
+    );
+  }
+
   return (
-    <View>
-      {userMap.map((user) => (
+    <View style={styles.container}>
+      {users.map((user) => (
         <FriendTile
           userName={user.name}
           userId={user.id}
@@ -22,7 +45,7 @@ export default function UserList({ userMap, navigation }) {
 }
 
 UserList.propTypes = {
-  userMap: PropTypes.arrayOf(
+  users: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
