@@ -15,6 +15,7 @@ import FuseSubmitButton from './FuseSubmitButton';
 import {
   JOIN_EVENT, LEAVE_EVENT, USER_QUERY, UPDATE_EVENT_STATUS,
 } from '../graphql/GeneralQueries';
+import getUserProfileUrl from '../helpers';
 import Spacer from '../helpers/Spacer';
 import Divider from '../helpers/Divider';
 import styles from './styles/FuseDetailsStyles';
@@ -181,6 +182,7 @@ export default function SetFuseDetails({
           {/* Event owner */}
           <TouchableOpacity style={styles.ownerWrapper} onPress={() => onPressOwner()}>
             <Image
+              source={{ uri: getUserProfileUrl(owner.id) }}
               style={styles.profileImage}
             />
             <Text style={styles.fieldLabel}>Set by </Text>

@@ -5,8 +5,8 @@ import {
   Image,
 } from 'react-native';
 import { PropTypes } from 'prop-types';
-
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import getUserProfileUrl from '../helpers';
 import styles from './styles/FriendTileStyles';
 import screenIds from '../navigation/ScreenIds';
 
@@ -38,7 +38,10 @@ export default class FriendTile extends PureComponent {
         style={styles.outerTile}
         onPress={() => this.onPress()}
       >
-        <Image style={styles.profileImage} />
+        <Image
+          source={{ uri: getUserProfileUrl(userId) }}
+          style={styles.profileImage}
+        />
         <Text style={styles.username}>{userName}</Text>
       </TouchableOpacity>
     );
