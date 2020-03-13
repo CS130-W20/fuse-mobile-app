@@ -271,6 +271,7 @@ export default function ProfileContainer({ profileId, showBackButton, navigation
           eventId={fuse.id}
           eventName={fuse.title}
           eventCreator={fuse.owner.name}
+          eventCreatorId={fuse.owner.id}
           description={fuse.description}
           eventStage={fuse.status}
           eventView={0}

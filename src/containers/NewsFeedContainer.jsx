@@ -40,6 +40,7 @@ export default function NewsFeedContainer({ navigation }) {
         eventId={event.id}
         eventName={event.title}
         eventCreator={event.owner.name}
+        eventCreatorId={event.owner.id}
         description={event.description}
         eventStage={event.status}
         // TODO add appropriate relation, profile pic etc
