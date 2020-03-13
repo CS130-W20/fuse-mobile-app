@@ -63,8 +63,10 @@ export const EVENT = gql`
         id
         name
       }
+      score
       createdAt
       updatedAt
+      completedAt
     }
   }
 `;
@@ -113,6 +115,23 @@ export const UPDATE_EVENT_SCHEDULEDFOR = gql`
     ) {
       id
       scheduledFor
+    }
+  }
+`;
+
+export const COMPLETE_EVENT = gql`
+  mutation ($eventId: ID!) {
+    completeEvent(eventId: $eventId) {
+      id
+      score
+    }
+  }
+`;
+
+export const UNDO_COMPLETE_EVENT = gql`
+  mutation ($eventId: ID!) {
+    undoCompleteEvent(eventId: $eventId) {
+      id
     }
   }
 `;

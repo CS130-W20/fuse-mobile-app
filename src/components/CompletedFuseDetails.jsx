@@ -14,45 +14,25 @@ import UserList from './UserList';
 import FuseSubmitButton from './FuseSubmitButton';
 import CalendarDate from './datetime/CalendarDate';
 import {
-  LEAVE_EVENT, USER_QUERY, UPDATE_EVENT_STATUS, UPDATE_EVENT_SCHEDULEDFOR, COMPLETE_EVENT,
+  USER_QUERY, UNDO_COMPLETE_EVENT,
 } from '../graphql/GeneralQueries';
 import Spacer from '../helpers/Spacer';
 import Divider from '../helpers/Divider';
 import styles from './styles/FuseDetailsStyles';
 import screenIds from '../navigation/ScreenIds';
-import { EVENTSTATUS } from '../constants';
 
 const defaultSpacing = 30;
 
-export default function LitFuseDetails({
-  eventId, title, description, scheduledFor, owner,
-  createdAt, joinedUsers, refetchEvent, navigation,
+export default function CompletedFuseDetails({
+  eventId, title, description, completedAt, owner,
+  joinedUsers, refetchEvent, navigation,
 }) {
   const client = useApolloClient();
   const { me: selfUser } = client.readQuery({ query: USER_QUERY });
 
   const userIsOwner = selfUser.id === owner.id;
 
-  let userFoundInJoined = false;
-  if (selfUser) {
-    userFoundInJoined = joinedUsers.filter((user) => user.id === selfUser.id).length > 0;
-  }
-  const userIsJoined = userFoundInJoined;
-
-  const [leaveEventMutator] = useMutation(LEAVE_EVENT, {
-    variables: {
-      eventId,
-    },
-  });
-  const [undoLightFuseMutator] = useMutation(UPDATE_EVENT_STATUS, {
-    variables: {
-      eventId,
-      currentStatus: EVENTSTATUS.lit,
-      newStatus: EVENTSTATUS.set,
-    },
-  });
-  const [scheduledForMutator] = useMutation(UPDATE_EVENT_SCHEDULEDFOR);
-  const [completeFuseMutator] = useMutation(COMPLETE_EVENT, {
+  const [undoCompleteFuse] = useMutation(UNDO_COMPLETE_EVENT, {
     variables: {
       eventId,
     },
@@ -64,40 +44,8 @@ export default function LitFuseDetails({
     });
   };
 
-  const onPressLeave = () => {
-    leaveEventMutator()
-      .then((msg) => {
-        // eslint-disable-next-line no-console
-        console.log(msg);
-        // TODO disable when testing to enable fast reload
-        refetchEvent();
-        navigation.goBack();
-      })
-      .catch((err) => {
-        // eslint-disable-next-line no-console
-        console.log(err);
-      });
-  };
-
-  const onPressComplete = () => {
-    // eslint-disable-next-line no-console
-    completeFuseMutator()
-      .then((msg) => {
-        // eslint-disable-next-line no-console
-        console.log(msg);
-        // TODO disable when testing to enable fast reload
-        refetchEvent();
-
-        // TODO show score first!
-      })
-      .catch((err) => {
-        // eslint-disable-next-line no-console
-        console.log(err);
-      });
-  };
-
-  const onPressUnlight = () => {
-    undoLightFuseMutator()
+  const onPressUndoComplete = () => {
+    undoCompleteFuse()
       .then((msg) => {
         // eslint-disable-next-line no-console
         console.log(msg);
@@ -108,16 +56,6 @@ export default function LitFuseDetails({
         // eslint-disable-next-line no-console
         console.log(err);
       });
-  };
-
-  const onDateChange = (selectedDate) => {
-    scheduledForMutator({
-      variables: {
-        eventId,
-        scheduledFor: selectedDate,
-      },
-    });
-    refetchEvent();
   };
 
   const showActionButtons = () => {
@@ -125,25 +63,10 @@ export default function LitFuseDetails({
       return (
         <>
           <FuseSubmitButton
-            buttonName="Unlight Fuse"
-            onPress={() => onPressUnlight()}
-          />
-          <Spacer padding={20} />
-          <FuseSubmitButton
-            buttonName="Complete"
-            onPress={() => onPressComplete()}
-            accented
+            buttonName="Undo Complete Fuse"
+            onPress={() => onPressUndoComplete()}
           />
         </>
-      );
-    }
-
-    if (userIsJoined) {
-      return (
-        <FuseSubmitButton
-          buttonName="Leave Fuse"
-          onPress={() => onPressLeave()}
-        />
       );
     }
 
@@ -193,18 +116,12 @@ export default function LitFuseDetails({
           <Divider />
           <Spacer padding={defaultSpacing} />
 
-          {/* Scheduled for */}
-          <Text style={styles.sectionHeader}>Scheduled for</Text>
+          {/* Completion date */}
+          <Text style={styles.sectionHeader}>Completed on</Text>
           <Spacer padding={15} />
           <View style={styles.scheduleWrapper}>
-            <CalendarDate
-              date={scheduledFor}
-              canEdit={userIsOwner}
-              onDateChange={(selectedDate) => onDateChange(selectedDate)}
-            />
-            {/* <Text style={styles.scheduleTimeText}>4:20 PM</Text> */}
+            <CalendarDate date={completedAt} />
           </View>
-
 
           <Spacer padding={defaultSpacing} />
           <Divider />
@@ -215,18 +132,11 @@ export default function LitFuseDetails({
             <Image
               style={styles.profileImage}
             />
-            <Text style={styles.fieldLabel}>Lit by </Text>
+            <Text style={styles.fieldLabel}>Completed by </Text>
             <Text style={styles.ownerText}>
               {owner.name}
             </Text>
           </TouchableOpacity>
-
-          <Spacer padding={defaultSpacing} />
-
-          {/* Created at */}
-          <Text style={styles.timeText}>
-            {Date(createdAt)}
-          </Text>
 
           <Spacer padding={defaultSpacing} />
           <Divider />
@@ -249,20 +159,15 @@ export default function LitFuseDetails({
   );
 }
 
-LitFuseDetails.defaultProps = {
-  scheduledFor: null,
-};
-
-LitFuseDetails.propTypes = {
+CompletedFuseDetails.propTypes = {
   eventId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  scheduledFor: PropTypes.string,
+  completedAt: PropTypes.string.isRequired,
   owner: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
   }).isRequired,
-  createdAt: PropTypes.string.isRequired,
   joinedUsers: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
