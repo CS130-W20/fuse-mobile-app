@@ -8,6 +8,7 @@ import { useQuery } from '@apollo/react-hooks';
 
 import SetFuseDetails from '../components/SetFuseDetails';
 import LitFuseDetails from '../components/LitFuseDetails';
+import CompletedFuseDetails from '../components/CompletedFuseDetails';
 import {
   EVENT,
 } from '../graphql/GeneralQueries';
@@ -98,7 +99,18 @@ export default function EventDetailsContainer({ route, navigation }) {
       );
     }
     case EVENTSTATUS.completed: {
-      break;
+      return (
+        <CompletedFuseDetails
+          eventId={eventId}
+          title={eventQueryData.event.title}
+          description={eventQueryData.event.description}
+          completedAt={eventQueryData.event.completedAt}
+          owner={eventQueryData.event.owner}
+          joinedUsers={joinedUsers}
+          refetchEvent={() => refetchEventQuery()}
+          navigation={navigation}
+        />
+      );
     }
     default:
       return null;
