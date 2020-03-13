@@ -16,8 +16,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   headerLeftWrapper: {
-    // backgroundColor: 'white',
+    // backgroundColor: 'blue',
     width: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   headerProtectiveArea: {
     // backgroundColor: 'red',

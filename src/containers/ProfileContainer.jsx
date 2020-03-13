@@ -3,9 +3,11 @@ import {
   Text,
   View,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { useQuery, useMutation, useApolloClient } from '@apollo/react-hooks';
+import { Feather } from '@expo/vector-icons';
 
 // eslint-disable-next-line import/no-named-as-default
 import ProfileHeader from '../components/ProfileHeader';
@@ -28,9 +30,52 @@ import {
 } from '../graphql/GeneralQueries';
 
 import { FriendStatus } from '../constants';
+import SettingsHeaderButton from '../components/SettingsHeaderButton';
 import styles from './styles/ProfileContainerStyles';
 
-export default function ProfileContainer({ profileId, navigation }) {
+function Header({ isSelf, showBackButton, navigation }) {
+  return (
+    <View style={styles.headerWrapper}>
+      <View style={styles.headerProtectiveArea} />
+      <View style={styles.headerContent}>
+        <View style={styles.headerLeftWrapper}>
+          {
+            showBackButton ? (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Feather name="chevron-left" style={styles.headerBackButton} />
+              </TouchableOpacity>
+            ) : (
+              null
+            )
+          }
+        </View>
+        <View style={styles.headerCenterWrapper} />
+        <View style={styles.headerRightWrapper}>
+          {
+            isSelf
+              ? <SettingsHeaderButton navigation={navigation} testID="userSettings" />
+              : null
+          }
+        </View>
+      </View>
+    </View>
+  );
+}
+
+Header.defaultProps = {
+  isSelf: false,
+};
+
+Header.propTypes = {
+  isSelf: PropTypes.bool,
+  showBackButton: PropTypes.bool.isRequired,
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+export default function ProfileContainer({ profileId, showBackButton, navigation }) {
   const [focusedView, setFocusedView] = useState(0);
   const [profileData, setProfileData] = useState({
     name: '',
@@ -278,6 +323,7 @@ export default function ProfileContainer({ profileId, navigation }) {
 
   return (
     <View style={styles.wrapper} testID="userProfile">
+      <Header navigation={navigation} isSelf={isCurrentUser} showBackButton={showBackButton} />
       <ScrollView style={styles.scrollView}>
         <ProfileHeader
           name={profileData.name}
@@ -316,6 +362,7 @@ export default function ProfileContainer({ profileId, navigation }) {
 
 ProfileContainer.propTypes = {
   profileId: PropTypes.string.isRequired,
+  showBackButton: PropTypes.bool.isRequired,
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
     goBack: PropTypes.func.isRequired,
