@@ -28,6 +28,40 @@ const styles = StyleSheet.create({
   tileWrapper: {
     alignItems: 'center',
   },
+  headerWrapper: {
+    backgroundColor: colors.white,
+    height: 90,
+  },
+  headerBackButton: {
+    // color: colors.black,
+    fontSize: 30,
+    textAlign: 'center',
+  },
+  headerCenterWrapper: {
+    // backgroundColor: 'grey',
+    flex: 1,
+  },
+  headerContent: {
+    // backgroundColor: 'lightpink',
+    flex: 1,
+    flexDirection: 'row',
+  },
+  headerLeftWrapper: {
+    backgroundColor: colors.white,
+    width: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerProtectiveArea: {
+    // backgroundColor: 'red',
+    height: 40,
+  },
+  headerRightWrapper: {
+    // backgroundColor: 'teal',
+    width: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export default styles;
