@@ -30,12 +30,16 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
 
   },
   profileImage: {
-    // backgroundColor: 'grey',
+    backgroundColor: 'grey',
     flex: 1,
-    width: '100%',
+    width: 50,
+    height: 50,
+    // width: '100%',
+    borderRadius: 25,
     resizeMode: 'contain',
     margin: 5,
   },
