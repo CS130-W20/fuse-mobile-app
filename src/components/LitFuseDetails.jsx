@@ -85,10 +85,13 @@ export default function LitFuseDetails({
       .then((msg) => {
         // eslint-disable-next-line no-console
         console.log(msg);
+
         // TODO disable when testing to enable fast reload
         refetchEvent();
 
         // TODO show score first!
+        const { score } = msg.data.completeEvent;
+        navigation.push(screenIds.score, { score });
       })
       .catch((err) => {
         // eslint-disable-next-line no-console
