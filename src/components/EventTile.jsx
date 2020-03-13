@@ -9,13 +9,12 @@ import { PropTypes } from 'prop-types';
 import Spacer from '../helpers/Spacer';
 import styles from './styles/EventTileStyles';
 import FuseTileButton from './FuseTileButton';
-import { EVENTSTATUS } from '../constants';
+import { EVENTSTATUS, PHOTO_BUCKET } from '../constants';
 import screenIds from '../navigation/ScreenIds';
 
 const litOmbre = require('../assets/images/litombre.png');
 const setOmbre = require('../assets/images/setombre.png');
 const completedOmbre = require('../assets/images/completeombre.png');
-const sampleImage = require('../assets/peter.png');
 
 export default class EventTile extends PureComponent {
   showButtons() {
@@ -188,14 +187,20 @@ export default class EventTile extends PureComponent {
   showTileContents() {
     const { eventName } = this.props;
     const { eventCreator } = this.props;
+    const { eventCreatorId } = this.props;
     const { description } = this.props;
     const creatorText = 'by ';
+
+    const imageName = `${eventCreatorId}.jpg`;
+    const imagePath = 'profiles';
+    const imageSource = `${PHOTO_BUCKET}/${imagePath}/${imageName}`;
+
     return (
       <View style={styles.innterTile}>
         <View style={styles.upperHeader}>
           <View style={styles.profileColumn}>
             <Spacer padding={10} />
-            <Image source={sampleImage} style={styles.profileImage} />
+            <Image source={{ uri: `${imageSource}` }} style={styles.profileImage} />
           </View>
           <View style={styles.titleColumn}>
             <Spacer padding={10} />
@@ -269,6 +274,7 @@ EventTile.propTypes = {
   eventId: PropTypes.string.isRequired,
   eventName: PropTypes.string.isRequired,
   eventCreator: PropTypes.string.isRequired,
+  eventCreatorId: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   eventStage: PropTypes.string.isRequired,
   eventRelation: PropTypes.number.isRequired,
