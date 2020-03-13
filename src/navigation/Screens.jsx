@@ -13,6 +13,7 @@ import SetFuseDetails from '../components/SetFuseDetails';
 import FriendList, { friendsListHeaderOptions } from '../components/FriendsList';
 
 import screenIds from './ScreenIds';
+import ScoreScreen from '../screens/ScoreScreen';
 
 const Screens = {
   friendList: {
@@ -57,6 +58,10 @@ const Screens = {
   profile: {
     name: screenIds.userProfile,
     component: ProfileScreen,
+  },
+  scoreScreen: {
+    name: screenIds.score,
+    component: ScoreScreen,
   },
 };
 
