@@ -18,6 +18,13 @@ We decided to create two separate repositories for our frontend and backend. Thi
 `e2e` - Contains code related to our end to end frontend testing with detox.
 `tests` - 
 
+## Development Workflow
+Upon cloning, run `npm run setup` to setup the githooks. There are two githooks being used
+in this repository:
+- `post-merge`: runs `npm run setup` to update the githooks locally after merging with another branch
+- `pre-commit`: runs the linting and testing scripts, only allowing a commit that passes testing
+and style guide
+
 ## Installation/Build Instructions
 1. Clone the repository onto your local computer
 2. `cd` into the repository.
