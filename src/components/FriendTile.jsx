@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import { PropTypes } from 'prop-types';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import getUserProfileUrl from '../helpers';
+import { getUserProfileUrl } from '../helpers';
 import styles from './styles/FriendTileStyles';
 import screenIds from '../navigation/ScreenIds';
 
