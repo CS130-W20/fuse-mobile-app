@@ -16,7 +16,7 @@ import CalendarDate from './datetime/CalendarDate';
 import {
   USER_QUERY, UNDO_COMPLETE_EVENT,
 } from '../graphql/GeneralQueries';
-import getUserProfileUrl from '../helpers';
+import { getUserProfileUrl } from '../helpers';
 import Spacer from '../helpers/Spacer';
 import Divider from '../helpers/Divider';
 import styles from './styles/FuseDetailsStyles';

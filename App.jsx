@@ -13,6 +13,9 @@ import { onError } from 'apollo-link-error';
 import { AUTH_TOKEN, URL } from './src/constants';
 import RootAppRouter from './src/navigation/RootAppRouter';
 
+// eslint-disable-next-line no-console
+console.disableYellowBox = true;
+
 const cache = new InMemoryCache();
 const link = new HttpLink({
   uri: URL,

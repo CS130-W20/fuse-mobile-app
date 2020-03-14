@@ -1,26 +1,40 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   ScrollView,
   Text,
+  RefreshControl,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { useQuery } from '@apollo/react-hooks';
 import { NEWS_FEED_QUERY } from '../graphql/GeneralQueries';
+import { wait } from '../helpers';
 
 import NewFuseButton from '../components/NewFuseButton';
 import EventTile from '../components/EventTile';
 import styles from './styles/NewsFeedContainerStyles';
 import Spacer from '../helpers/Spacer';
-// import ImageUploadButton from '../components/buttons/ImageUploadButton';
 
 export default function NewsFeedContainer({ navigation }) {
+  const [refreshing, setRefreshing] = useState(false);
+
   const {
     loading: newsFeedQueryLoading,
     error: newsFeedQueryError,
     data: newsFeedQueryData,
     refetch: refetchNewsFeed,
   } = useQuery(NEWS_FEED_QUERY);
+
+  const refreshFeed = async () => {
+    await refetchNewsFeed();
+    await wait(500);
+    setRefreshing(false);
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refreshFeed();
+  };
 
   useEffect(() => {
     refetchNewsFeed();
@@ -55,7 +69,16 @@ export default function NewsFeedContainer({ navigation }) {
 
   return (
     <View style={styles.wrapper} testID="newsfeed">
-      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollViewContainer}>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollViewContainer}
+        refreshControl={(
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        )}
+      >
         {eventTilesToRender()}
         <Spacer padding={20} />
       </ScrollView>
